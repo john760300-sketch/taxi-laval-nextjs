@@ -10,6 +10,33 @@ export type ServiceDef = {
   descEn: string;
 };
 
+/** Map French combo service slug → English combo service slug */
+export const frToEnServiceSlug: Record<string, string> = {
+  "deverrouillage-portieres": "door-unlocking",
+  "survoltage-batterie": "battery-boost",
+  "transport-aeroport": "airport-transport",
+  "transport-local": "local-transport",
+  "livraison-express": "express-delivery",
+  "transport-medical": "medical-transport",
+  raccompagnement: "drive-home-service",
+};
+
+/** Map English combo service slug → French combo service slug */
+export const enToFrServiceSlug: Record<string, string> = Object.fromEntries(
+  Object.entries(frToEnServiceSlug).map(([fr, en]) => [en, fr])
+);
+
+/** Map French combo slug → English page path segment */
+export const frToEnPath: Record<string, string> = {
+  "deverrouillage-portieres": "door-unlocking",
+  "survoltage-batterie": "battery-boost",
+  "transport-aeroport": "airport-transport",
+  "transport-local": "local-transport",
+  "livraison-express": "express-delivery",
+  "transport-medical": "medical-transport",
+  raccompagnement: "drive-home-service",
+};
+
 export const comboServicesFr: ServiceDef[] = [
   {
     slug: "deverrouillage-portieres",
@@ -91,20 +118,9 @@ export const comboServicesFr: ServiceDef[] = [
 
 export const comboServicesEn: ServiceDef[] = comboServicesFr.map((s) => ({
   ...s,
-  slug:
-    s.slug === "deverrouillage-portieres"
-      ? "door-unlocking"
-      : s.slug === "survoltage-batterie"
-        ? "battery-boost"
-        : s.slug === "transport-aeroport"
-          ? "airport-transport"
-          : s.slug === "transport-local"
-            ? "local-transport"
-            : s.slug === "livraison-express"
-              ? "express-delivery"
-              : s.slug === "transport-medical"
-                ? "medical-transport"
-                : "drive-home-service",
+  slug: frToEnServiceSlug[s.slug] ?? s.slug,
+  path: frToEnPath[s.slug] ?? s.path,
+  name: s.titlePartEn,
 }));
 
 export type Combo = {
