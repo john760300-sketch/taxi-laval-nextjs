@@ -5,6 +5,7 @@ import {
   getComboFr,
   getAllComboSlugsFr,
   comboServicesFr,
+  frToEnServiceSlug,
 } from "@/data/combos";
 import { cities } from "@/data/cities";
 import type { Metadata } from "next";
@@ -24,6 +25,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!combo) return { title: "Page non trouvée" };
 
   const { service, city } = combo;
+  const enSlug = frToEnServiceSlug[service.slug] ?? service.slug;
   return {
     title: `TAXI CHOMEDEY | ${service.titlePartFr} à ${city.nameFr} – 24h/24 7j/7`,
     description: `${service.titlePartFr} à ${city.nameFr}. ${service.descFr} Appelez TAXI CHOMEDEY : 514-239-6512`,
@@ -31,7 +33,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       canonical: `https://besttaxilaval.ca/fr/${slug}`,
       languages: {
         fr: `https://besttaxilaval.ca/fr/${slug}`,
-        en: `https://besttaxilaval.ca/en/${service.slug === "deverrouillage-portieres" ? "door-unlocking" : service.slug}-${city.slug}`,
+        en: `https://besttaxilaval.ca/en/${enSlug}-${city.slug}`,
       },
     },
   };
