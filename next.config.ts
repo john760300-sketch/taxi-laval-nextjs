@@ -73,13 +73,14 @@ const nextConfig: NextConfig = {
 
   async redirects() {
     return [
-      // ---- Root / old taxi base ----
+      // ---- Root ----
+      { source: "/", destination: "/fr", permanent: true },
       { source: "/taxi", destination: "/fr", permanent: true },
       { source: "/taxi/", destination: "/fr", permanent: true },
       { source: "/taxi/en", destination: "/en", permanent: true },
       { source: "/taxi/en/", destination: "/en", permanent: true },
 
-      // ---- French services ----
+      // ---- French services (old /taxi/* paths) ----
       { source: "/taxi/deverrouillage-portiere", destination: "/fr/deverrouillage-portiere", permanent: true },
       { source: "/taxi/deverrouillage-portiere/", destination: "/fr/deverrouillage-portiere", permanent: true },
       { source: "/taxi/survoltage-batterie", destination: "/fr/survoltage-batterie", permanent: true },
@@ -99,7 +100,38 @@ const nextConfig: NextConfig = {
       { source: "/taxi/contact", destination: "/fr/contact", permanent: true },
       { source: "/taxi/contact/", destination: "/fr/contact", permanent: true },
 
-      // ---- English services ----
+      // ---- French root-level aliases (from old _redirects) ----
+      { source: "/transport-local", destination: "/fr/transport-local", permanent: true },
+      { source: "/transport-local/", destination: "/fr/transport-local", permanent: true },
+      { source: "/taxi-local", destination: "/fr/transport-local", permanent: true },
+      { source: "/taxi-local/", destination: "/fr/transport-local", permanent: true },
+      { source: "/transport-aeroport", destination: "/fr/transport-aeroport", permanent: true },
+      { source: "/transport-aeroport/", destination: "/fr/transport-aeroport", permanent: true },
+      { source: "/aeroport-taxi", destination: "/fr/transport-aeroport", permanent: true },
+      { source: "/aeroport-taxi/", destination: "/fr/transport-aeroport", permanent: true },
+      { source: "/survoltage-batterie", destination: "/fr/survoltage-batterie", permanent: true },
+      { source: "/survoltage-batterie/", destination: "/fr/survoltage-batterie", permanent: true },
+      { source: "/boost-batterie", destination: "/fr/survoltage-batterie", permanent: true },
+      { source: "/boost-batterie/", destination: "/fr/survoltage-batterie", permanent: true },
+      { source: "/deverrouillage-portiere", destination: "/fr/deverrouillage-portiere", permanent: true },
+      { source: "/deverrouillage-portiere/", destination: "/fr/deverrouillage-portiere", permanent: true },
+      { source: "/livraison-express", destination: "/fr/livraison-express", permanent: true },
+      { source: "/livraison-express/", destination: "/fr/livraison-express", permanent: true },
+      { source: "/transport-medical", destination: "/fr/transport-medical", permanent: true },
+      { source: "/transport-medical/", destination: "/fr/transport-medical", permanent: true },
+      { source: "/raccompagnement", destination: "/fr/raccompagnement", permanent: true },
+      { source: "/raccompagnement/", destination: "/fr/raccompagnement", permanent: true },
+      { source: "/urgence-taxi", destination: "/fr/urgence", permanent: true },
+      { source: "/urgence-taxi/", destination: "/fr/urgence", permanent: true },
+
+      // ---- Old French city folder ----
+      { source: "/taxi/ville/:slug", destination: "/fr/taxi-:slug", permanent: true },
+      { source: "/taxi/ville/:slug/", destination: "/fr/taxi-:slug", permanent: true },
+
+      // ---- Root French city shortcuts: /taxi-chomedey → /fr/taxi-chomedey ----
+      { source: "/taxi-:ville", destination: "/fr/taxi-:ville", permanent: true },
+
+      // ---- English services (old /taxi/en/*) ----
       { source: "/taxi/en/door-unlocking", destination: "/en/door-unlocking", permanent: true },
       { source: "/taxi/en/door-unlocking/", destination: "/en/door-unlocking", permanent: true },
       { source: "/taxi/en/battery-boost", destination: "/en/battery-boost", permanent: true },
@@ -119,9 +151,9 @@ const nextConfig: NextConfig = {
       { source: "/taxi/en/emergency", destination: "/en/emergency", permanent: true },
       { source: "/taxi/en/emergency/", destination: "/en/emergency", permanent: true },
 
-      // ---- Old city pages ----
-      { source: "/taxi/ville/:slug", destination: "/fr/taxi-:slug", permanent: true },
-      { source: "/taxi/ville/:slug/", destination: "/fr/taxi-:slug", permanent: true },
+      // ---- Old English city folder ----
+      { source: "/taxi/en/city/:slug", destination: "/en/taxi-:slug", permanent: true },
+      { source: "/taxi/en/city/:slug/", destination: "/en/taxi-:slug", permanent: true },
     ];
   },
 };
