@@ -5,82 +5,33 @@ const nextConfig: NextConfig = {
 
   async rewrites() {
     return [
-      // City pages: /fr/taxi-chomedey → /fr/ville/chomedey
       { source: "/fr/taxi-:ville", destination: "/fr/ville/:ville" },
       { source: "/en/taxi-:city", destination: "/en/city/:city" },
-
-      // Service + city combo pages (FR)
-      {
-        source: "/fr/deverrouillage-portieres-:city",
-        destination: "/fr/sc/deverrouillage-portieres-:city",
-      },
-      {
-        source: "/fr/survoltage-batterie-:city",
-        destination: "/fr/sc/survoltage-batterie-:city",
-      },
-      {
-        source: "/fr/transport-aeroport-:city",
-        destination: "/fr/sc/transport-aeroport-:city",
-      },
-      {
-        source: "/fr/transport-local-:city",
-        destination: "/fr/sc/transport-local-:city",
-      },
-      {
-        source: "/fr/livraison-express-:city",
-        destination: "/fr/sc/livraison-express-:city",
-      },
-      {
-        source: "/fr/transport-medical-:city",
-        destination: "/fr/sc/transport-medical-:city",
-      },
-      {
-        source: "/fr/raccompagnement-:city",
-        destination: "/fr/sc/raccompagnement-:city",
-      },
-
-      // Service + city combo pages (EN)
-      {
-        source: "/en/door-unlocking-:city",
-        destination: "/en/sc/door-unlocking-:city",
-      },
-      {
-        source: "/en/battery-boost-:city",
-        destination: "/en/sc/battery-boost-:city",
-      },
-      {
-        source: "/en/airport-transport-:city",
-        destination: "/en/sc/airport-transport-:city",
-      },
-      {
-        source: "/en/local-transport-:city",
-        destination: "/en/sc/local-transport-:city",
-      },
-      {
-        source: "/en/express-delivery-:city",
-        destination: "/en/sc/express-delivery-:city",
-      },
-      {
-        source: "/en/medical-transport-:city",
-        destination: "/en/sc/medical-transport-:city",
-      },
-      {
-        source: "/en/drive-home-service-:city",
-        destination: "/en/sc/drive-home-service-:city",
-      },
+      { source: "/fr/deverrouillage-portieres-:city", destination: "/fr/sc/deverrouillage-portieres-:city" },
+      { source: "/fr/survoltage-batterie-:city", destination: "/fr/sc/survoltage-batterie-:city" },
+      { source: "/fr/transport-aeroport-:city", destination: "/fr/sc/transport-aeroport-:city" },
+      { source: "/fr/transport-local-:city", destination: "/fr/sc/transport-local-:city" },
+      { source: "/fr/livraison-express-:city", destination: "/fr/sc/livraison-express-:city" },
+      { source: "/fr/transport-medical-:city", destination: "/fr/sc/transport-medical-:city" },
+      { source: "/fr/raccompagnement-:city", destination: "/fr/sc/raccompagnement-:city" },
+      { source: "/en/door-unlocking-:city", destination: "/en/sc/door-unlocking-:city" },
+      { source: "/en/battery-boost-:city", destination: "/en/sc/battery-boost-:city" },
+      { source: "/en/airport-transport-:city", destination: "/en/sc/airport-transport-:city" },
+      { source: "/en/local-transport-:city", destination: "/en/sc/local-transport-:city" },
+      { source: "/en/express-delivery-:city", destination: "/en/sc/express-delivery-:city" },
+      { source: "/en/medical-transport-:city", destination: "/en/sc/medical-transport-:city" },
+      { source: "/en/drive-home-service-:city", destination: "/en/sc/drive-home-service-:city" },
     ];
   },
 
   async redirects() {
     return [
-      // ---- Root ----
       { source: "/", destination: "/fr", permanent: true },
       { source: "/taxi", destination: "/fr", permanent: true },
       { source: "/taxi/", destination: "/fr", permanent: true },
       { source: "/taxi/en", destination: "/en", permanent: true },
       { source: "/taxi/en/", destination: "/en", permanent: true },
 
-      // ---- French services (old /taxi/* paths) ----
       { source: "/taxi/deverrouillage-portiere", destination: "/fr/deverrouillage-portiere", permanent: true },
       { source: "/taxi/deverrouillage-portiere/", destination: "/fr/deverrouillage-portiere", permanent: true },
       { source: "/taxi/survoltage-batterie", destination: "/fr/survoltage-batterie", permanent: true },
@@ -100,7 +51,6 @@ const nextConfig: NextConfig = {
       { source: "/taxi/contact", destination: "/fr/contact", permanent: true },
       { source: "/taxi/contact/", destination: "/fr/contact", permanent: true },
 
-      // ---- French root-level aliases (from old _redirects) ----
       { source: "/transport-local", destination: "/fr/transport-local", permanent: true },
       { source: "/transport-local/", destination: "/fr/transport-local", permanent: true },
       { source: "/taxi-local", destination: "/fr/transport-local", permanent: true },
@@ -124,14 +74,22 @@ const nextConfig: NextConfig = {
       { source: "/urgence-taxi", destination: "/fr/urgence", permanent: true },
       { source: "/urgence-taxi/", destination: "/fr/urgence", permanent: true },
 
-      // ---- Old French city folder ----
+      // French service+city root → /fr/...
+      { source: "/transport-local-:city", destination: "/fr/transport-local-:city", permanent: true },
+      { source: "/taxi-local-:city", destination: "/fr/transport-local-:city", permanent: true },
+      { source: "/transport-aeroport-:city", destination: "/fr/transport-aeroport-:city", permanent: true },
+      { source: "/survoltage-batterie-:city", destination: "/fr/survoltage-batterie-:city", permanent: true },
+      { source: "/boost-batterie-:city", destination: "/fr/survoltage-batterie-:city", permanent: true },
+      { source: "/deverrouillage-portiere-:city", destination: "/fr/deverrouillage-portieres-:city", permanent: true },
+      { source: "/deverrouillage-portieres-:city", destination: "/fr/deverrouillage-portieres-:city", permanent: true },
+      { source: "/livraison-express-:city", destination: "/fr/livraison-express-:city", permanent: true },
+      { source: "/transport-medical-:city", destination: "/fr/transport-medical-:city", permanent: true },
+      { source: "/raccompagnement-:city", destination: "/fr/raccompagnement-:city", permanent: true },
+
       { source: "/taxi/ville/:slug", destination: "/fr/taxi-:slug", permanent: true },
       { source: "/taxi/ville/:slug/", destination: "/fr/taxi-:slug", permanent: true },
-
-      // ---- Root French city shortcuts: /taxi-chomedey → /fr/taxi-chomedey ----
       { source: "/taxi-:ville", destination: "/fr/taxi-:ville", permanent: true },
 
-      // ---- English services (old /taxi/en/*) ----
       { source: "/taxi/en/door-unlocking", destination: "/en/door-unlocking", permanent: true },
       { source: "/taxi/en/door-unlocking/", destination: "/en/door-unlocking", permanent: true },
       { source: "/taxi/en/battery-boost", destination: "/en/battery-boost", permanent: true },
@@ -151,7 +109,15 @@ const nextConfig: NextConfig = {
       { source: "/taxi/en/emergency", destination: "/en/emergency", permanent: true },
       { source: "/taxi/en/emergency/", destination: "/en/emergency", permanent: true },
 
-      // ---- Old English city folder ----
+      // English service+city root → /en/...
+      { source: "/door-unlocking-:city", destination: "/en/door-unlocking-:city", permanent: true },
+      { source: "/battery-boost-:city", destination: "/en/battery-boost-:city", permanent: true },
+      { source: "/airport-transport-:city", destination: "/en/airport-transport-:city", permanent: true },
+      { source: "/local-transport-:city", destination: "/en/local-transport-:city", permanent: true },
+      { source: "/express-delivery-:city", destination: "/en/express-delivery-:city", permanent: true },
+      { source: "/medical-transport-:city", destination: "/en/medical-transport-:city", permanent: true },
+      { source: "/drive-home-service-:city", destination: "/en/drive-home-service-:city", permanent: true },
+
       { source: "/taxi/en/city/:slug", destination: "/en/taxi-:slug", permanent: true },
       { source: "/taxi/en/city/:slug/", destination: "/en/taxi-:slug", permanent: true },
     ];
