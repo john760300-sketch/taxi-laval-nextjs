@@ -16,6 +16,9 @@ export const cities: City[] = [
   { slug: "pont-viau", nameFr: "Pont-Viau", nameEn: "Pont-Viau", region: "laval" },
   { slug: "saint-vincent-de-paul", nameFr: "Saint-Vincent-de-Paul", nameEn: "Saint-Vincent-de-Paul", region: "laval" },
   { slug: "auteuil", nameFr: "Auteuil", nameEn: "Auteuil", region: "laval" },
+  { slug: "iles-laval", nameFr: "Îles-Laval", nameEn: "Îles-Laval", region: "laval" },
+  { slug: "laval-sur-le-lac", nameFr: "Laval-sur-le-Lac", nameEn: "Laval-sur-le-Lac", region: "laval" },
+  { slug: "saint-francois", nameFr: "Saint-François", nameEn: "Saint-François", region: "laval" },
   { slug: "sainte-rose", nameFr: "Sainte-Rose", nameEn: "Sainte-Rose", region: "laval" },
   { slug: "laval-ouest", nameFr: "Laval-Ouest", nameEn: "Laval-Ouest", region: "laval" },
   // Rive-Nord
