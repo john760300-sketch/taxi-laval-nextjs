@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { cities } from "@/data/cities";
 
 const services = [
@@ -17,7 +17,18 @@ const services = [
 export default function HeaderEn() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
-  const [citiesOpen, setCitiesOpen] = useState(false);
+  const [villesOpen, setVillesOpen] = useState(false);
+
+  useEffect(() => {
+    if (mobileOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [mobileOpen]);
 
   return (
     <header className="sticky top-0 z-50 bg-white shadow-sm">
@@ -56,52 +67,69 @@ export default function HeaderEn() {
           <Link href="/en/contact" className="font-medium text-[#1e3a5f] transition hover:text-[#e6b422]">CONTACT</Link>
         </nav>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3">
           <a href="tel:+15142396512" className="hidden items-center gap-2 rounded-full bg-gradient-to-r from-[#e6b422] to-[#d4a017] px-5 py-2.5 font-semibold text-white sm:flex">📞 514-239-6512</a>
           <div className="flex items-center gap-1 text-sm">
             <Link href="/fr" className="rounded px-2 py-1 font-medium text-[#1e3a5f] hover:bg-[#f9f9f8]">FR</Link>
             <Link href="/en" className="rounded bg-[#e6b422] px-2 py-1 font-medium text-white">EN</Link>
           </div>
-          <button type="button" className="flex flex-col gap-1.5 lg:hidden" onClick={() => setMobileOpen(!mobileOpen)} aria-label="Menu">
-            <span className="h-0.5 w-6 bg-[#1e3a5f]" /><span className="h-0.5 w-6 bg-[#1e3a5f]" /><span className="h-0.5 w-6 bg-[#1e3a5f]" />
+
+          <button
+            type="button"
+            className="relative z-[70] flex h-11 w-11 items-center justify-center rounded-lg border border-gray-200 bg-white lg:hidden"
+            onClick={() => setMobileOpen((v) => !v)}
+            aria-label={mobileOpen ? "Close menu" : "Open menu"}
+            aria-expanded={mobileOpen}
+          >
+            {mobileOpen ? (
+              <span className="text-2xl leading-none text-[#1e3a5f]">×</span>
+            ) : (
+              <span className="flex flex-col gap-1.5">
+                <span className="block h-0.5 w-5 bg-[#1e3a5f]" />
+                <span className="block h-0.5 w-5 bg-[#1e3a5f]" />
+                <span className="block h-0.5 w-5 bg-[#1e3a5f]" />
+              </span>
+            )}
           </button>
         </div>
       </div>
 
       {mobileOpen && (
-        <>
-          <div className="fixed inset-0 z-40 bg-black/50 lg:hidden" onClick={() => setMobileOpen(false)} />
-          <div className="fixed left-0 top-0 z-50 h-full w-[85%] max-w-xs overflow-y-auto bg-white p-6 pt-24 lg:hidden">
-            <nav className="flex flex-col gap-1">
-              <Link href="/en" className="border-b border-gray-100 py-3 text-lg font-medium text-[#1e3a5f]" onClick={() => setMobileOpen(false)}>HOME</Link>
-              <button type="button" className="flex w-full items-center justify-between border-b border-gray-100 py-3 text-lg font-medium text-[#1e3a5f]" onClick={() => setServicesOpen(!servicesOpen)}>
-                SERVICES<span className={`transition ${servicesOpen ? "rotate-180" : ""}`}>▼</span>
+        <div className="fixed inset-0 z-[60] lg:hidden">
+          <button type="button" className="absolute inset-0 bg-black/50" aria-label="Close menu" onClick={() => setMobileOpen(false)} />
+          <div className="absolute right-0 top-0 flex h-full w-[min(100%,320px)] flex-col bg-white shadow-xl" role="dialog" aria-modal="true">
+            <div className="flex h-20 items-center justify-between border-b px-5">
+              <span className="font-bold text-[#1e3a5f]">Menu</span>
+              <button type="button" className="flex h-11 w-11 items-center justify-center rounded-lg text-2xl text-[#1e3a5f]" onClick={() => setMobileOpen(false)} aria-label="Close">×</button>
+            </div>
+            <nav className="flex-1 overflow-y-auto px-5 pb-8">
+              <Link href="/en" className="block border-b border-gray-100 py-3.5 text-lg font-medium text-[#1e3a5f]" onClick={() => setMobileOpen(false)}>HOME</Link>
+              <button type="button" className="flex w-full items-center justify-between border-b border-gray-100 py-3.5 text-left text-lg font-medium text-[#1e3a5f]" onClick={() => setServicesOpen((v) => !v)}>
+                SERVICES<span className={`text-sm transition ${servicesOpen ? "rotate-180" : ""}`}>▼</span>
               </button>
               {servicesOpen && (
-                <div className="mb-2 ml-4 rounded bg-[#f9f9f8]">
+                <div className="mb-1 rounded bg-[#f9f9f8]">
                   {services.map((s) => (
-                    <Link key={s.href} href={s.href} className="block border-b border-gray-100 px-4 py-2.5 text-[15px] text-[#4a627a]" onClick={() => setMobileOpen(false)}>{s.label}</Link>
+                    <Link key={s.href} href={s.href} className="block border-b border-gray-100 px-4 py-3 text-[15px] text-[#4a627a]" onClick={() => setMobileOpen(false)}>{s.label}</Link>
                   ))}
                 </div>
               )}
-              <button type="button" className="flex w-full items-center justify-between border-b border-gray-100 py-3 text-lg font-medium text-[#1e3a5f]" onClick={() => setCitiesOpen(!citiesOpen)}>
-                CITIES<span className={`transition ${citiesOpen ? "rotate-180" : ""}`}>▼</span>
+              <button type="button" className="flex w-full items-center justify-between border-b border-gray-100 py-3.5 text-left text-lg font-medium text-[#1e3a5f]" onClick={() => setVillesOpen((v) => !v)}>
+                CITIES<span className={`text-sm transition ${villesOpen ? "rotate-180" : ""}`}>▼</span>
               </button>
-              {citiesOpen && (
-                <div className="mb-2 ml-4 max-h-64 overflow-y-auto rounded bg-[#f9f9f8]">
+              {villesOpen && (
+                <div className="mb-1 max-h-56 overflow-y-auto rounded bg-[#f9f9f8]">
                   {cities.map((c) => (
-                    <Link key={c.slug} href={`/en/taxi-${c.slug}`} className="block border-b border-gray-100 px-4 py-2.5 text-[15px] text-[#4a627a]" onClick={() => setMobileOpen(false)}>Taxi {c.nameEn}</Link>
+                    <Link key={c.slug} href={`/en/taxi-${c.slug}`} className="block border-b border-gray-100 px-4 py-3 text-[15px] text-[#4a627a]" onClick={() => setMobileOpen(false)}>Taxi {c.nameEn}</Link>
                   ))}
                 </div>
               )}
-              <Link href="/en/emergency" className="border-b border-gray-100 py-3 text-lg font-medium text-[#1e3a5f]" onClick={() => setMobileOpen(false)}>EMERGENCY</Link>
-              <Link href="/en/contact" className="border-b border-gray-100 py-3 text-lg font-medium text-[#1e3a5f]" onClick={() => setMobileOpen(false)}>CONTACT</Link>
-              <div className="mt-8 space-y-3 border-t pt-6">
-                <a href="tel:+15142396512" className="flex items-center gap-2 text-[#1e3a5f]">📞 514-239-6512</a>
-              </div>
+              <Link href="/en/emergency" className="block border-b border-gray-100 py-3.5 text-lg font-medium text-[#1e3a5f]" onClick={() => setMobileOpen(false)}>EMERGENCY</Link>
+              <Link href="/en/contact" className="block border-b border-gray-100 py-3.5 text-lg font-medium text-[#1e3a5f]" onClick={() => setMobileOpen(false)}>CONTACT</Link>
+              <a href="tel:+15142396512" className="mt-6 flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#e6b422] to-[#d4a017] px-6 py-3.5 font-semibold text-white">📞 514-239-6512</a>
             </nav>
           </div>
-        </>
+        </div>
       )}
     </header>
   );
