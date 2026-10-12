@@ -1,50 +1,15 @@
 import { NextResponse } from "next/server";
-import ZAI from "z-ai-web-dev-sdk";
-import { writeFile } from "fs/promises";
-import { join } from "path";
 
-// Create ZAI instance from env vars (Vercel) or fall back to file-based
-// config (sandbox dev).
-//
-// The z-ai-web-dev-sdk's loadConfig() looks for .z-ai-config in:
-//   1. process.cwd()/.z-ai-config  (read-only on Vercel)
-//   2. os.homedir()/.z-ai-config    (we set HOME=/tmp to make this writable)
-//   3. /etc/.z-ai-config            (read-only on Vercel)
-//
-// So we write the config to /tmp/.z-ai-config and set HOME=/tmp before
-// calling ZAI.create(), which then finds the file via path #2.
-async function getZAI() {
-  const baseUrl = process.env.ZAI_BASE_URL;
-  const apiKey = process.env.ZAI_API_KEY;
-  const token = process.env.ZAI_TOKEN;
-
-  if (baseUrl && apiKey) {
-    // Production (Vercel): write config to /tmp/ so loadConfig() finds it
-    const config = {
-      baseUrl,
-      apiKey,
-      ...(token ? { token } : {}),
-      ...(process.env.ZAI_CHAT_ID
-        ? { chatId: process.env.ZAI_CHAT_ID }
-        : {}),
-      ...(process.env.ZAI_USER_ID
-        ? { userId: process.env.ZAI_USER_ID }
-        : {}),
-    };
-
-    const configPath = join("/tmp", ".z-ai-config");
-    await writeFile(configPath, JSON.stringify(config));
-
-    // Set HOME=/tmp so os.homedir() returns /tmp and loadConfig() finds
-    // the config file at /tmp/.z-ai-config
-    process.env.HOME = "/tmp";
-
-    return await ZAI.create();
-  }
-
-  // Sandbox: ZAI.create() reads /etc/.z-ai-config (pre-configured)
-  return await ZAI.create();
-}
+/**
+ * Chat API — proxies conversation to an n8n webhook (replaces z-ai-web-dev-sdk).
+ *
+ * Env (Vercel / .env.local):
+ *   N8N_CHAT_WEBHOOK_URL  = production webhook URL from n8n
+ *   N8N_WEBHOOK_SECRET    = optional shared secret (sent as X-Webhook-Secret)
+ *
+ * n8n must return JSON: { "response": "...assistant text..." }
+ * Optional: n8n can use the systemPrompt field, or keep the prompt inside the workflow.
+ */
 
 const SYSTEM_PROMPT = [
   "Tu es l'agent virtuel de Taxi Chomedey (besttaxilaval.ca), un service de taxi à Laval et Montréal, Québec.",
@@ -187,17 +152,62 @@ export async function POST(req: Request) {
       );
     }
 
-    const zai = await getZAI();
+    const webhookUrl = process.env.N8N_CHAT_WEBHOOK_URL;
+    if (!webhookUrl) {
+      console.error("N8N_CHAT_WEBHOOK_URL is not set");
+      return NextResponse.json(
+        {
+          error:
+            "Agent n8n non configuré (N8N_CHAT_WEBHOOK_URL manquant).",
+        },
+        { status: 503 }
+      );
+    }
 
-    const completion = await zai.chat.completions.create({
-      messages: [
-        { role: "assistant", content: SYSTEM_PROMPT },
-        ...messages,
-      ],
-      thinking: { type: "disabled" },
+    const headers: Record<string, string> = {
+      "Content-Type": "application/json",
+    };
+    const secret = process.env.N8N_WEBHOOK_SECRET;
+    if (secret) {
+      headers["X-Webhook-Secret"] = secret;
+    }
+
+    const n8nRes = await fetch(webhookUrl, {
+      method: "POST",
+      headers,
+      body: JSON.stringify({
+        messages,
+        systemPrompt: SYSTEM_PROMPT,
+      }),
     });
 
-    const response = completion.choices[0]?.message?.content || "";
+    if (!n8nRes.ok) {
+      const text = await n8nRes.text().catch(() => "");
+      console.error("n8n webhook error:", n8nRes.status, text);
+      return NextResponse.json(
+        { error: "Erreur agent n8n — réessayez." },
+        { status: 502 }
+      );
+    }
+
+    const data = await n8nRes.json();
+    const response =
+      typeof data?.response === "string"
+        ? data.response
+        : typeof data?.output === "string"
+          ? data.output
+          : typeof data?.text === "string"
+            ? data.text
+            : "";
+
+    if (!response) {
+      console.error("n8n returned empty response:", data);
+      return NextResponse.json(
+        { error: "Réponse agent vide — réessayez." },
+        { status: 502 }
+      );
+    }
+
     return NextResponse.json({ response });
   } catch (err) {
     console.error("Chat API error:", err);
