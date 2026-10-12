@@ -11,12 +11,35 @@
  * - BreadcrumbList: breadcrumb rich results
  * - WebSite: site-wide on homepage
  * - WebApplication: standalone agent page (eligible for "tool" rich results)
+ *
+ * Local search strategy:
+ * - areaServed includes ALL 31 cities from src/data/cities.ts
+ * - Each city is a Place object with name + url (links to /fr/taxi-[slug])
+ * - Helps Google + AI search engines associate the business with each city
+ * - Each city landing page (/fr/taxi-[slug]) gets crawled + indexed
  */
+
+import { cities } from "@/data/cities";
 
 const SITE_URL = "https://besttaxilaval.ca";
 const PHONE = "+15142396512";
 const EMAIL = "contact@besttaxilaval.ca";
 const LOGO = "https://besttaxilaval.ca/images/logo.jpg";
+
+/**
+ * Build a Place object for each city — with name (FR) + URL to the city
+ * landing page. This is the structured data that helps Google understand
+ * "Taxi Chomedey serves Chomedey, Fabreville, Sainte-Rose, ..." and link
+ * each to its corresponding landing page.
+ *
+ * 31 cities total: 14 Laval neighborhoods + 9 Rive-Nord + 8 Laurentides.
+ */
+const areaServedPlaces = cities.map((c) => ({
+  "@type": "Place",
+  name: c.nameFr,
+  alternateName: c.nameEn,
+  url: `${SITE_URL}/fr/taxi-${c.slug}`,
+}));
 
 /** Common LocalBusiness block — preserved from the live site's airport page. */
 export const localBusinessSchema = {
@@ -63,19 +86,9 @@ export const localBusinessSchema = {
   ],
   paymentAccepted: "Cash, Credit Card, Debit Card",
   currenciesAccepted: "CAD",
-  areaServed: [
-    "Laval",
-    "Boisbriand",
-    "Sainte-Thérèse",
-    "Saint-Eustache",
-    "Blainville",
-    "Terrebonne",
-    "Mascouche",
-    "Repentigny",
-    "Saint-Jérôme",
-    "Mirabel",
-    "Mont-Tremblant",
-  ],
+  // All 31 cities served — Place objects with name + landing page URL
+  // for maximum local SEO + AI search visibility
+  areaServed: areaServedPlaces,
   hasMap:
     "https://www.google.com/maps/search/6-255+63e+Avenue,+Laval,+QC+H7V+2H4",
   foundingDate: "2020",
@@ -109,6 +122,11 @@ export const websiteSchema = {
     email: EMAIL,
   },
   inLanguage: ["fr-CA", "en-CA"],
+  // Sites serving multiple local areas — list all 31 cities
+  audience: {
+    "@type": "Audience",
+    audienceType: "Résidents de Laval, Rive-Nord et Laurentides",
+  },
 };
 
 /**
@@ -128,7 +146,7 @@ export function serviceSchema(opts: {
   description: string;
   url: string;
   serviceType: string;
-  areaServed?: string[];
+  areaServed?: Array<string | Record<string, unknown>>;
   offers?: Array<{
     name: string;
     description: string;
@@ -152,8 +170,10 @@ export function serviceSchema(opts: {
       email: EMAIL,
       url: SITE_URL,
     },
-    areaServed: (opts.areaServed ?? ["Laval", "Rive-Nord", "Laurentides"]).map(
-      (name) => ({ "@type": "Place", name })
+    areaServed: (opts.areaServed ?? areaServedPlaces).map((name) =>
+      typeof name === "string"
+        ? { "@type": "Place", name }
+        : name
     ),
     offers: opts.offers?.map((o) => ({
       "@type": "Offer",
@@ -248,4 +268,6 @@ export const fareAgentSchema = {
     "Calcul raccompagnement (2× tarif CTQ jour)",
     "Service 24h/24, 7j/7 à Laval, Rive-Nord & Laurentides",
   ],
+  // All 31 cities served — links the AI agent to each city landing page
+  areaServed: areaServedPlaces,
 };
