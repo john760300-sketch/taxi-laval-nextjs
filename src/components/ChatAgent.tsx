@@ -52,48 +52,57 @@ export function ChatAgent({ compact = false }: { compact?: boolean }) {
     ]);
 
     try {
-      const chatRes = await fetch("/api/chat", {
+      const res = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          messages: nextMessages
-            .filter((m) => m.role === "user" || m.role === "assistant")
-            .map((m) => ({ role: m.role, content: m.content })),
+          messages: nextMessages.map((msg) => ({
+            role: msg.role,
+            content: msg.content,
+          })),
         }),
       });
 
-      if (!chatRes.ok) throw new Error("Chat API failed");
-      const chatData = await chatRes.json();
-      const rawResponse: string = chatData.response || "";
+      if (!res.ok) {
+        throw new Error(`Chat API ${res.status}`);
+      }
 
-      const match = rawResponse.match(FARE_REQUEST_RE);
-      let visibleText = rawResponse;
+      const data = (await res.json()) as { response?: string; error?: string };
+      let assistantText = data.response || data.error || "Désolé, une erreur est survenue.";
+
       let fareData: FareData | undefined;
-
-      if (match) {
-        visibleText = rawResponse.replace(FARE_REQUEST_RE, "").trim();
+      const fareMatch = assistantText.match(FARE_REQUEST_RE);
+      if (fareMatch) {
         try {
-          const parsed = JSON.parse(match[1].trim());
+          const payload = JSON.parse(fareMatch[1].trim()) as {
+            origin: string;
+            destination: string;
+            datetime?: string;
+            service?: string;
+          };
           const fareRes = await fetch("/api/fare", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              origin: parsed.origin,
-              destination: parsed.destination,
-              datetime: parsed.datetime || null,
-              service: parsed.service || "taxi",
-            }),
+            body: JSON.stringify(payload),
           });
+
           if (fareRes.ok) {
             fareData = (await fareRes.json()) as FareData;
           } else {
             const errBody = await fareRes.json().catch(() => ({}));
-            visibleText = `Désolé, je n'ai pas pu calculer l'itinéraire : ${
-              errBody.error || "erreur inconnue"
-            }. Pouvez-vous reformuler les adresses ?`;
+            console.error(
+              "Fare API error:",
+              (errBody as { error?: string }).error || "erreur inconnue"
+            );
           }
         } catch (err) {
           console.error("Failed to parse FARE_REQUEST block:", err);
+        }
+
+        // Strip the machine block from the visible message
+        assistantText = assistantText.replace(FARE_REQUEST_RE, "").trim();
+        if (!assistantText) {
+          assistantText = "Voici votre tarif fixe calculé :";
         }
       }
 
@@ -101,7 +110,7 @@ export function ChatAgent({ compact = false }: { compact?: boolean }) {
         const copy = [...m];
         copy[placeholderIndex] = {
           role: "assistant",
-          content: visibleText,
+          content: assistantText,
           ...(fareData ? { fare: fareData } : {}),
         };
         return copy;
@@ -113,13 +122,18 @@ export function ChatAgent({ compact = false }: { compact?: boolean }) {
         copy[placeholderIndex] = {
           role: "assistant",
           content:
-            "Désolé, une erreur est survenue. Réessayez dans un instant.",
+            "Désolé, le service est temporairement indisponible. Appelez-nous au 514-239-6512.",
         };
         return copy;
       });
     } finally {
       setIsThinking(false);
     }
+  }
+
+  function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    void sendMessage(input);
   }
 
   function handleReset() {
@@ -129,52 +143,38 @@ export function ChatAgent({ compact = false }: { compact?: boolean }) {
   }
 
   return (
-    <div className="flex flex-col bg-white">
-      {/* Messages scroll area */}
-      <div
-        ref={scrollRef}
-        className={`overflow-y-auto px-3 py-4 space-y-3 ${
-          compact ? "h-[420px]" : "flex-1 min-h-[420px]"
-        }`}
-      >
-        {messages.map((m, i) => (
-          <MessageBubble key={i} message={m} />
-        ))}
-        {isThinking && (
-          <div className="flex justify-start">
-            <div className="bg-slate-50 border border-slate-200 px-4 py-2.5 rounded-2xl rounded-bl-sm text-sm text-slate-400">
-              <span className="inline-flex gap-1">
-                <span className="animate-bounce [animation-delay:-0.3s]">·</span>
-                <span className="animate-bounce [animation-delay:-0.15s]">·</span>
-                <span className="animate-bounce">·</span>
-              </span>
-            </div>
-          </div>
-        )}
+    <div
+      className={`flex flex-col rounded-2xl border border-slate-200 bg-white shadow-sm ${
+        compact ? "h-[480px]" : "h-[min(70vh,640px)]"
+      }`}
+    >
+      <div className="flex items-center justify-between border-b border-slate-100 px-4 py-3">
+        <div>
+          <div className="text-sm font-semibold text-[#1e3a5f]">Agent Taxi Chomedey</div>
+          <div className="text-xs text-slate-500">Prix fixe · 24/7 · 514-239-6512</div>
+        </div>
       </div>
 
-      {/* Input bar */}
-      <div className="border-t border-slate-200 bg-white px-3 py-2.5">
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            sendMessage(input);
-          }}
-          className="flex gap-2"
-        >
+      <div ref={scrollRef} className="flex-1 space-y-3 overflow-y-auto px-4 py-4">
+        {messages.map((message, i) => (
+          <MessageBubble key={i} message={message} />
+        ))}
+      </div>
+
+      <div className="border-t border-slate-100 p-3">
+        <form onSubmit={handleSubmit} className="flex gap-2">
           <input
             type="text"
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder="Écrivez votre message…"
             disabled={isThinking}
-            autoComplete="off"
-            className="flex-1 rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-[#1e3a5f] focus:ring-2 focus:ring-[#1e3a5f]/20"
+            className="flex-1 rounded-lg border border-slate-200 px-3 py-2 text-sm outline-none focus:border-[#e6b422] disabled:opacity-50"
           />
           <button
             type="submit"
-            disabled={!input.trim() || isThinking}
-            className="rounded-lg bg-[#1e3a5f] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#152a47] disabled:cursor-not-allowed disabled:bg-slate-400"
+            disabled={isThinking || !input.trim()}
+            className="rounded-lg bg-[#e6b422] px-4 py-2 text-sm font-semibold text-[#1e3a5f] transition hover:bg-[#d4a017] disabled:opacity-50"
           >
             Envoyer
           </button>
@@ -196,7 +196,7 @@ export function ChatAgent({ compact = false }: { compact?: boolean }) {
 function MessageBubble({ message }: { message: Message }) {
   const isUser = message.role === "user";
 
-  if (message.loading) {
+  if (message.role === "assistant" && message.loading) {
     return (
       <div className="flex justify-start">
         <div className="bg-slate-50 border border-slate-200 px-4 py-2.5 rounded-2xl rounded-bl-sm text-sm text-slate-400">
@@ -218,7 +218,9 @@ function MessageBubble({ message }: { message: Message }) {
         >
           {message.content}
         </div>
-        {message.fare && <FareTable data={message.fare} />}
+        {message.role === "assistant" && message.fare ? (
+          <FareTable data={message.fare} />
+        ) : null}
       </div>
     </div>
   );
