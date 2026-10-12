@@ -51,3 +51,6 @@ agent-live.png
 # User-uploaded files (sandbox only, never commit)
 upload/
 tool-results/
+
+# Sandbox skill scripts (never commit)
+skills/
