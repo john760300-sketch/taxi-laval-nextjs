@@ -1,28 +1,48 @@
 import { NextResponse } from "next/server";
 import ZAI from "z-ai-web-dev-sdk";
+import { writeFile } from "fs/promises";
+import { join } from "path";
 
 // Create ZAI instance from env vars (Vercel) or fall back to file-based
-// config (sandbox dev). The ZAI constructor accepts config directly,
-// bypassing the file-based loadConfig() that only works in the sandbox.
+// config (sandbox dev).
+//
+// The z-ai-web-dev-sdk's loadConfig() looks for .z-ai-config in:
+//   1. process.cwd()/.z-ai-config  (read-only on Vercel)
+//   2. os.homedir()/.z-ai-config    (we set HOME=/tmp to make this writable)
+//   3. /etc/.z-ai-config            (read-only on Vercel)
+//
+// So we write the config to /tmp/.z-ai-config and set HOME=/tmp before
+// calling ZAI.create(), which then finds the file via path #2.
 async function getZAI() {
-  // Check if env vars are set (production on Vercel)
   const baseUrl = process.env.ZAI_BASE_URL;
   const apiKey = process.env.ZAI_API_KEY;
   const token = process.env.ZAI_TOKEN;
 
   if (baseUrl && apiKey) {
-    // Production: create ZAI directly from env vars
-    return new ZAI({
+    // Production (Vercel): write config to /tmp/ so loadConfig() finds it
+    const config = {
       baseUrl,
       apiKey,
       ...(token ? { token } : {}),
-      ...(process.env.ZAI_CHAT_ID ? { chatId: process.env.ZAI_CHAT_ID } : {}),
-      ...(process.env.ZAI_USER_ID ? { userId: process.env.ZAI_USER_ID } : {}),
-    } as Record<string, unknown>);
+      ...(process.env.ZAI_CHAT_ID
+        ? { chatId: process.env.ZAI_CHAT_ID }
+        : {}),
+      ...(process.env.ZAI_USER_ID
+        ? { userId: process.env.ZAI_USER_ID }
+        : {}),
+    };
+
+    const configPath = join("/tmp", ".z-ai-config");
+    await writeFile(configPath, JSON.stringify(config));
+
+    // Set HOME=/tmp so os.homedir() returns /tmp and loadConfig() finds
+    // the config file at /tmp/.z-ai-config
+    process.env.HOME = "/tmp";
+
+    return await ZAI.create();
   }
 
-  // Sandbox: fall back to the default ZAI.create() which reads
-  // /etc/.z-ai-config
+  // Sandbox: ZAI.create() reads /etc/.z-ai-config (pre-configured)
   return await ZAI.create();
 }
 
