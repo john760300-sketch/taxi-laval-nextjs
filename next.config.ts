@@ -26,7 +26,9 @@ const nextConfig: NextConfig = {
 
   async redirects() {
     return [
-      { source: "/", destination: "/fr", permanent: true },
+      // PREVIEW ONLY (uncommitted — will revert before push): root → agent
+      // In production: { source: "/", destination: "/fr", permanent: true }
+      { source: "/", destination: "/fr/calculer-prix", permanent: true },
       { source: "/taxi", destination: "/fr", permanent: true },
       { source: "/taxi/", destination: "/fr", permanent: true },
       { source: "/taxi/en", destination: "/en", permanent: true },
