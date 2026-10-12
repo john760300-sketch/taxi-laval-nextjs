@@ -18,7 +18,7 @@ async function getZAI() {
       ...(token ? { token } : {}),
       ...(process.env.ZAI_CHAT_ID ? { chatId: process.env.ZAI_CHAT_ID } : {}),
       ...(process.env.ZAI_USER_ID ? { userId: process.env.ZAI_USER_ID } : {}),
-    } as any);
+    } as Record<string, unknown>);
   }
 
   // Sandbox: fall back to the default ZAI.create() which reads
