@@ -3,6 +3,8 @@ import Footer from "@/components/Footer";
 import Link from "next/link";
 import { cities } from "@/data/cities";
 import { frHome as h } from "@/data/home-fr";
+import { SchemaOrg } from "@/components/SchemaOrg";
+import { localBusinessSchema, websiteSchema } from "@/lib/schema";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -37,6 +39,7 @@ const territory = [
 export default function FrenchHomePage() {
   return (
     <>
+      <SchemaOrg schemas={[websiteSchema, localBusinessSchema]} />
       <Header />
       <main>
         <section className="relative flex min-h-[560px] items-center overflow-hidden bg-[#1e3a5f]">

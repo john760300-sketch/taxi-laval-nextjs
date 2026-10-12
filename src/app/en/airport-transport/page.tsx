@@ -1,4 +1,11 @@
 import ServicePageEn from "@/components/ServicePageEn";
+import { SchemaOrg } from "@/components/SchemaOrg";
+import {
+  localBusinessSchema,
+  serviceSchema,
+  faqSchema,
+  breadcrumbSchema,
+} from "@/lib/schema";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -15,35 +22,61 @@ export const metadata: Metadata = {
   },
 };
 
+const faqs = [
+  "How much does a taxi from Laval to YUL airport cost?",
+  "Airport transfer Montréal-Trudeau from the North Shore",
+  "Taxi for an early morning flight",
+  "Fixed-price YUL airport shuttle",
+];
+
 export default function AirportTransportPage() {
   return (
-    <ServicePageEn
-      title="Transport to Montréal-Trudeau Airport (YUL) – Reliable 24/7 Service"
-      subtitle="24-hour service – Call or email us for a free estimate"
-      description="We offer a complete transport service to Montréal Airport (YUL), guaranteeing absolute punctuality for all your flights. Our professional drivers monitor traffic in real time to avoid congestion. We also track your flight status live: if your plane is delayed, your pickup time is automatically adjusted at no extra charge. Service available 24/7 throughout Laval, the North Shore and the Laurentians."
-      features={[
-        "Pickup at home or office 24/7",
-        "Live flight tracking (no fees for delays)",
-        "Recent, clean, comfortable and air-conditioned vehicles",
-        "Secure payment by credit card, debit or cash",
-        "Simplified round-trip booking",
-        "Transparent flat rates",
-      ]}
-      routes={[
-        "Laval – YUL (Approx. 25-35 min depending on traffic)",
-        "Boisbriand / Blainville – YUL (Approx. 30-40 min)",
-        "Saint-Jérôme – YUL (Approx. 50-60 min)",
-        "Mont-Tremblant – YUL (Approx. 1h30-1h45)",
-      ]}
-      partnerships="Corporate service recommended and validated by many hotel complexes in Laval and the North Shore."
-      priceLabel="Competitive Flat Rate"
-      priceNote="Contact our dispatcher now for a fixed, guaranteed price for your trip."
-      faqs={[
-        "How much does a taxi from Laval to YUL airport cost?",
-        "Airport transfer Montréal-Trudeau from the North Shore",
-        "Taxi for an early morning flight",
-        "Fixed-price YUL airport shuttle",
-      ]}
-    />
+    <>
+      <SchemaOrg
+        schemas={[
+          localBusinessSchema,
+          serviceSchema({
+            name: "YUL Airport Transport (Montréal-Trudeau)",
+            description:
+              "Complete transport service to Montréal Airport (YUL) with absolute punctuality for all flights. Live flight tracking — no extra charge for delays. 24/7 service throughout Laval, North Shore and Laurentians.",
+            url: "https://besttaxilaval.ca/en/airport-transport",
+            serviceType: "Airport taxi transport to Montréal-Trudeau (YUL)",
+            areaServed: ["Laval", "North Shore", "Laurentians"],
+          }),
+          faqSchema(faqs),
+          breadcrumbSchema([
+            { name: "Home", url: "https://besttaxilaval.ca/en" },
+            {
+              name: "Airport Transport (YUL)",
+              url: "https://besttaxilaval.ca/en/airport-transport",
+            },
+          ]),
+        ]}
+      />
+      <ServicePageEn
+        title="Transport to Montréal-Trudeau Airport (YUL) – Reliable 24/7 Service"
+        subtitle="24-hour service – Call or email us for a free estimate"
+        description="We offer a complete transport service to Montréal Airport (YUL), guaranteeing absolute punctuality for all your flights. Our professional drivers monitor traffic in real time to avoid congestion. We also track your flight status live: if your plane is delayed, your pickup time is automatically adjusted at no extra charge. Service available 24/7 throughout Laval, the North Shore and the Laurentians."
+        features={[
+          "Pickup at home or office 24/7",
+          "Live flight tracking (no fees for delays)",
+          "Recent, clean, comfortable and air-conditioned vehicles",
+          "Secure payment by credit card, debit or cash",
+          "Simplified round-trip booking",
+          "Transparent flat rates",
+        ]}
+        routes={[
+          "Laval – YUL (Approx. 25-35 min depending on traffic)",
+          "Boisbriand / Blainville – YUL (Approx. 30-40 min)",
+          "Saint-Jérôme – YUL (Approx. 50-60 min)",
+          "Mont-Tremblant – YUL (Approx. 1h30-1h45)",
+        ]}
+        partnerships="Corporate service recommended and validated by many hotel complexes in Laval and the North Shore."
+        priceLabel="Competitive Flat Rate"
+        priceNote="Contact our dispatcher now for a fixed, guaranteed price for your trip."
+        faqs={faqs}
+        showAgent={true}
+      />
+    </>
   );
 }

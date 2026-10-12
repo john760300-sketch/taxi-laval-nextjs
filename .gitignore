@@ -37,3 +37,13 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+dev.log
+bun.lock
+.env.local
+
+# Sandbox infra (not for production)
+/.zscripts/
+/Caddyfile
+/dev.log
+/bun.lock
+agent-live.png

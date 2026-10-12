@@ -1,6 +1,7 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Link from "next/link";
+import { ChatAgent } from "@/components/ChatAgent";
 
 type ServicePageProps = {
   title: string;
@@ -12,6 +13,8 @@ type ServicePageProps = {
   priceLabel?: string;
   priceNote?: string;
   faqs?: string[];
+  /** When true, replaces the price card + trust bullets with the AI agent. */
+  showAgent?: boolean;
 };
 
 export default function ServicePage({
@@ -24,6 +27,7 @@ export default function ServicePage({
   priceLabel = "Tarif fixe – Appelez pour un estimé",
   priceNote = "Appelez-nous pour un estimé gratuit",
   faqs = [],
+  showAgent = false,
 }: ServicePageProps) {
   return (
     <>
@@ -130,21 +134,49 @@ export default function ServicePage({
               </div>
 
               <div className="rounded-xl border border-gray-100 bg-white p-8 text-center shadow-sm">
-                <div className="mb-4 text-2xl font-extrabold text-[#e6b422]">
-                  {priceLabel}
-                </div>
-                <p className="mb-6 text-[#4a627a]">{priceNote}</p>
-                <a
-                  href="tel:+15142396512"
-                  className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#e6b422] to-[#d4a017] px-8 py-4 text-lg font-semibold text-white transition hover:-translate-y-0.5"
-                >
-                  📞 514-239-6512
-                </a>
-                <div className="mt-10 space-y-2 border-t border-gray-100 pt-6 text-left text-sm text-[#4a627a]">
-                  <p>✓ Plus de 10 ans d&apos;expérience</p>
-                  <p>✓ Flotte de 50+ véhicules</p>
-                  <p>✓ 4.9/5 sur plus de 850 avis</p>
-                </div>
+                {showAgent ? (
+                  <>
+                    <div className="mb-4 text-2xl font-extrabold text-[#e6b422]">
+                      {priceLabel}
+                    </div>
+                    {/* AI agent embedded inline — replaces priceNote + 3 trust bullets */}
+                    <div className="overflow-hidden rounded-xl border border-slate-200 text-left">
+                      <div className="flex items-center justify-between bg-[#1e3a5f] px-4 py-2.5 text-white">
+                        <div className="flex items-center gap-2">
+                          <span className="h-2 w-2 animate-pulse rounded-full bg-[#e6b422]" />
+                          <span className="text-sm font-semibold">
+                            Agent Prix · Taxi Chomedey
+                          </span>
+                        </div>
+                        <a
+                          href="tel:+15142396512"
+                          className="text-xs font-semibold text-[#e6b422] hover:underline"
+                        >
+                          514-239-6512
+                        </a>
+                      </div>
+                      <ChatAgent compact />
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div className="mb-4 text-2xl font-extrabold text-[#e6b422]">
+                      {priceLabel}
+                    </div>
+                    <p className="mb-6 text-[#4a627a]">{priceNote}</p>
+                    <a
+                      href="tel:+15142396512"
+                      className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#e6b422] to-[#d4a017] px-8 py-4 text-lg font-semibold text-white transition hover:-translate-y-0.5"
+                    >
+                      📞 514-239-6512
+                    </a>
+                    <div className="mt-10 space-y-2 border-t border-gray-100 pt-6 text-left text-sm text-[#4a627a]">
+                      <p>✓ Plus de 10 ans d&apos;expérience</p>
+                      <p>✓ Flotte de 50+ véhicules</p>
+                      <p>✓ 4.9/5 sur plus de 850 avis</p>
+                    </div>
+                  </>
+                )}
               </div>
             </div>
 
