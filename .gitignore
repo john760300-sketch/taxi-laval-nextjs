@@ -54,3 +54,15 @@ tool-results/
 
 # Sandbox skill scripts (never commit)
 skills/
+
+# Sandbox examples (never commit)
+examples/
+examples
+mini-services
+tests
+db
+download
+standalone-*.png
+airport-*.png
+nav-with-*.png
+worklog.md
