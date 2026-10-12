@@ -27,10 +27,15 @@ const EMAIL = "contact@besttaxilaval.ca";
 const LOGO = "https://besttaxilaval.ca/images/logo.jpg";
 
 /**
- * Build a Place object for each city — with name (FR) + URL to the city
- * landing page. This is the structured data that helps Google understand
- * "Taxi Chomedey serves Chomedey, Fabreville, Sainte-Rose, ..." and link
- * each to its corresponding landing page.
+ * Build a Place object for each city — with name (FR) + URL to the city's
+ * official municipal website + our landing page in sameAs.
+ *
+ * Schema.org semantics:
+ *   Place.url = the place's own canonical URL (official municipal site)
+ *   Place.sameAs = our page about this place (landing page URL)
+ *
+ * This is more semantically correct than putting our landing page in
+ * Place.url — Google + AI search engines prefer the official source.
  *
  * 31 cities total: 14 Laval neighborhoods + 9 Rive-Nord + 8 Laurentides.
  */
@@ -38,7 +43,8 @@ const areaServedPlaces = cities.map((c) => ({
   "@type": "Place",
   name: c.nameFr,
   alternateName: c.nameEn,
-  url: `${SITE_URL}/fr/taxi-${c.slug}`,
+  url: c.officialUrl,
+  sameAs: `${SITE_URL}/fr/taxi-${c.slug}`,
 }));
 
 /** Common LocalBusiness block — preserved from the live site's airport page. */
@@ -96,6 +102,14 @@ export const localBusinessSchema = {
   availableLanguage: ["French", "English"],
   sameAs: [
     "https://www.facebook.com/people/Taxi-Laval-Chomedey/100075684710012/",
+    // Official regulatory + industry authority pages — passes link equity
+    // (no rel="nofollow") so Google associates Taxi Chomedey with these
+    // authoritative Quebec government sources
+    "https://saaq.gouv.qc.ca/", // SAAQ (Société de l'assurance automobile du Québec) — taxi regulator since 2016
+    "https://saaq.gouv.qc.ca/taxis/", // SAAQ Taxis section — formerly CTQ (Commission des transports du Québec)
+    "https://www.transports.gouv.qc.ca/", // MTMD (Ministère des Transports et de la Mobilité durable)
+    "https://www.caaquebec.com/", // CAA-Québec — roadside assistance partner
+    "https://www.placebell.ca/", // Place Bell — Laval arena (partner venue)
   ],
   aggregateRating: {
     "@type": "AggregateRating",

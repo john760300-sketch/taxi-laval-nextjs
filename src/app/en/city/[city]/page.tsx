@@ -83,6 +83,20 @@ export default async function TaxiCityPage({ params }: Props) {
                 Montréal-Trudeau Airport (YUL), a battery boost or door unlocking,
                 our drivers respond quickly 24/7.
               </p>
+              {/* Official municipal website — external link with proper
+                  target + rel attributes (passes link equity, no nofollow) */}
+              <p className="mt-4 text-sm text-[#4a627a]">
+                To learn more about the municipality of {city.nameEn}, visit the{" "}
+                <a
+                  href={city.officialUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-medium text-[#1e3a5f] underline transition hover:text-[#e6b422]"
+                >
+                  official {city.nameEn} website ↗
+                </a>
+                .
+              </p>
             </div>
 
             <h2 className="mb-8 text-2xl font-bold text-[#1e3a5f]">

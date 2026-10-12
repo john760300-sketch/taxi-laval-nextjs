@@ -84,6 +84,20 @@ export default async function TaxiVillePage({ params }: Props) {
                 de batterie ou d&apos;un déverrouillage de portière, nos chauffeurs
                 interviennent rapidement 24h/24 et 7j/7.
               </p>
+              {/* Official municipal website — external link with proper
+                  target + rel attributes (passes link equity, no nofollow) */}
+              <p className="mt-4 text-sm text-[#4a627a]">
+                Pour en savoir plus sur la municipalité de {city.nameFr}, visitez le{" "}
+                <a
+                  href={city.officialUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-medium text-[#1e3a5f] underline transition hover:text-[#e6b422]"
+                >
+                  site officiel de {city.nameFr} ↗
+                </a>
+                .
+              </p>
             </div>
 
             <h2 className="mb-8 text-2xl font-bold text-[#1e3a5f]">

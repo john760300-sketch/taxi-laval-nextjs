@@ -4,7 +4,15 @@ export const enHome = {
   h1: "🚖 #1 Taxi Chomedey | Taxi & Roadside Assistance Service 24/7 in Laval, North Shore & Laurentians",
   hero: "Taxi Chomedey is your trusted choice for fast transportation and emergency roadside assistance. Our professional drivers offer prompt, reliable service across Laval, Boisbriand, Saint-Eustache, Blainville, Terrebonne, Mascouche, Repentigny, Saint-Jérôme, Mirabel, Sainte-Agathe-des-Monts, Mont-Tremblant, and throughout the North Shore and Laurentians. We are available 24/7 to meet all your needs.",
   contactTitle: "24/7 Service - Contact Us Now!",
-  badges: ["✅ Founded in 2020", "🚖 50+ Vehicles", "🤝 SAAQ Partner", "🏆 CMMTQ Member"],
+  // Badges — items with `href` are rendered as external links (target="_blank"
+  // rel="noopener noreferrer"). Items without href are plain text.
+  // "CTQ" = Commission des transports du Québec (functions now under SAAQ)
+  badges: [
+    { text: "✅ Founded in 2020" },
+    { text: "🚖 50+ Vehicles" },
+    { text: "🤝 SAAQ Partner", href: "https://saaq.gouv.qc.ca/" },
+    { text: "🏆 CTQ Member", href: "https://saaq.gouv.qc.ca/taxis/" },
+  ],
   servicesH2: "Our Taxi & Emergency Services in Laval, North Shore & Laurentians",
   services: [
     { title: "Battery Boost in Laval, North Shore & Laurentians", description: "A safe, modern method for dead batteries with zero risk to your vehicle's sensitive electronics.", href: "/en/battery-boost" },
@@ -29,7 +37,7 @@ export const enHome = {
   destinations: [
     { emoji: "🌟", title: "Centropolis – Laval", text: "The premier local hub for dining, nightlife, and cinema. The true heartbeat of social entertainment in Laval." },
     { emoji: "🛍️", title: "Carrefour Laval", text: "The largest upscale shopping center in the region. We drop you off directly at your preferred entrance (A, B, or C) for maximum convenience." },
-    { emoji: "🎵", title: "Place Bell – Laval", text: "Whether you're catching a Laval Rocket hockey game or attending a major music concert, we ensure hassle-free arrivals and safe late-night returns." },
+    { emoji: "🎵", title: "Place Bell – Laval", href: "https://www.placebell.ca/", text: "Whether you're catching a Laval Rocket hockey game or attending a major music concert, we ensure hassle-free arrivals and safe late-night returns." },
     { emoji: "✨", title: "Illumi – Laval", text: "Throughout the winter, count on us for effortless round-trips to admire the spectacular light displays without worrying about crowded parking lots." },
     { emoji: "🏡", title: "Vieux-Sainte-Rose – Laval", text: "A picturesque, historic neighborhood where we regularly take residents and tourists for scenic strolls along the waterfront." },
   ],

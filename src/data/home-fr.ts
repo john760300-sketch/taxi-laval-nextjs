@@ -4,7 +4,17 @@ export const frHome = {
   h1: "🚖 #1 TAXI CHOMEDEY | Service de Taxi & Assistance Routière 24h/24 7j/7 à Laval, Rive-Nord & Laurentides",
   hero: "TAXI CHOMEDEY répond à vos besoins de transport local ou d'aide d'urgence sur la route. Votre chauffeur offre un service rapide et fiable à Laval, Boisbriand, Saint-Eustache, Blainville, Terrebonne, Mascouche, Repentigny, Saint-Jérôme, Mirabel, Sainte-Agathe-des-Monts, Mont-Tremblant et sur toute la Rive-Nord. Nous sommes disponibles 24h/24 et 7j/7.",
   contactTitle: "Service 24/7 - Contactez-nous maintenant!",
-  badges: ["✅ Fondé en 2020", "🚖 50+ Véhicules partenaires", "⏱️ Intervention Express", "🔒 Chauffeurs d'expérience"],
+  // Badges — items with `href` are rendered as external links (target="_blank"
+  // rel="noopener noreferrer"). Items without href are plain text.
+  // "CTQ" = Commission des transports du Québec (functions now under SAAQ)
+  badges: [
+    { text: "✅ Fondé en 2020" },
+    { text: "🚖 50+ Véhicules partenaires" },
+    { text: "⏱️ Intervention Express" },
+    { text: "🔒 Chauffeurs d'expérience" },
+    { text: "🤝 Partenaire SAAQ", href: "https://saaq.gouv.qc.ca/" },
+    { text: "🏆 Membre CTQ", href: "https://saaq.gouv.qc.ca/taxis/" },
+  ],
   servicesH2: "Nos Services de Taxi et d'Urgence Routière à Laval, Rive-Nord & Laurentides",
   services: [
     { title: "Survoltage de Batterie (Boost) à Laval, Rive-Nord & Laurentides", description: "Méthode sécuritaire de pointe pour relancer une batterie morte sans aucun risque pour les modules électroniques de votre véhicule.", href: "/fr/survoltage-batterie" },
@@ -29,7 +39,7 @@ export const frHome = {
   destinations: [
     { emoji: "🌟", title: "Le Centropolis – Laval", text: "Le point de ralliement incontournable pour un souper au restaurant ou une sortie animée. C'est le cœur de la vie urbaine à Laval." },
     { emoji: "🛍️", title: "Carrefour Laval", text: "Le centre d'achats emblématique de la région. Nous assurons vos déposes et ramassages directement aux portes principales (A, B ou C) pour vous éviter la marche." },
-    { emoji: "🎵", title: "Place Bell – Laval", text: "Pour aller encourager le Rocket de Laval ou assister à un grand spectacle. Nous assurons un transport fluide et ordonné à la sortie de l'amphithéâtre, même tard la nuit." },
+    { emoji: "🎵", title: "Place Bell – Laval", href: "https://www.placebell.ca/", text: "Pour aller encourager le Rocket de Laval ou assister à un grand spectacle. Nous assurons un transport fluide et ordonné à la sortie de l'amphithéâtre, même tard la nuit." },
     { emoji: "✨", title: "Illumi – Laval", text: "Pendant la saison hivernale, profitez de nos forfaits aller-retour dédiés pour visiter le parcours lumineux sans souffrir de la recherche d'un stationnement complet." },
     { emoji: "🏡", title: "Vieux-Sainte-Rose – Laval", text: "Un magnifique quartier historique. Nous y conduisons régulièrement les résidents et visiteurs venus marcher au bord de la rivière des Mille Îles." },
   ],

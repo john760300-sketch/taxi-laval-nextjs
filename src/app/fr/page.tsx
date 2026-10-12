@@ -50,9 +50,21 @@ export default function FrenchHomePage() {
               <p className="mb-6 text-base leading-relaxed text-white/95">{h.hero}</p>
               <h3 className="mb-4 text-xl font-semibold text-[#e6b422]">{h.contactTitle}</h3>
               <div className="mb-6 flex flex-wrap gap-3 text-sm">
-                {h.badges.map((b) => (
-                  <span key={b} className="rounded-full bg-white/10 px-3 py-1">{b}</span>
-                ))}
+                {h.badges.map((b) =>
+                  typeof b === "string" ? (
+                    <span key={b} className="rounded-full bg-white/10 px-3 py-1">{b}</span>
+                  ) : (
+                    <a
+                      key={b.text}
+                      href={b.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="rounded-full bg-white/10 px-3 py-1 transition hover:bg-white/20"
+                    >
+                      {b.text} ↗
+                    </a>
+                  )
+                )}
               </div>
               <div className="flex flex-wrap gap-4">
                 <a href="tel:+15142396512" className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#e6b422] to-[#d4a017] px-8 py-4 text-lg font-semibold text-white">📞 Appeler maintenant</a>
@@ -112,7 +124,20 @@ export default function FrenchHomePage() {
               {h.destinations.map((d) => (
                 <div key={d.title} className="rounded-xl border-l-4 border-[#e6b422] bg-white p-6">
                   <div className="mb-2 text-3xl">{d.emoji}</div>
-                  <h3 className="mb-2 text-lg font-semibold text-[#1e3a5f]">{d.title}</h3>
+                  <h3 className="mb-2 text-lg font-semibold text-[#1e3a5f]">
+                    {d.href ? (
+                      <a
+                        href={d.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="transition hover:text-[#e6b422]"
+                      >
+                        {d.title} ↗
+                      </a>
+                    ) : (
+                      d.title
+                    )}
+                  </h3>
                   <p className="text-sm text-[#4a627a]">{d.text}</p>
                 </div>
               ))}

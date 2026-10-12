@@ -54,18 +54,17 @@ export default function ServicePageEn({
               </a>
             </div>
             <div className="flex flex-wrap justify-center gap-3">
-              <span className="rounded-full bg-white/15 px-4 py-1.5 text-sm">
-                ✓ Founded in 2020
-              </span>
-              <span className="rounded-full bg-white/15 px-4 py-1.5 text-sm">
-                🚖 50+ vehicles
-              </span>
-              <span className="rounded-full bg-white/15 px-4 py-1.5 text-sm">
-                🤝 SAAQ partner
-              </span>
-              <span className="rounded-full bg-white/15 px-4 py-1.5 text-sm">
-                ⭐ 4.9/5 (850+ reviews)
-              </span>
+              <span className="rounded-full bg-white/15 px-4 py-1.5 text-sm">✓ Founded in 2020</span>
+              <span className="rounded-full bg-white/15 px-4 py-1.5 text-sm">🚖 50+ vehicles</span>
+              <a
+                href="https://saaq.gouv.qc.ca/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-full bg-white/15 px-4 py-1.5 text-sm transition hover:bg-white/25"
+              >
+                🤝 SAAQ partner ↗
+              </a>
+              <span className="rounded-full bg-white/15 px-4 py-1.5 text-sm">⭐ 4.9/5 (850+ reviews)</span>
             </div>
           </div>
         </section>
