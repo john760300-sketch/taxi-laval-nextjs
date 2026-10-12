@@ -50,3 +50,4 @@ agent-live.png
 
 # User-uploaded files (sandbox only, never commit)
 upload/
+tool-results/
