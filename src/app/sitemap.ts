@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { cities } from "@/data/cities";
 import { getAllComboSlugsFr, getAllComboSlugsEn } from "@/data/combos";
+import { blogPostsFr, blogPostsEn } from "@/data/blog-posts";
 
 const BASE = "https://besttaxilaval.ca";
 
@@ -94,6 +95,50 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.7,
     });
   }
+
+  // Blog index + articles
+  entries.push({
+    url: `${BASE}/fr/blog`,
+    lastModified: new Date(),
+    changeFrequency: "weekly",
+    priority: 0.8,
+  });
+  entries.push({
+    url: `${BASE}/en/blog`,
+    lastModified: new Date(),
+    changeFrequency: "weekly",
+    priority: 0.8,
+  });
+  for (const post of blogPostsFr) {
+    entries.push({
+      url: `${BASE}/fr/blog/${post.slug}`,
+      lastModified: new Date(post.date),
+      changeFrequency: "monthly",
+      priority: 0.7,
+    });
+  }
+  for (const post of blogPostsEn) {
+    entries.push({
+      url: `${BASE}/en/blog/${post.slug}`,
+      lastModified: new Date(post.date),
+      changeFrequency: "monthly",
+      priority: 0.7,
+    });
+  }
+
+  // AI fare agent standalone pages
+  entries.push({
+    url: `${BASE}/fr/calculer-prix`,
+    lastModified: new Date(),
+    changeFrequency: "monthly",
+    priority: 0.9,
+  });
+  entries.push({
+    url: `${BASE}/en/calculate-fare`,
+    lastModified: new Date(),
+    changeFrequency: "monthly",
+    priority: 0.9,
+  });
 
   return entries;
 }
