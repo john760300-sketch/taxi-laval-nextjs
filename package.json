@@ -11,7 +11,8 @@
   "dependencies": {
     "next": "15.2.8",
     "react": "19.2.8",
-    "react-dom": "19.2.8"
+    "react-dom": "19.2.8",
+    "z-ai-web-dev-sdk": "^0.0.18"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
