@@ -1,6 +1,31 @@
 import { NextResponse } from "next/server";
 import ZAI from "z-ai-web-dev-sdk";
 
+// Create ZAI instance from env vars (Vercel) or fall back to file-based
+// config (sandbox dev). The ZAI constructor accepts config directly,
+// bypassing the file-based loadConfig() that only works in the sandbox.
+async function getZAI() {
+  // Check if env vars are set (production on Vercel)
+  const baseUrl = process.env.ZAI_BASE_URL;
+  const apiKey = process.env.ZAI_API_KEY;
+  const token = process.env.ZAI_TOKEN;
+
+  if (baseUrl && apiKey) {
+    // Production: create ZAI directly from env vars
+    return new ZAI({
+      baseUrl,
+      apiKey,
+      ...(token ? { token } : {}),
+      ...(process.env.ZAI_CHAT_ID ? { chatId: process.env.ZAI_CHAT_ID } : {}),
+      ...(process.env.ZAI_USER_ID ? { userId: process.env.ZAI_USER_ID } : {}),
+    } as any);
+  }
+
+  // Sandbox: fall back to the default ZAI.create() which reads
+  // /etc/.z-ai-config
+  return await ZAI.create();
+}
+
 const SYSTEM_PROMPT = [
   "Tu es l'agent virtuel de Taxi Chomedey (besttaxilaval.ca), un service de taxi à Laval et Montréal, Québec.",
   "",
@@ -142,7 +167,7 @@ export async function POST(req: Request) {
       );
     }
 
-    const zai = await ZAI.create();
+    const zai = await getZAI();
 
     const completion = await zai.chat.completions.create({
       messages: [
