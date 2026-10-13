@@ -37,11 +37,11 @@ export const frHome = {
   ],
   destH2: "Découvrir Laval : Les Destinations Les Plus Populaires",
   destinations: [
-    { emoji: "🌟", title: "Le Centropolis – Laval", text: "Le point de ralliement incontournable pour un souper au restaurant ou une sortie animée. C'est le cœur de la vie urbaine à Laval." },
-    { emoji: "🛍️", title: "Carrefour Laval", text: "Le centre d'achats emblématique de la région. Nous assurons vos déposes et ramassages directement aux portes principales (A, B ou C) pour vous éviter la marche." },
+    { emoji: "🌟", title: "Le Centropolis – Laval", href: "https://centropolis.ca/", text: "Le point de ralliement incontournable pour un souper au restaurant ou une sortie animée. C'est le cœur de la vie urbaine à Laval." },
+    { emoji: "🛍️", title: "Carrefour Laval", href: "https://www.tourismelaval.com/explorer-possibilites/attraits/cf-carrefour-laval/", text: "Le centre d'achats emblématique de la région. Nous assurons vos déposes et ramassages directement aux portes principales (A, B ou C) pour vous éviter la marche." },
     { emoji: "🎵", title: "Place Bell – Laval", href: "https://www.placebell.ca/", text: "Pour aller encourager le Rocket de Laval ou assister à un grand spectacle. Nous assurons un transport fluide et ordonné à la sortie de l'amphithéâtre, même tard la nuit." },
     { emoji: "✨", title: "Festiween – Laval", href: "https://festiween.com/", text: "Le festival familial par excellence à Laval. Profitez de nos navettes aller-retour pour vivre l'expérience Festiween sans tracas de stationnement." },
-    { emoji: "🏡", title: "Vieux-Sainte-Rose – Laval", text: "Un magnifique quartier historique. Nous y conduisons régulièrement les résidents et visiteurs venus marcher au bord de la rivière des Mille Îles." },
+    { emoji: "🏡", title: "Vieux-Sainte-Rose – Laval", href: "https://www.lavitrine.com/fr/lieu/bibliotheque-sylvain-garneau/1491", text: "Un magnifique quartier historique. Nous y conduisons régulièrement les résidents et visiteurs venus marcher au bord de la rivière des Mille Îles." },
   ],
   safetyH2: "Conseils De Sécurité : Prévenir Les Pannes En Hiver",
   safety: [

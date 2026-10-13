@@ -35,11 +35,11 @@ export const enHome = {
   ],
   destH2: "Discover Laval: Our Most Popular Destinations",
   destinations: [
-    { emoji: "🌟", title: "Centropolis – Laval", text: "The premier local hub for dining, nightlife, and cinema. The true heartbeat of social entertainment in Laval." },
-    { emoji: "🛍️", title: "Carrefour Laval", text: "The largest upscale shopping center in the region. We drop you off directly at your preferred entrance (A, B, or C) for maximum convenience." },
+    { emoji: "🌟", title: "Centropolis – Laval", href: "https://centropolis.ca/", text: "The premier local hub for dining, nightlife, and cinema. The true heartbeat of social entertainment in Laval." },
+    { emoji: "🛍️", title: "Carrefour Laval", href: "https://www.tourismelaval.com/explorer-possibilites/attraits/cf-carrefour-laval/", text: "The largest upscale shopping center in the region. We drop you off directly at your preferred entrance (A, B, or C) for maximum convenience." },
     { emoji: "🎵", title: "Place Bell – Laval", href: "https://www.placebell.ca/", text: "Whether you're catching a Laval Rocket hockey game or attending a major music concert, we ensure hassle-free arrivals and safe late-night returns." },
     { emoji: "✨", title: "Festiween – Laval", href: "https://festiween.com/", text: "The ultimate family festival in Laval. Count on us for hassle-free round-trips to experience Festiween without worrying about parking." },
-    { emoji: "🏡", title: "Vieux-Sainte-Rose – Laval", text: "A picturesque, historic neighborhood where we regularly take residents and tourists for scenic strolls along the waterfront." },
+    { emoji: "🏡", title: "Vieux-Sainte-Rose – Laval", href: "https://www.lavitrine.com/fr/lieu/bibliotheque-sylvain-garneau/1491", text: "A picturesque, historic neighborhood where we regularly take residents and tourists for scenic strolls along the waterfront." },
   ],
   safetyH2: "Safety Tips: Preventing Severe Winter Breakdowns",
   safety: [
