@@ -1,0 +1,105 @@
+{
+  "name": "Taxi Chomedey — Chat Agent (Google Gemini)",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "taxi-chat",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "webhook-in",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [0, 0],
+      "webhookId": "taxi-chat"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Transform OpenAI-format messages into Gemini format\nconst body = $json.body || $json;\nconst systemPrompt = body.systemPrompt || '';\nconst messages = body.messages || [];\n\n// Gemini uses 'user'/'model' roles (not 'user'/'assistant')\nconst contents = messages.map(function(m) {\n  return {\n    role: m.role === 'assistant' ? 'model' : 'user',\n    parts: [{ text: m.content }]\n  };\n});\n\nvar geminiBody = { contents: contents };\nif (systemPrompt) {\n  geminiBody.system_instruction = { parts: [{ text: systemPrompt }] };\n}\n\nreturn [{ json: { geminiBody: JSON.stringify(geminiBody) } }];"
+      },
+      "id": "transform",
+      "name": "Transform to Gemini format",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [260, 0]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "key",
+              "value": "YOUR_GEMINI_API_KEY"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ $json.geminiBody }}",
+        "options": {}
+      },
+      "id": "gemini-call",
+      "name": "Google Gemini API",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [520, 0],
+      "notes": "Replace YOUR_GEMINI_API_KEY with your actual key from https://aistudio.google.com/apikey"
+    },
+    {
+      "parameters": {
+        "jsCode": "const out = $input.first().json;\nconst text =\n  out?.candidates?.[0]?.content?.parts?.[0]?.text ||\n  out?.response ||\n  out?.output ||\n  '';\nreturn [{ json: { response: String(text) } }];"
+      },
+      "id": "extract",
+      "name": "Extract response",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [780, 0]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { response: $json.response } }}",
+        "options": {}
+      },
+      "id": "respond",
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [1040, 0]
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [[{ "node": "Transform to Gemini format", "type": "main", "index": 0 }]]
+    },
+    "Transform to Gemini format": {
+      "main": [[{ "node": "Google Gemini API", "type": "main", "index": 0 }]]
+    },
+    "Google Gemini API": {
+      "main": [[{ "node": "Extract response", "type": "main", "index": 0 }]]
+    },
+    "Extract response": {
+      "main": [[{ "node": "Respond to Webhook", "type": "main", "index": 0 }]]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "meta": {
+    "templateCredsSetupCompleted": false
+  }
+}
