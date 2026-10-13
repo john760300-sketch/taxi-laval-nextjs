@@ -1,3 +1,6 @@
+// Allow up to 60 seconds for n8n + Gemini to respond (default is 10s on Vercel)
+export const maxDuration = 60;
+
 import { NextResponse } from "next/server";
 
 /**
@@ -172,14 +175,30 @@ export async function POST(req: Request) {
       headers["X-Webhook-Secret"] = secret;
     }
 
-    const n8nRes = await fetch(webhookUrl, {
-      method: "POST",
-      headers,
-      body: JSON.stringify({
-        messages,
-        systemPrompt: SYSTEM_PROMPT,
-      }),
-    });
+    // Use AbortController for a 45-second timeout (leaves 15s buffer for Vercel)
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 45000);
+
+    let n8nRes: Response;
+    try {
+      n8nRes = await fetch(webhookUrl, {
+        method: "POST",
+        headers,
+        body: JSON.stringify({
+          messages,
+          systemPrompt: SYSTEM_PROMPT,
+        }),
+        signal: controller.signal,
+      });
+    } catch (fetchErr) {
+      clearTimeout(timeout);
+      console.error("n8n fetch error:", fetchErr);
+      return NextResponse.json(
+        { error: "Agent temporairement indisponible — réessayez dans un instant." },
+        { status: 502 }
+      );
+    }
+    clearTimeout(timeout);
 
     if (!n8nRes.ok) {
       const text = await n8nRes.text().catch(() => "");
