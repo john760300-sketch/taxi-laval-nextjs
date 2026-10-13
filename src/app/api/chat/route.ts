@@ -176,12 +176,12 @@ export async function POST(req: Request) {
     }
 
     // Call n8n webhook with retry logic (n8n sometimes returns intermittent errors)
-    async function callN8n(attempt: number): Promise<Response> {
+    async function callN8n(url: string, attempt: number): Promise<Response> {
       const controller = new AbortController();
       const timeout = setTimeout(() => controller.abort(), 20000); // 20s per attempt
 
       try {
-        const res = await fetch(webhookUrl, {
+        const res = await fetch(url, {
           method: "POST",
           headers,
           body: JSON.stringify({ messages, systemPrompt: SYSTEM_PROMPT }),
@@ -193,7 +193,7 @@ export async function POST(req: Request) {
         if (!res.ok && attempt < 2) {
           console.error(`n8n attempt ${attempt} failed: ${res.status}, retrying...`);
           await new Promise((r) => setTimeout(r, 2000)); // wait 2s before retry
-          return callN8n(attempt + 1);
+          return callN8n(url, attempt + 1);
         }
         return res;
       } catch (err) {
@@ -201,7 +201,7 @@ export async function POST(req: Request) {
         if (attempt < 2) {
           console.error(`n8n attempt ${attempt} error: ${err}, retrying...`);
           await new Promise((r) => setTimeout(r, 2000));
-          return callN8n(attempt + 1);
+          return callN8n(url, attempt + 1);
         }
         throw err;
       }
@@ -209,7 +209,7 @@ export async function POST(req: Request) {
 
     let n8nRes: Response;
     try {
-      n8nRes = await callN8n(0);
+      n8nRes = await callN8n(webhookUrl, 0);
     } catch (fetchErr) {
       console.error("n8n fetch error after retries:", fetchErr);
       return NextResponse.json(
