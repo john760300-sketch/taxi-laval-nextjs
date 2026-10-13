@@ -1,17 +1,19 @@
-// Allow up to 60 seconds for n8n + Gemini to respond (default is 10s on Vercel)
+// Allow up to 60 seconds for the LLM to respond
 export const maxDuration = 60;
 
 import { NextResponse } from "next/server";
 
 /**
- * Chat API — proxies conversation to an n8n webhook (replaces z-ai-web-dev-sdk).
+ * Chat API — calls Cloudflare Workers AI directly (Llama 3.1 8B Instruct).
  *
- * Env (Vercel / .env.local):
- *   N8N_CHAT_WEBHOOK_URL  = production webhook URL from n8n
- *   N8N_WEBHOOK_SECRET    = optional shared secret (sent as X-Webhook-Secret)
+ * No n8n, no Oracle Cloud, no external dependencies.
+ * Cloudflare Workers AI runs inference at the edge — fast + reliable.
  *
- * n8n must return JSON: { "response": "...assistant text..." }
- * Optional: n8n can use the systemPrompt field, or keep the prompt inside the workflow.
+ * Env (Vercel):
+ *   CLOUDFLARE_API_TOKEN  = Cloudflare API token
+ *   CLOUDFLARE_ACCOUNT_ID = Cloudflare account ID
+ *
+ * Free tier: 10,000 requests/day (more than enough for a taxi dispatcher)
  */
 
 const SYSTEM_PROMPT = [
@@ -54,53 +56,6 @@ const SYSTEM_PROMPT = [
   "- Collecter (une question à la fois) : origine → destination → date/heure.",
   "- Quand tu as les 3 informations, émettre un bloc ===FARE_REQUEST=== pour déclencher le calcul.",
   "",
-  "DEUX TYPES DE DEMANDES :",
-  "",
-  "A) TRAJET TAXI (transport de A à B) :",
-  "   - Collecter origine, destination, date/heure",
-  "   - Émettre un bloc ===FARE_REQUEST=== quand tu as les 3 infos",
-  "",
-  "B) SERVICE D'URGENCE ROUTIÈRE (survoltage, déverrouillage) :",
-  "   - PAS de calcul d'itinéraire — c'est un tarif forfaitaire",
-  "   - Donner la fourchette de prix tout de suite",
-  "   - Demander : type de véhicule + lieu approximatif + heure",
-  "   - NE JAMAIS émettre de bloc ===FARE_REQUEST=== pour ces services",
-  "   - Conclure : \"Appelez 514-239-6512 pour confirmer le prix exact\"",
-  "",
-  "C) RACCOMPAGNEMENT (chauffeur vous ramène avec votre propre voiture) :",
-  "   - Calculer comme un trajet taxi MAIS utiliser le tarif CTQ JOUR uniquement",
-  "   - Prix = 2 × ceil(compteur CTQ jour)  (couvre l'aller + le retour du chauffeur)",
-  "   - Remise 3,4 % si paiement comptant (comme le taxi)",
-  "   - Collecter origine + destination seulement (PAS besoin de date/heure — toujours tarif jour)",
-  "   - Émettre un bloc ===FARE_REQUEST=== avec service:\"raccompagnement\"",
-  "",
-  "EXEMPLE RACCOMPAGNEMENT :",
-  "",
-  'Client : "Je veux un raccompagnement"  (ou "chauffeur désigné", "designated driver")',
-  'Toi : "Bien sûr ! Notre chauffeur vous ramène chez vous avec votre propre véhicule. D\'où partez-vous ?"',
-  "",
-  'Client : "Centre-ville Montréal"',
-  'Toi : "Parfait. Quelle est votre destination ?"',
-  "",
-  'Client : "Laval, Sainte-Rose"',
-  'Toi : "Merci ! Je calcule votre tarif raccompagnement…"',
-  "",
-  "===FARE_REQUEST===",
-  '{"origin":"Centre-ville, Montréal, QC","destination":"Sainte-Rose, Laval, QC","service":"raccompagnement"}',
-  "===END_FARE_REQUEST===",
-  "",
-  "EXEMPLES POUR SERVICES D'URGENCE :",
-  "",
-  'Client : "Combien pour un survoltage ?"',
-  'Toi : "Notre survoltage de batterie (boost) est entre 35 $ et 80 $, selon le véhicule, l\'heure et le lieu. Quel type de véhicule avez-vous et où êtes-vous situé ?"',
-  "",
-  'Client : "Civic à Laval"  (n\'émet pas de FARE_REQUEST)',
-  'Toi : "Pour une berline à Laval en plein jour, prévoyez environ 50 $. Appelez le 514-239-6512 — notre répartiteur confirmera le prix exact en moins d\'une minute."',
-  "",
-  'Client : "Combien pour déverrouiller ma portière ?"',
-  'Toi : "Notre service de déverrouillage (débarrage) est entre 35 $ et 120 $, selon la difficulté et le véhicule. Quelle est la marque de votre voiture et où êtes-vous ?"',
-  "",
-  "",
   "CONDUITE DE LA CONVERSATION (pose UNE seule question par message) :",
   "",
   "1. Accueille le client en français québécois, demande l'origine (point de départ).",
@@ -109,7 +64,7 @@ const SYSTEM_PROMPT = [
   "4. Quand tu as l'origine, la destination et (optionnellement) la date, tu retournes UN SEUL bloc à la fin de ta réponse, formaté EXACTEMENT comme suit (pas de texte après ce bloc) :",
   "",
   "===FARE_REQUEST===",
-  '{"origin":"<adresse de départ nettoyée et complète>","destination":"<adresse destination nettoyée et complète>","datetime":"<ISO 8601 ou chaîne vide>","service":"taxi ou raccompagnement"}',
+  '{"origin":"<adresse de départ nettoyée et complète>","destination":"<adresse destination nettoyée et complète>","datetime":"<ISO 8601 ou chaîne vide>"}',
   "===END_FARE_REQUEST===",
   "",
   "RÈGLES IMPORTANTES :",
@@ -123,24 +78,6 @@ const SYSTEM_PROMPT = [
   "- Si le client pose une question hors-sujet (info sur la compagnie, tarifs, services), réponds en utilisant les INFORMATIONS SUR L'ENTREPRISE ci-dessus en 1-3 phrases, puis reviens à la collecte du trip si pertinent.",
   "- Ne JAMAIS inventer un prix. Attends d'avoir les 3 informations avant d'émettre le bloc ===FARE_REQUEST===.",
   "- Ne JAMAIS afficher de tableau de prix toi-même. Le système va le générer automatiquement à partir du bloc.",
-  "",
-  "EXEMPLE DE CONVERSATION :",
-  "",
-  'Client : "Bonjour, je veux un prix"',
-  'Toi : "Bonjour ! Bien sûr, avec plaisir. D\'où partez-vous ?"',
-  "",
-  'Client : "Laval, Chomedey"',
-  'Toi : "Parfait. Quelle est votre destination ?"',
-  "",
-  'Client : "Aéroport YUL"',
-  'Toi : "À quelle heure prévoyez-vous le départ ? (optionnel — maintenant par défaut)"',
-  "",
-  'Client : "demain 8h"',
-  'Toi : "Merci ! Je calcule votre tarif fixe…"',
-  "",
-  "===FARE_REQUEST===",
-  '{"origin":"Chomedey, Laval, QC","destination":"Aéroport international Montréal-Trudeau, Dorval, QC","datetime":"2026-10-12T08:00"}',
-  "===END_FARE_REQUEST===",
 ].join("\n");
 
 export async function POST(req: Request) {
@@ -155,92 +92,57 @@ export async function POST(req: Request) {
       );
     }
 
-    const webhookUrl = process.env.N8N_CHAT_WEBHOOK_URL;
-    if (!webhookUrl) {
-      console.error("N8N_CHAT_WEBHOOK_URL is not set");
+    const apiToken = process.env.CLOUDFLARE_API_TOKEN;
+    const accountId = process.env.CLOUDFLARE_ACCOUNT_ID;
+
+    if (!apiToken || !accountId) {
+      console.error("Cloudflare credentials not set");
       return NextResponse.json(
-        {
-          error:
-            "Agent n8n non configuré (N8N_CHAT_WEBHOOK_URL manquant).",
-        },
+        { error: "Agent non configuré (CLOUDFLARE_API_TOKEN ou CLOUDFLARE_ACCOUNT_ID manquant)." },
         { status: 503 }
       );
     }
 
-    const headers: Record<string, string> = {
-      "Content-Type": "application/json",
-    };
-    const secret = process.env.N8N_WEBHOOK_SECRET;
-    if (secret) {
-      headers["X-Webhook-Secret"] = secret;
-    }
+    // Call Cloudflare Workers AI (Llama 3.1 8B Instruct) directly
+    // OpenAI-compatible format — simple and reliable
+    const cfUrl = `https://api.cloudflare.com/client/v4/accounts/${accountId}/ai/run/@cf/meta/llama-3.1-8b-instruct`;
 
-    // Call n8n webhook with retry logic (n8n sometimes returns intermittent errors)
-    async function callN8n(url: string, attempt: number): Promise<Response> {
-      const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 20000); // 20s per attempt
+    const cfRes = await fetch(cfUrl, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${apiToken}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        messages: [
+          { role: "system", content: SYSTEM_PROMPT },
+          ...messages,
+        ],
+      }),
+    });
 
-      try {
-        const res = await fetch(url, {
-          method: "POST",
-          headers,
-          body: JSON.stringify({ messages, systemPrompt: SYSTEM_PROMPT }),
-          signal: controller.signal,
-        });
-        clearTimeout(timeout);
-
-        // If n8n returns an error AND we haven't exhausted retries, try again
-        if (!res.ok && attempt < 2) {
-          console.error(`n8n attempt ${attempt} failed: ${res.status}, retrying...`);
-          await new Promise((r) => setTimeout(r, 2000)); // wait 2s before retry
-          return callN8n(url, attempt + 1);
-        }
-        return res;
-      } catch (err) {
-        clearTimeout(timeout);
-        if (attempt < 2) {
-          console.error(`n8n attempt ${attempt} error: ${err}, retrying...`);
-          await new Promise((r) => setTimeout(r, 2000));
-          return callN8n(url, attempt + 1);
-        }
-        throw err;
-      }
-    }
-
-    let n8nRes: Response;
-    try {
-      n8nRes = await callN8n(webhookUrl, 0);
-    } catch (fetchErr) {
-      console.error("n8n fetch error after retries:", fetchErr);
+    if (!cfRes.ok) {
+      const text = await cfRes.text().catch(() => "");
+      console.error("Cloudflare AI error:", cfRes.status, text);
       return NextResponse.json(
-        { error: "Agent temporairement indisponible — réessayez dans un instant." },
+        { error: "Erreur agent — réessayez." },
         { status: 502 }
       );
     }
 
-    if (!n8nRes.ok) {
-      const text = await n8nRes.text().catch(() => "");
-      console.error("n8n webhook error:", n8nRes.status, text);
-      return NextResponse.json(
-        { error: "Erreur agent n8n — réessayez." },
-        { status: 502 }
-      );
-    }
+    const data = await cfRes.json();
 
-    const data = await n8nRes.json();
+    // Extract response — Cloudflare returns both 'response' and 'choices[0].message.content'
     const response =
-      typeof data?.response === "string"
-        ? data.response
-        : typeof data?.output === "string"
-          ? data.output
-          : typeof data?.text === "string"
-            ? data.text
-            : "";
+      data?.result?.response ||
+      data?.result?.choices?.[0]?.message?.content ||
+      data?.response ||
+      "";
 
     if (!response) {
-      console.error("n8n returned empty response:", data);
+      console.error("Empty response from Cloudflare AI:", JSON.stringify(data).slice(0, 200));
       return NextResponse.json(
-        { error: "Réponse agent vide — réessayez." },
+        { error: "Réponse vide — réessayez." },
         { status: 502 }
       );
     }
