@@ -61,6 +61,22 @@ export default function FooterEn() {
               </li>
               <li>
                 <Link
+                  href="/en/drive-home-service"
+                  className="text-sm font-medium text-[#1e3a5f] hover:text-[#e6b422]"
+                >
+                  Drive-home service
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/en/calculate-fare"
+                  className="text-sm font-medium text-[#1e3a5f] hover:text-[#e6b422]"
+                >
+                  Fare calculator
+                </Link>
+              </li>
+              <li>
+                <Link
                   href="/en/contact"
                   className="text-sm font-medium text-[#1e3a5f] hover:text-[#e6b422]"
                 >
