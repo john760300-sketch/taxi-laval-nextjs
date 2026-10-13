@@ -175,30 +175,48 @@ export async function POST(req: Request) {
       headers["X-Webhook-Secret"] = secret;
     }
 
-    // Use AbortController for a 45-second timeout (leaves 15s buffer for Vercel)
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 45000);
+    // Call n8n webhook with retry logic (n8n sometimes returns intermittent errors)
+    async function callN8n(attempt: number): Promise<Response> {
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 20000); // 20s per attempt
+
+      try {
+        const res = await fetch(webhookUrl, {
+          method: "POST",
+          headers,
+          body: JSON.stringify({ messages, systemPrompt: SYSTEM_PROMPT }),
+          signal: controller.signal,
+        });
+        clearTimeout(timeout);
+
+        // If n8n returns an error AND we haven't exhausted retries, try again
+        if (!res.ok && attempt < 2) {
+          console.error(`n8n attempt ${attempt} failed: ${res.status}, retrying...`);
+          await new Promise((r) => setTimeout(r, 2000)); // wait 2s before retry
+          return callN8n(attempt + 1);
+        }
+        return res;
+      } catch (err) {
+        clearTimeout(timeout);
+        if (attempt < 2) {
+          console.error(`n8n attempt ${attempt} error: ${err}, retrying...`);
+          await new Promise((r) => setTimeout(r, 2000));
+          return callN8n(attempt + 1);
+        }
+        throw err;
+      }
+    }
 
     let n8nRes: Response;
     try {
-      n8nRes = await fetch(webhookUrl, {
-        method: "POST",
-        headers,
-        body: JSON.stringify({
-          messages,
-          systemPrompt: SYSTEM_PROMPT,
-        }),
-        signal: controller.signal,
-      });
+      n8nRes = await callN8n(0);
     } catch (fetchErr) {
-      clearTimeout(timeout);
-      console.error("n8n fetch error:", fetchErr);
+      console.error("n8n fetch error after retries:", fetchErr);
       return NextResponse.json(
         { error: "Agent temporairement indisponible — réessayez dans un instant." },
         { status: 502 }
       );
     }
-    clearTimeout(timeout);
 
     if (!n8nRes.ok) {
       const text = await n8nRes.text().catch(() => "");
