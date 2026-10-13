@@ -71,6 +71,14 @@ export default function Footer() {
               </li>
               <li>
                 <Link
+                  href="/fr/transport-medical"
+                  className="text-sm font-medium text-[#1e3a5f] hover:text-[#e6b422]"
+                >
+                  Transport médical
+                </Link>
+              </li>
+              <li>
+                <Link
                   href="/fr/calculer-prix"
                   className="text-sm font-medium text-[#1e3a5f] hover:text-[#e6b422]"
                 >

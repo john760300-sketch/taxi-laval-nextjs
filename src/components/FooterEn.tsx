@@ -69,6 +69,14 @@ export default function FooterEn() {
               </li>
               <li>
                 <Link
+                  href="/en/medical-transport"
+                  className="text-sm font-medium text-[#1e3a5f] hover:text-[#e6b422]"
+                >
+                  Medical transport
+                </Link>
+              </li>
+              <li>
+                <Link
                   href="/en/calculate-fare"
                   className="text-sm font-medium text-[#1e3a5f] hover:text-[#e6b422]"
                 >
