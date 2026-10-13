@@ -129,18 +129,14 @@ export default function EnglishHomePage() {
                 <div key={d.title} className="rounded-xl border-l-4 border-[#e6b422] bg-white p-6">
                   <div className="mb-2 text-3xl">{d.emoji}</div>
                   <h3 className="mb-2 text-lg font-semibold text-[#1e3a5f]">
-                    {"href" in d && d.href ? (
-                      <a
-                        href={d.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="transition hover:text-[#e6b422]"
-                      >
-                        {d.title} ↗
-                      </a>
-                    ) : (
-                      d.title
-                    )}
+                    <a
+                      href={d.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="transition hover:text-[#e6b422]"
+                    >
+                      {d.title} ↗
+                    </a>
                   </h3>
                   <p className="text-sm text-[#4a627a]">{d.text}</p>
                 </div>
