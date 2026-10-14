@@ -78,19 +78,41 @@ function rideshare(
   };
 }
 
+// Get the hour in Montreal timezone (America/Toronto handles DST automatically)
+// Vercel serverless functions run in UTC by default, so we must convert.
+function getMontrealHour(date: Date): number {
+  const formatter = new Intl.DateTimeFormat("en-US", {
+    timeZone: "America/Toronto",
+    hour: "numeric",
+    hour12: false,
+  });
+  return parseInt(formatter.format(date), 10);
+}
+
+// Get the day of week in Montreal timezone (0=Sunday, 6=Saturday)
+function getMontrealDay(date: Date): number {
+  const formatter = new Intl.DateTimeFormat("en-US", {
+    timeZone: "America/Toronto",
+    weekday: "short",
+  });
+  const dayStr = formatter.format(date);
+  const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  return days.indexOf(dayStr);
+}
+
 function isNightTime(datetimeStr?: string | null): boolean {
   let date = datetimeStr ? new Date(datetimeStr) : new Date();
   if (Number.isNaN(date.getTime())) date = new Date();
-  const hour = date.getHours();
+  const hour = getMontrealHour(date);
   return hour >= 23 || hour < 5;
 }
 
 function estHeurePointe(datetimeStr?: string | null): boolean {
   const date = datetimeStr ? new Date(datetimeStr) : new Date();
   if (Number.isNaN(date.getTime())) return false;
-  const day = date.getDay();
+  const day = getMontrealDay(date);
   if (day === 0 || day === 6) return false; // weekend
-  const hour = date.getHours();
+  const hour = getMontrealHour(date);
   return HEURES_POINTE.some((slot) => hour >= slot.start && hour < slot.end);
 }
 
