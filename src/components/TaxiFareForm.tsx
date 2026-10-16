@@ -63,11 +63,14 @@ export function TaxiFareForm({ lang = "fr" }: { lang?: "fr" | "en" }) {
     setDestination(tmp);
   }
 
-  // Generate 24 hour options (00:00 to 23:00)
-  const hourOptions = Array.from({ length: 24 }, (_, i) => {
-    const h = i.toString().padStart(2, "0");
-    return { value: `${h}:00`, label: `${h}:00` };
-  });
+  // Generate all time options: 00:00, 00:15, 00:30, 00:45, 01:00, ..., 23:45 (96 options)
+  const hourOptions = Array.from({ length: 24 }, (_, h) => {
+    const hour = h.toString().padStart(2, "0");
+    return ["00", "15", "30", "45"].map((min) => ({
+      value: `${hour}:${min}`,
+      label: `${hour}:${min}`,
+    }));
+  }).flat();
 
   return (
     <div>
