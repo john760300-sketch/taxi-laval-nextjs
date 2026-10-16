@@ -24,9 +24,23 @@ export function TaxiFareForm({ lang = "fr" }: { lang?: "fr" | "en" }) {
     try {
       let datetime: string | null = null;
       if (heure) {
-        const today = new Date();
-        const dateStr = today.toISOString().split("T")[0];
-        datetime = `${dateStr}T${heure}`;
+        // Get Montreal timezone offset (EDT = -04:00, EST = -05:00)
+        // This ensures Vercel (UTC) interprets the time as Montreal time
+        const dtf = new Intl.DateTimeFormat("en-US", {
+          timeZone: "America/Toronto",
+          timeZoneName: "longOffset",
+        });
+        const parts = dtf.formatToParts(new Date());
+        const offsetStr = parts.find((p) => p.type === "timeZoneName")?.value || "GMT-04:00";
+        const offsetMatch = offsetStr.match(/GMT([+-])(\d{2}):?(\d{2})?/);
+        let offset = "-04:00";
+        if (offsetMatch) {
+          offset = `${offsetMatch[1]}${offsetMatch[2].padStart(2, "0")}:${offsetMatch[3] || "00"}`;
+        }
+        // Get today's date in Montreal timezone
+        const dateFmt = new Intl.DateTimeFormat("en-CA", { timeZone: "America/Toronto", year: "numeric", month: "2-digit", day: "2-digit" });
+        const todayMontreal = dateFmt.format(new Date()); // "2026-10-14"
+        datetime = `${todayMontreal}T${heure}:00${offset}`;
       }
 
       const res = await fetch("/api/fare", {
