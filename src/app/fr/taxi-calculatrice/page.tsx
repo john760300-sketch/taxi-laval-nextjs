@@ -16,7 +16,7 @@ import Link from "next/link";
 
 export const metadata: Metadata = {
   title:
-    "Taxi Calculatrice Laval — Calculateur de Tarif Taxi | Taxi Chomedey",
+    "Calculatrice Taxi — Calculez votre Tarif Taxi partout au Québec | Taxi Chomedey",
   description:
     "Calculatrice taxi Laval : calculez votre tarif taxi en temps réel. Tarif officiel CTQ, prix fixe aligné sur UberX, sans surge. Service 24/7 à Laval, Rive-Nord & Laurentides.",
   alternates: {
@@ -100,7 +100,7 @@ export default function CalculerPrixPage() {
           <div className="mx-auto max-w-4xl px-5">
             <div className="mb-8 text-center">
               <h1 className="mb-3 text-2xl font-bold leading-tight md:text-4xl">
-                Taxi Calculatrice Laval — Prix Fixe &amp; Garanti
+                Calculatrice Taxi — Calculez votre Tarif Taxi partout au Québec
               </h1>
               <p className="mx-auto max-w-2xl text-sm text-white/80 md:text-base">
                 Calculateur de tarif taxi en temps réel. Tarif officiel CTQ,

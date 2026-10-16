@@ -16,7 +16,7 @@ import Link from "next/link";
 
 export const metadata: Metadata = {
   title:
-    "Taxi Calculator Laval — Fare Calculator | Taxi Chomedey",
+    "Taxi Calculator — Calculate Your Taxi Fare Anywhere in Quebec | Taxi Chomedey",
   description:
     "Taxi calculator Laval: calculate your taxi fare in real time. Official CTQ rate, fixed price aligned with UberX, no surge. 24/7 service in Laval, North Shore & Laurentians.",
   alternates: {
@@ -100,7 +100,7 @@ export default function CalculateFarePage() {
           <div className="mx-auto max-w-4xl px-5">
             <div className="mb-8 text-center">
               <h1 className="mb-3 text-2xl font-bold leading-tight md:text-4xl">
-                Taxi Calculator Laval — Fixed &amp; Guaranteed Fare
+                Taxi Calculator — Calculate Your Taxi Fare Anywhere in Quebec
               </h1>
               <p className="mx-auto max-w-2xl text-sm text-white/80 md:text-base">
                 Real-time taxi fare calculator. Official CTQ rate, fixed price
