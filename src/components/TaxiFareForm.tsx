@@ -51,7 +51,7 @@ export function TaxiFareForm({ lang = "fr" }: { lang?: "fr" | "en" }) {
 
       const data = (await res.json()) as FareData;
       setFareData(data);
-    } catch (err) {
+    } catch {
       setError(
         isFr
           ? "Impossible de calculer l'itinéraire. Vérifiez les adresses (ex. ajoutez « Laval, QC »)."
