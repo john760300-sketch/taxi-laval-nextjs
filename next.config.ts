@@ -27,6 +27,11 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       { source: "/", destination: "/fr", permanent: true },
+      // Old calculator URLs → new SEO-friendly URLs
+      { source: "/fr/calculer-prix", destination: "/fr/taxi-calculatrice", permanent: true },
+      { source: "/fr/calculer-prix/:path*", destination: "/fr/taxi-calculatrice/:path*", permanent: true },
+      { source: "/en/calculate-fare", destination: "/en/taxi-calculator", permanent: true },
+      { source: "/en/calculate-fare/:path*", destination: "/en/taxi-calculator/:path*", permanent: true },
       { source: "/taxi", destination: "/fr", permanent: true },
       { source: "/taxi/", destination: "/fr", permanent: true },
       { source: "/taxi/en", destination: "/en", permanent: true },

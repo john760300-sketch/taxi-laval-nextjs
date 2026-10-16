@@ -66,7 +66,7 @@ export default function HeaderEn() {
           <Link href="/en/emergency" className="font-medium text-[#1e3a5f] transition hover:text-[#e6b422]">EMERGENCY</Link>
           <Link href="/en/contact" className="font-medium text-[#1e3a5f] transition hover:text-[#e6b422]">CONTACT</Link>
           <Link href="/en/blog" className="font-medium text-[#1e3a5f] transition hover:text-[#e6b422]">TIPS</Link>
-          <Link href="/en/calculate-fare" className="rounded-full bg-[#1e3a5f] px-4 py-2 font-semibold text-white transition hover:bg-[#152a47]">FARE CALC</Link>
+          <Link href="/en/taxi-calculator" className="rounded-full bg-[#1e3a5f] px-4 py-2 font-semibold text-white transition hover:bg-[#152a47]">FARE CALC</Link>
         </nav>
 
         <div className="flex items-center gap-2 sm:gap-3">
@@ -129,7 +129,7 @@ export default function HeaderEn() {
               <Link href="/en/emergency" className="block border-b border-gray-100 py-3.5 text-lg font-medium text-[#1e3a5f]" onClick={() => setMobileOpen(false)}>EMERGENCY</Link>
               <Link href="/en/contact" className="block border-b border-gray-100 py-3.5 text-lg font-medium text-[#1e3a5f]" onClick={() => setMobileOpen(false)}>CONTACT</Link>
               <Link href="/en/blog" className="block border-b border-gray-100 py-3.5 text-lg font-medium text-[#1e3a5f]" onClick={() => setMobileOpen(false)}>TIPS</Link>
-              <Link href="/en/calculate-fare" className="block bg-[#1e3a5f] mx-4 mt-3 rounded-full py-3 text-center font-semibold text-white" onClick={() => setMobileOpen(false)}>FARE CALC</Link>
+              <Link href="/en/taxi-calculator" className="block bg-[#1e3a5f] mx-4 mt-3 rounded-full py-3 text-center font-semibold text-white" onClick={() => setMobileOpen(false)}>FARE CALC</Link>
               <a href="tel:+15142396512" className="mt-6 flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#e6b422] to-[#d4a017] px-6 py-3.5 font-semibold text-white">📞 514-239-6512</a>
             </nav>
           </div>

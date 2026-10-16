@@ -141,7 +141,7 @@ const article1Fr: BlogPost = {
     {
       type: "cta",
       text: "Vous voulez un prix exact pour votre trajet Laval → YUL maintenant ?",
-      href: "/fr/calculer-prix",
+      href: "/fr/taxi-calculatrice",
       label: "Calculer mon tarif fixe →",
     },
   ],
@@ -169,7 +169,7 @@ const article1Fr: BlogPost = {
   ],
   relatedServices: [
     { title: "Transport aéroport YUL", href: "/fr/transport-aeroport" },
-    { title: "Calculer mon prix fixe", href: "/fr/calculer-prix" },
+    { title: "Calculer mon prix fixe", href: "/fr/taxi-calculatrice" },
   ],
 };
 
@@ -260,7 +260,7 @@ const article1En: BlogPost = {
     {
       type: "cta",
       text: "Want an exact price for your Laval → YUL trip right now?",
-      href: "/en/calculate-fare",
+      href: "/en/taxi-calculator",
       label: "Calculate my fixed fare →",
     },
   ],
@@ -615,7 +615,7 @@ const article3Fr: BlogPost = {
     {
       type: "cta",
       text: "Besoin d'un raccompagnement maintenant ou ce soir ?",
-      href: "/fr/calculer-prix",
+      href: "/fr/taxi-calculatrice",
       label: "Calculer mon tarif raccompagnement →",
     },
   ],
@@ -643,7 +643,7 @@ const article3Fr: BlogPost = {
   ],
   relatedServices: [
     { title: "Service de raccompagnement", href: "/fr/raccompagnement" },
-    { title: "Calculer mon tarif", href: "/fr/calculer-prix" },
+    { title: "Calculer mon tarif", href: "/fr/taxi-calculatrice" },
   ],
 };
 
@@ -734,7 +734,7 @@ const article3En: BlogPost = {
     {
       type: "cta",
       text: "Need a drive-home now or tonight?",
-      href: "/en/calculate-fare",
+      href: "/en/taxi-calculator",
       label: "Calculate my drive-home fare →",
     },
   ],

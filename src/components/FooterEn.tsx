@@ -77,7 +77,7 @@ export default function FooterEn() {
               </li>
               <li>
                 <Link
-                  href="/en/calculate-fare"
+                  href="/en/taxi-calculator"
                   className="text-sm font-medium text-[#1e3a5f] hover:text-[#e6b422]"
                 >
                   Fare calculator

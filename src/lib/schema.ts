@@ -254,7 +254,7 @@ export const fareAgentSchema = {
   "@context": "https://schema.org",
   "@type": "WebApplication",
   name: "Agent Prix — Taxi Chomedey",
-  url: `${SITE_URL}/fr/calculer-prix`,
+  url: `${SITE_URL}/fr/taxi-calculatrice`,
   description:
     "Calculateur de tarif taxi par conversation. Obtenez un prix fixe et garanti en 30 secondes — tarif officiel CTQ, aligné sur UberX, sans surge. Discutez avec notre agent virtuel : dites-nous votre départ, destination et heure.",
   applicationCategory: "BusinessApplication",

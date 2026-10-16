@@ -172,7 +172,7 @@ export function BlogArticle({
                 : "Chat with our virtual agent — response in 30 seconds."}
             </p>
             <Link
-              href={lang === "fr" ? "/fr/calculer-prix" : "/en/calculate-fare"}
+              href={lang === "fr" ? "/fr/taxi-calculatrice" : "/en/taxi-calculator"}
               className="inline-block rounded-full bg-gradient-to-r from-[#e6b422] to-[#d4a017] px-8 py-3 font-semibold text-white transition hover:-translate-y-0.5"
             >
               {lang === "fr"

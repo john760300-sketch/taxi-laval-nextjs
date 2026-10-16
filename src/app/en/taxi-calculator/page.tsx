@@ -20,10 +20,10 @@ export const metadata: Metadata = {
   description:
     "Taxi calculator Laval: calculate your taxi fare in real time. Official CTQ rate, fixed price aligned with UberX, no surge. 24/7 service in Laval, North Shore & Laurentians.",
   alternates: {
-    canonical: "https://besttaxilaval.ca/en/calculate-fare",
+    canonical: "https://besttaxilaval.ca/en/taxi-calculator",
     languages: {
-      fr: "https://besttaxilaval.ca/fr/calculer-prix",
-      en: "https://besttaxilaval.ca/en/calculate-fare",
+      fr: "https://besttaxilaval.ca/fr/taxi-calculatrice",
+      en: "https://besttaxilaval.ca/en/taxi-calculator",
     },
   },
 };
@@ -75,7 +75,7 @@ export default function CalculateFarePage() {
             name: "Taxi Fare Calculator — Taxi Chomedey",
             description:
               "Real-time taxi fare calculator. Official CTQ rate, fixed price aligned with UberX, no surge. 24/7 service in Laval, North Shore & Laurentians.",
-            url: "https://besttaxilaval.ca/en/calculate-fare",
+            url: "https://besttaxilaval.ca/en/taxi-calculator",
             serviceType: "Taxi fare calculator",
             offers: [
               {
@@ -89,7 +89,7 @@ export default function CalculateFarePage() {
           faqSchema(SEO_FAQS.map((f) => f.q)),
           breadcrumbSchema([
             { name: "Home", url: "https://besttaxilaval.ca/en" },
-            { name: "Fare Calculator", url: "https://besttaxilaval.ca/en/calculate-fare" },
+            { name: "Fare Calculator", url: "https://besttaxilaval.ca/en/taxi-calculator" },
           ]),
         ]}
       />

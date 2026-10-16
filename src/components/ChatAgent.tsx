@@ -18,8 +18,8 @@ const INITIAL_MESSAGE: Message = {
 /**
  * Self-contained chat agent — plain Tailwind, no UI library dependency.
  * Used on:
- *   - /fr/calculer-prix (standalone page)
- *   - /en/calculate-fare (standalone page)
+ *   - /fr/taxi-calculatrice (standalone page)
+ *   - /en/taxi-calculator (standalone page)
  *   - ServicePage template when showAgent={true}
  */
 export function ChatAgent({ compact = false }: { compact?: boolean }) {

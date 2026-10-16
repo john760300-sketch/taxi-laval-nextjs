@@ -87,7 +87,7 @@ export default function BlogIndexPage() {
                 Discutez avec notre agent virtuel — réponse en 30 secondes.
               </p>
               <Link
-                href="/fr/calculer-prix"
+                href="/fr/taxi-calculatrice"
                 className="inline-block rounded-full bg-gradient-to-r from-[#e6b422] to-[#d4a017] px-8 py-3 font-semibold text-white transition hover:-translate-y-0.5"
               >
                 Calculer mon prix →

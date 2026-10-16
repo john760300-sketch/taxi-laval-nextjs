@@ -128,13 +128,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   // AI fare agent standalone pages
   entries.push({
-    url: `${BASE}/fr/calculer-prix`,
+    url: `${BASE}/fr/taxi-calculatrice`,
     lastModified: new Date(),
     changeFrequency: "monthly",
     priority: 0.9,
   });
   entries.push({
-    url: `${BASE}/en/calculate-fare`,
+    url: `${BASE}/en/taxi-calculator`,
     lastModified: new Date(),
     changeFrequency: "monthly",
     priority: 0.9,
