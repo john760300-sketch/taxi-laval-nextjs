@@ -11,6 +11,7 @@ import {
   breadcrumbSchema,
   serviceSchema,
 } from "@/lib/schema";
+import { CtqLink } from "@/components/CtqLink";
 import Link from "next/link";
 
 export const metadata: Metadata = {
@@ -119,14 +120,14 @@ export default function CalculateFarePage() {
             </h2>
             <p className="mb-4 leading-relaxed text-[#4a627a]">
               Our taxi fare calculator uses the official rate set by the
-              Commission des transports du Québec (CTQ). The calculation takes
+              Commission des transports du Québec (<CtqLink />). The calculation takes
               into account the actual route distance (via Mapbox, real-time
               traffic data), estimated duration, and departure time to
               determine the day rate (5am–11pm) or night rate (11pm–5am).
             </p>
             <p className="mb-4 leading-relaxed text-[#4a627a]">
               Our fixed price is aligned with UberX (peak pricing). The formula:
-              <strong> fixed price = max(UberX peak, CTQ meter)</strong>. You
+              <strong> fixed price = max(UberX peak, <CtqLink /> meter)</strong>. You
               never pay more than UberX peak, and we guarantee a minimum income
               for the driver. Cash payment gives you a{" "}
               <strong>3.4% discount</strong> (card terminal fee removed).

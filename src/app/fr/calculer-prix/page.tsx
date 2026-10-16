@@ -11,6 +11,7 @@ import {
   breadcrumbSchema,
   serviceSchema,
 } from "@/lib/schema";
+import { CtqLink } from "@/components/CtqLink";
 import Link from "next/link";
 
 export const metadata: Metadata = {
@@ -121,14 +122,14 @@ export default function CalculerPrixPage() {
             </h2>
             <p className="mb-4 leading-relaxed text-[#4a627a]">
               Notre calculatrice de tarif taxi utilise le barème officiel de la
-              Commission des transports du Québec (CTQ). Le calcul prend en
+              Commission des transports du Québec (<CtqLink />). Le calcul prend en
               compte la distance réelle du trajet (via Mapbox, données de
               circulation en temps réel), la durée estimée, et l&apos;heure de
               départ pour déterminer le tarif jour (5h–23h) ou nuit (23h–5h).
             </p>
             <p className="mb-4 leading-relaxed text-[#4a627a]">
               Notre prix fixe est aligné sur UberX (tarif de pointe). La
-              formule : <strong>prix fixe = max(UberX pointe, compteur CTQ)</strong>.
+              formule : <strong>prix fixe = max(UberX pointe, compteur <CtqLink />)</strong>.
               Vous ne payez jamais plus cher qu&apos;UberX en heure de pointe, et
               nous garantissons un revenu minimum au chauffeur. Le paiement
               comptant vous donne <strong>3,4 % de remise</strong> (frais de

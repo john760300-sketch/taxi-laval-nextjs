@@ -1,5 +1,7 @@
 "use client";
 
+import { CtqLink } from "@/components/CtqLink";
+
 export type FareData = {
   distanceKm: number;
   durationMin: number;
@@ -54,7 +56,7 @@ export function FareTable({ data }: { data: FareData }) {
         </div>
         <div className="mt-1 text-xs text-slate-300">
           {isRaccompagnement
-            ? "= 2 × tarif CTQ jour · Comptant −3,4 %"
+            ? "= 2 × tarif CTQ jour · Comptant −3,4 %"  // CTQ in data — not rendered as JSX
             : "= Prix aligné sur UberX (pointe)"}
         </div>
         <div className="mt-2 inline-block rounded-full bg-[#e6b422] px-3 py-1 text-[11px] font-semibold text-[#1e3a5f]">
@@ -89,7 +91,7 @@ export function FareTable({ data }: { data: FareData }) {
         {isRaccompagnement ? (
           <>
             <Row
-              label="Tarif jour CTQ (un trajet)"
+              label={<span>Tarif jour <CtqLink /> (un trajet)</span>}
               value={`$${data.taxiDay.toFixed(2)}`}
             />
             <Row
@@ -119,9 +121,9 @@ export function FareTable({ data }: { data: FareData }) {
           <div className="space-y-1.5 text-sm">
             <Row
               label={
-                data.isNight
-                  ? "Taxi CTQ nuit (23h–5h)"
-                  : "Taxi CTQ jour (5h–23h)"
+                <span>
+                  Taxi <CtqLink /> {data.isNight ? "nuit (23h–5h)" : "jour (5h–23h)"}
+                </span>
               }
               value={`$${(data.isNight ? data.taxiNight : data.taxiDay).toFixed(2)}`}
             />
@@ -129,7 +131,7 @@ export function FareTable({ data }: { data: FareData }) {
             <Row label="Lyft" value={data.lyftEstimate} />
           </div>
           <p className="mt-2 text-[11px] leading-relaxed text-slate-400">
-            Taxi CTQ selon l&apos;heure d&apos;embarquement (jour 5h–23h / nuit
+            Taxi <CtqLink /> selon l&apos;heure d&apos;embarquement (jour 5h–23h / nuit
             23h–5h). Uber/Lyft : bas = habituel, haut = demande forte.
           </p>
         </div>
@@ -155,7 +157,7 @@ export function FareTable({ data }: { data: FareData }) {
           📞 Réserver maintenant · 514-239-6512
         </a>
         <p className="mt-2 text-[11px] text-slate-400">
-          Tarifs CTQ officiels · Service 24/7 · besttaxilaval.ca
+          Tarifs <CtqLink /> officiels · Service 24/7 · besttaxilaval.ca
         </p>
       </div>
     </div>
@@ -167,7 +169,7 @@ function Row({
   value,
   highlight,
 }: {
-  label: string;
+  label: React.ReactNode;
   value: string;
   highlight?: boolean;
 }) {
