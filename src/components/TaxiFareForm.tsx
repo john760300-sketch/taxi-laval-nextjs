@@ -3,16 +3,6 @@
 import { useState, useRef, useEffect } from "react";
 import { FareTable, type FareData } from "@/components/FareTable";
 
-/**
- * Taxi Fare Form — form-based calculator (like Uber's).
- *
- * Features:
- * - Address autocomplete (Mapbox Geocoding API via /api/geocode)
- * - Time picker (all hours + minutes, not just presets)
- * - Time is truly optional (empty = now)
- * - Swap button (⇅)
- * - Same /api/fare endpoint + FareTable component as the chat agent
- */
 export function TaxiFareForm({ lang = "fr" }: { lang?: "fr" | "en" }) {
   const [origin, setOrigin] = useState("");
   const [destination, setDestination] = useState("");
@@ -51,9 +41,7 @@ export function TaxiFareForm({ lang = "fr" }: { lang?: "fr" | "en" }) {
 
       if (!res.ok) {
         const err = await res.json().catch(() => ({}));
-        throw new Error(
-          (err as { error?: string }).error || "Erreur"
-        );
+        throw new Error((err as { error?: string }).error || "Erreur");
       }
 
       const data = (await res.json()) as FareData;
@@ -61,8 +49,8 @@ export function TaxiFareForm({ lang = "fr" }: { lang?: "fr" | "en" }) {
     } catch {
       setError(
         isFr
-          ? "Impossible de calculer l'itinéraire. Vérifiez les adresses (ex. ajoutez « Laval, QC »)."
-          : "Could not calculate route. Check the addresses (e.g. add 'Laval, QC')."
+          ? "Impossible de calculer l'itinéraire. Vérifiez les adresses."
+          : "Could not calculate route. Check the addresses."
       );
     } finally {
       setLoading(false);
@@ -74,6 +62,12 @@ export function TaxiFareForm({ lang = "fr" }: { lang?: "fr" | "en" }) {
     setOrigin(destination);
     setDestination(tmp);
   }
+
+  // Generate 24 hour options (00:00 to 23:00)
+  const hourOptions = Array.from({ length: 24 }, (_, i) => {
+    const h = i.toString().padStart(2, "0");
+    return { value: `${h}:00`, label: `${h}:00` };
+  });
 
   return (
     <div>
@@ -109,21 +103,27 @@ export function TaxiFareForm({ lang = "fr" }: { lang?: "fr" | "en" }) {
             isFr={isFr}
           />
 
-          {/* Time picker — all hours + minutes, truly optional */}
+          {/* Time — 24h format select (00:00 to 23:00), no AM/PM */}
           <div>
             <label className="mb-1.5 block text-sm font-semibold text-[#1e3a5f]">
               {isFr ? "🕐 Heure de départ (optionnel)" : "🕐 Departure time (optional)"}
             </label>
-            <input
-              type="time"
+            <select
               value={heure}
               onChange={(e) => setHeure(e.target.value)}
               className="w-full rounded-lg border border-slate-300 px-4 py-3 text-sm text-slate-900 focus:border-[#1e3a5f] focus:outline-none focus:ring-2 focus:ring-[#1e3a5f]/20"
-            />
+            >
+              <option value="">{isFr ? "Maintenant" : "Now"}</option>
+              {hourOptions.map((opt) => (
+                <option key={opt.value} value={opt.value}>
+                  {opt.label}
+                </option>
+              ))}
+            </select>
             <p className="mt-1 text-xs text-slate-400">
               {isFr
-                ? "Laissez vide pour « maintenant ». Détermine le tarif jour (5h–23h) ou nuit (23h–5h)."
-                : "Leave empty for 'now'. Determines day (5am–11pm) or night (11pm–5am) rate."}
+                ? "Laissez sur « Maintenant » pour le tarif actuel. Détermine le tarif jour (5h–23h) ou nuit (23h–5h)."
+                : "Leave on 'Now' for current rate. Determines day (5am–11pm) or night (11pm–5am) rate."}
             </p>
           </div>
 
@@ -133,12 +133,8 @@ export function TaxiFareForm({ lang = "fr" }: { lang?: "fr" | "en" }) {
             className="w-full rounded-lg bg-[#1e3a5f] py-3.5 text-sm font-semibold text-white transition hover:bg-[#152a47] disabled:cursor-not-allowed disabled:bg-slate-400"
           >
             {loading
-              ? isFr
-                ? "Calcul en cours…"
-                : "Calculating…"
-              : isFr
-                ? "Calculer mon tarif →"
-                : "Calculate my fare →"}
+              ? isFr ? "Calcul en cours…" : "Calculating…"
+              : isFr ? "Calculer mon tarif →" : "Calculate my fare →"}
           </button>
         </div>
       </form>
@@ -159,9 +155,7 @@ export function TaxiFareForm({ lang = "fr" }: { lang?: "fr" | "en" }) {
 }
 
 /**
- * Address input with autocomplete suggestions.
- * Calls /api/geocode as the user types (debounced 300ms).
- * Shows dropdown of suggestions from Mapbox Geocoding API.
+ * Address input with autocomplete — click once to select (no double-trigger).
  */
 function AddressInput({
   label,
@@ -183,12 +177,19 @@ function AddressInput({
   const [loadingSuggestions, setLoadingSuggestions] = useState(false);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
+  // Prevents autocomplete from re-triggering after user selects a suggestion
+  const justSelectedRef = useRef(false);
 
-  // Debounced autocomplete — calls /api/geocode
   useEffect(() => {
     if (debounceRef.current) clearTimeout(debounceRef.current);
 
-    if (!value || value.length < 3) {
+    // Skip if user just selected a suggestion — don't re-fetch for the full address
+    if (justSelectedRef.current) {
+      justSelectedRef.current = false;
+      return;
+    }
+
+    if (!value || value.length < 2) {
       setSuggestions([]);
       return;
     }
@@ -196,16 +197,14 @@ function AddressInput({
     debounceRef.current = setTimeout(async () => {
       setLoadingSuggestions(true);
       try {
-        const res = await fetch(
-          `/api/geocode?q=${encodeURIComponent(value)}&limit=5`
-        );
+        const res = await fetch(`/api/geocode?q=${encodeURIComponent(value)}&limit=5`);
         if (res.ok) {
           const data = await res.json();
           setSuggestions(data.features || []);
           setShowSuggestions(true);
         }
       } catch {
-        // silently fail — user can still type manually
+        // silently fail
       } finally {
         setLoadingSuggestions(false);
       }
@@ -216,7 +215,7 @@ function AddressInput({
     };
   }, [value]);
 
-  // Close suggestions when clicking outside
+  // Close when clicking outside
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
       if (wrapperRef.current && !wrapperRef.current.contains(e.target as Node)) {
@@ -227,7 +226,9 @@ function AddressInput({
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  // Select once — set value, hide dropdown, prevent re-fetch
   function selectSuggestion(placeName: string) {
+    justSelectedRef.current = true; // skip next autocomplete fetch
     onChange(placeName);
     setShowSuggestions(false);
     setSuggestions([]);
@@ -243,8 +244,9 @@ function AddressInput({
         value={value}
         onChange={(e) => {
           onChange(e.target.value);
-          if (!showSuggestions && e.target.value.length >= 3) {
-            setShowSuggestions(true);
+          // Only show dropdown when user is actively typing (not after select)
+          if (e.target.value.length >= 2) {
+            justSelectedRef.current = false;
           }
         }}
         onFocus={() => {
@@ -256,7 +258,6 @@ function AddressInput({
         autoComplete="off"
       />
 
-      {/* Autocomplete dropdown */}
       {showSuggestions && (suggestions.length > 0 || loadingSuggestions) && (
         <div className="absolute z-50 mt-1 w-full rounded-lg border border-slate-200 bg-white shadow-lg max-h-60 overflow-y-auto">
           {loadingSuggestions && (
