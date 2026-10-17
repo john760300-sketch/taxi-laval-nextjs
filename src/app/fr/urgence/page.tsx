@@ -38,10 +38,22 @@ export default function UrgencePage() {
       priceLabel="Tarif d'urgence – Appelez maintenant"
       priceNote="Notre répartiteur vous donne un estimé immédiat"
       faqs={[
-        "urgence taxi Laval nuit",
-        "dépannage batterie 24h",
-        "clés enfermées dans voiture",
-        "assistance routière Rive-Nord",
+        {
+          q: "Urgence taxi Laval la nuit — disponible ?",
+          a: "Oui, notre service de taxi d'urgence est disponible 24h/24, 7j/7 à Laval, Rive-Nord, et Laurentides. Pour un transport d'urgence la nuit, appelez le 514-239-6512 — on a presque toujours un chauffeur disponible dans les 30 minutes. Le tarif nuit (23h-5h) est ~15 % plus cher que le jour. [Calculez votre tarif →](/fr/calculatrice-taxi).",
+        },
+        {
+          q: "Dépannage batterie 24h — c'est possible ?",
+          a: "Oui, service de survoltage (boost) 24h/24, 7j/7. Tarif 35-80 $ selon le véhicule. [Voir notre service de survoltage →](/fr/survoltage-batterie) ou appelez le 514-239-6512.",
+        },
+        {
+          q: "Clés enfermées dans voiture — que faire ?",
+          a: "Oui, on déverrouille les portières sans bris de vitre. Tarif 40-120 $ selon le véhicule. [Voir notre service de déverrouillage →](/fr/deverrouillage-portiere) ou appelez le 514-239-6512.",
+        },
+        {
+          q: "Assistance routière Rive-Nord — quelle zone ?",
+          a: "On dessert toute la Rive-Nord : Boisbriand, Saint-Eustache, Blainville, Terrebonne, Mascouche, Sainte-Thérèse. Services d'urgence routière 24h/24 : survoltage batterie, déverrouillage de portière, et plus. Appelez le 514-239-6512.",
+        },
       ]}
     />
   );

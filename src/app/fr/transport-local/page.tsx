@@ -38,10 +38,22 @@ export default function TransportLocalPage() {
       partnerships="Entente avec Carrefour Laval, Centropolis, Hôpital Cité-de-la-Santé, Place Bell"
       priceLabel="Tarifs compétitifs – Estimé gratuit par téléphone"
       faqs={[
-        "taxi de Laval à Saint-Jérôme prix",
-        "transport de Chomedey à Centropolis",
-        "taxi pour hôpital Cité-de-la-Santé",
-        "navette pour Place Bell",
+        {
+          q: "Taxi de Laval à Saint-Jérôme — quel prix ?",
+          a: "Le tarif taxi de Laval à Saint-Jérôme = max(UberX pointe, ceil(compteur CTQ jour ou nuit selon l'heure)). À titre indicatif : ~110-159 $ le jour, 124-182 $ la nuit (selon le point de départ à Laval et la circulation). [Calculez votre tarif exact →](/fr/calculatrice-taxi) ou appelez le 514-239-6512.",
+        },
+        {
+          q: "Transport de Chomedey à Centropolis — combien ça coûte ?",
+          a: "Trajet court intra-Laval. Le tarif = ceil(compteur CTQ) — généralement 20-35 $ selon la distance exacte. [Calculez votre tarif →](/fr/calculatrice-taxi) ou appelez le 514-239-6512.",
+        },
+        {
+          q: "Taxi pour l'hôpital Cité-de-la-Santé — disponible ?",
+          a: "On transporte régulièrement vers l'Hôpital de la Cité-de-la-Santé à Laval. Tarif selon la distance depuis votre point de départ. [Calculez votre tarif →](/fr/calculatrice-taxi) ou appelez le 514-239-6512. Pour un transport médical adapté (personne à mobilité réduite, rendez-vous médical), [voir notre service de transport médical →](/fr/transport-medical).",
+        },
+        {
+          q: "Navette pour Place Bell (matchs Laval Rocket) — comment réserver ?",
+          a: "On transporte vers Place Bell (aréna des Laval Rocket) pour les événements et matchs. Tarif selon la distance depuis votre point de départ. [Calculez votre tarif →](/fr/calculatrice-taxi) ou appelez le 514-239-6512.",
+        },
       ]}
     />
   );

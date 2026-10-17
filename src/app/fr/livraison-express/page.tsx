@@ -36,10 +36,22 @@ export default function LivraisonExpressPage() {
       partnerships="Partenariat avec Walmart Laval, Maxi, Super C, pharmacies Jean-Coutu et Familiprix"
       priceLabel="Prix selon distance – Estimé gratuit"
       faqs={[
-        "faire livrer mes courses Walmart Laval",
-        "livraison médicaments en urgence Saint-Eustache",
-        "coursier pour colis Terrebonne",
-        "transport de documents urgent",
+        {
+          q: "Faire livrer mes courses Walmart à Laval — c'est possible ?",
+          a: "Oui, on livre vos courses Walmart, Maxi, Super C, IGA, etc. à Laval. Le tarif est basé sur la distance entre le magasin et votre domicile. [Calculez votre tarif de livraison →](/fr/calculatrice-taxi) ou appelez le 514-239-6512.",
+        },
+        {
+          q: "Livraison de médicaments en urgence à Saint-Eustache — disponible ?",
+          a: "Oui, on livre en urgence les médicaments depuis la pharmacie vers votre domicile à Saint-Eustache et partout en Rive-Nord. Service 24h/24. Tarif selon la distance. [Calculez votre tarif →](/fr/calculatrice-taxi) ou appelez le 514-239-6512.",
+        },
+        {
+          q: "Coursier pour colis à Terrebonne — quel délai ?",
+          a: "Oui, on agit comme coursier pour colis urgent à Terrebonne, Mascouche, et partout en Rive-Nord. Service de livraison express 24h/24. Tarif selon la distance. [Calculez votre tarif →](/fr/calculatrice-taxi) ou appelez le 514-239-6512.",
+        },
+        {
+          q: "Transport de documents urgent — comment ça marche ?",
+          a: "On transporte les documents urgents (contrats, bordereaux, plis scellés) à Laval, Rive-Nord, et Laurentides. Livraison express directe — pas d'escale. Tarif selon la distance. [Calculez votre tarif →](/fr/calculatrice-taxi) ou appelez le 514-239-6512.",
+        },
       ]}
     />
   );

@@ -37,10 +37,22 @@ export default function TransportMedicalPage() {
       partnerships="Entente avec Hôpital Cité-de-la-Santé, CISSS des Laurentides, CLSC Laval"
       priceLabel="Tarif préférentiel – Forfaits disponibles"
       faqs={[
-        "transport pour personne à mobilité réduite Laval",
-        "taxi pour rendez-vous médical Saint-Jérôme",
-        "transport adapté hôpital",
-        "accompagnement senior Laval",
+        {
+          q: "Transport pour personne à mobilité réduite à Laval — disponible ?",
+          a: "Oui, on transporte les personnes à mobilité réduite dans des véhicules adaptés. Tarif préférentiel avec forfaits disponibles pour rendez-vous médicaux réguliers (dialyse, chimio, etc.). Appelez le 514-239-6512 pour un devis personnalisé. [Calculez le tarif de base →](/fr/calculatrice-taxi).",
+        },
+        {
+          q: "Taxi pour rendez-vous médical à Saint-Jérôme — comment réserver ?",
+          a: "On dessert les hôpitaux et cliniques de Saint-Jérôme, Mirabel, et toute la Rive-Nord. Service ponctuel 24/7. Tarif préférentiel pour rendez-vous médicaux — forfaits disponibles pour rendez-vous réguliers. Appelez le 514-239-6512. [Calculez votre tarif →](/fr/calculatrice-taxi).",
+        },
+        {
+          q: "Transport adapté vers l'hôpital — quelle zone ?",
+          a: "On transporte vers tous les hôpitaux de la région : Cité-de-la-Santé (Laval), Hôpital de Saint-Jérôme, etc. Véhicules adaptés pour fauteuils roulants et personnes à mobilité réduite. Tarif préférentiel avec forfaits. Appelez le 514-239-6512.",
+        },
+        {
+          q: "Accompagnement senior à Laval — c'est possible ?",
+          a: "On accompagne les personnes âgées vers leurs rendez-vous médicaux, courses, ou sorties personnelles. Nos chauffeurs sont patients, discrets, et peuvent aider à monter/descendre du véhicule. Forfaits disponibles pour rendez-vous réguliers. Appelez le 514-239-6512. [Calculez le tarif de base →](/fr/calculatrice-taxi).",
+        },
       ]}
     />
   );

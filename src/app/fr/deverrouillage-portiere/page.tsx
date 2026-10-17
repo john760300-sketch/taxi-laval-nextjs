@@ -23,10 +23,22 @@ export const metadata: Metadata = {
 };
 
 const faqs = [
-  "clés oubliées dans voiture Laval prix",
-  "déverrouillage portière sans bris de vitre",
-  "ouvrir voiture sans clé Saint-Jérôme",
-  "serrure gelée hiver Mont-Tremblant",
+  {
+    q: "Clés oubliées dans voiture à Laval — quel prix ?",
+    a: "Le déverrouillage de portière (débarrage) à Laval coûte entre 40 $ et 120 $ selon le modèle et l'année du véhicule, le lieu, l'heure et la météo. Sans bris de vitre — nos chauffeurs utilisent des outils spécialisés. Service 24h/24, 7j/7. Pour un prix exact, appelez le 514-239-6512. [Voir aussi notre service d'urgence routière →](/fr/urgence)",
+  },
+  {
+    q: "Déverrouillage de portière sans bris de vitre — c'est possible ?",
+    a: "Oui, on ouvre votre voiture sans briser la vitre ni endommager la portière. Nos chauffeurs utilisent des outils spécialisés (coin en plastique, gaine en polypropylène) qui déverrouillent la portière en quelques minutes. Le tarif est de 40 $ à 120 $ selon le véhicule. Appelez le 514-239-6512 — on a presque toujours quelqu'un disponible dans Laval.",
+  },
+  {
+    q: "Ouvrir voiture sans clé à Saint-Jérôme — disponible ?",
+    a: "Oui, on dessert Saint-Jérôme, Mirabel, et toute la région des Laurentides pour le déverrouillage de portière. Service 24h/24, 7j/7. Tarif 40-120 $ selon le véhicule. Appelez le 514-239-6512.",
+  },
+  {
+    q: "Serrure gelée en hiver à Mont-Tremblant — comment la débloquer ?",
+    a: "En hiver à Mont-Tremblant, les serrures peuvent geler. On peut les dégeler sans dommage avec un dévidoir chauffant ou un spray dégivrant. Le tarif peut être légèrement plus élevé en hiver ou pour zones éloignées (surcharge de 10-20 $ possible). Service 24h/24. Appelez le 514-239-6512.",
+  },
 ];
 
 export default function DeverrouillagePortierePage() {
