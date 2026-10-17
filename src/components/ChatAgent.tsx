@@ -98,6 +98,20 @@ export function ChatAgent({
             datetime?: string;
             service?: string;
           };
+          // DETERMINISTIC SERVICE ROUTING — do NOT trust the LLM to emit the
+          // "service" field reliably. Llama 3.1 8B often drops it because the
+          // system prompt's example JSON template omits the field. If the
+          // user is on the raccompagnement page, force service=raccompagnement
+          // here so /api/fare calls calculateRaccompagnementFare (2× ceil
+          // CTQ day or night meter based on current time) instead of
+          // calculateFare (regular taxi = max(UberX peak, ceil CTQ meter)).
+          //
+          // Day/night detection: DON'T clear payload.datetime — let the
+          // actual datetime (from user input or "now" default) flow through
+          // so calculateRaccompagnementFare can detect day vs night.
+          if (serviceContext === "raccompagnement") {
+            payload.service = "raccompagnement";
+          }
           const fareRes = await fetch("/api/fare", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
