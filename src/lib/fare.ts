@@ -101,19 +101,85 @@ function getMontrealDay(date: Date): number {
   return days.indexOf(dayStr);
 }
 
+// Check if a datetime string has explicit timezone info (Z or +HH:MM).
+// If absent, Vercel's Date constructor interprets it as UTC, which gives the
+// WRONG Montreal hour — e.g. "2026-10-17T23:30" becomes UTC 23:30 = Montreal
+// 19:30 (EDT), making isNightTime() incorrectly return false for a 23:30 trip.
+const hasTimezoneInfo = (s: string): boolean =>
+  /([zZ]|[+-]\d{2}:?\d{2})$/.test(s);
+
+// Extract the hour directly from a no-timezone ISO-ish string like
+// "2026-10-17T23:30" — returns the hour as a number, or null if no match.
+function extractHourFromString(s: string): number | null {
+  const m = s.match(/T(\d{2}):/);
+  return m ? parseInt(m[1], 10) : null;
+}
+
+// Extract the day-of-week (0=Sun, 6=Sat) from a no-timezone ISO-ish string
+// like "2026-10-17T23:30". We construct the date at UTC noon to avoid DST
+// edge cases at midnight, then format the weekday in America/Toronto.
+function extractDayOfWeekFromString(s: string): number | null {
+  const m = s.match(/^(\d{4})-(\d{2})-(\d{2})[T ]/);
+  if (!m) return null;
+  const [, y, mo, d] = m;
+  const dateUtcNoon = new Date(Date.UTC(+y, +mo - 1, +d, 12, 0, 0));
+  if (Number.isNaN(dateUtcNoon.getTime())) return null;
+  return getMontrealDay(dateUtcNoon);
+}
+
 function isNightTime(datetimeStr?: string | null): boolean {
-  let date = datetimeStr ? new Date(datetimeStr) : new Date();
-  if (Number.isNaN(date.getTime())) date = new Date();
-  const hour = getMontrealHour(date);
+  if (!datetimeStr) {
+    // Default to current time
+    return getMontrealHour(new Date()) >= 23 || getMontrealHour(new Date()) < 5;
+  }
+
+  // If the string has timezone info, parse normally and convert to Montreal hour
+  if (hasTimezoneInfo(datetimeStr)) {
+    const date = new Date(datetimeStr);
+    if (Number.isNaN(date.getTime())) {
+      const h = getMontrealHour(new Date());
+      return h >= 23 || h < 5;
+    }
+    const h = getMontrealHour(date);
+    return h >= 23 || h < 5;
+  }
+
+  // No timezone info — the LLM emitted something like "2026-10-17T23:30".
+  // This is meant to be Montreal local time (the LLM is on a Quebec site, and
+  // our raccompagnement prompt explicitly tells it to emit today's date at
+  // 23:30). Extract the hour directly from the string instead of relying on
+  // the Vercel-UTC interpretation.
+  const hour = extractHourFromString(datetimeStr);
+  if (hour === null) {
+    const h = getMontrealHour(new Date());
+    return h >= 23 || h < 5;
+  }
   return hour >= 23 || hour < 5;
 }
 
 function estHeurePointe(datetimeStr?: string | null): boolean {
-  const date = datetimeStr ? new Date(datetimeStr) : new Date();
-  if (Number.isNaN(date.getTime())) return false;
-  const day = getMontrealDay(date);
+  let day: number;
+  let hour: number;
+
+  if (!datetimeStr) {
+    const now = new Date();
+    day = getMontrealDay(now);
+    hour = getMontrealHour(now);
+  } else if (hasTimezoneInfo(datetimeStr)) {
+    const date = new Date(datetimeStr);
+    if (Number.isNaN(date.getTime())) return false;
+    day = getMontrealDay(date);
+    hour = getMontrealHour(date);
+  } else {
+    // No timezone — extract day and hour directly (Montreal local time)
+    const d = extractDayOfWeekFromString(datetimeStr);
+    const h = extractHourFromString(datetimeStr);
+    if (d === null || h === null) return false;
+    day = d;
+    hour = h;
+  }
+
   if (day === 0 || day === 6) return false; // weekend
-  const hour = getMontrealHour(date);
   return HEURES_POINTE.some((slot) => hour >= slot.start && hour < slot.end);
 }
 
@@ -203,7 +269,14 @@ export function calculateRaccompagnementFare(
   const meterDay = ctqMeter(distanceKm, durationMin, RATES.day);
   const meterNight = ctqMeter(distanceKm, durationMin, RATES.night);
 
-  const cardPrice = Math.ceil(meter) * 2;
+  // Prix raccompagnement = 2 × meter (rounded to nearest dollar at the end).
+  // We use Math.round(meter * 2) instead of Math.ceil(meter) * 2 because:
+  //   - For day trip with meter $46.81: round(46.81 × 2) = round($93.62) = $94 ✓ (same as ceil)
+  //   - For night trip with meter $53.50: round(53.50 × 2) = round($107.00) = $107 ✓
+  //   - ceil(53.50) × 2 = 54 × 2 = $108 — would be $1 too high vs what customers
+  //     expect (53.50 × 2 = 107 exactly).
+  // Rounding at the end (after ×2) is more accurate than ceiling before ×2.
+  const cardPrice = Math.round(meter * 2);
   const cashPrice =
     Math.round((cardPrice / (1 + TERMINAL_FEE_RATE)) * 100) / 100;
   const terminalFee = Math.round((cardPrice - cashPrice) * 100) / 100;
