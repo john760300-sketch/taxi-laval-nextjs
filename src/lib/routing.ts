@@ -1,10 +1,11 @@
 // Mapbox-based geocoding + routing.
 // Free tier: 50k requests/month (covers taxi dispatcher usage easily).
-// Uses live traffic data for accurate peak-hour trip times.
 //
 // Token: stored in process.env.MAPBOX_ACCESS_TOKEN (server-side only).
 // Add to .env.local for dev, set MAPBOX_ACCESS_TOKEN in Vercel/Cloudflare
 // env vars UI for production.
+
+import { findLandmarkCoords } from "@/lib/landmarks";
 
 export type GeoPoint = { lat: number; lng: number };
 
@@ -21,6 +22,26 @@ function getToken(): string {
     );
   }
   return token;
+}
+
+async function resolvePoint(address: string): Promise<GeoPoint | null> {
+  // 1. Check custom landmarks FIRST. This bypasses Mapbox geocoding for
+  //    known POIs (metro stations, malls, hospitals, YUL airport, etc.)
+  //    Why: Mapbox's free geocoding frequently matches POI names like
+  //    "Station Cartier, Laval, QC" to wrong places — a street named
+  //    Cartier in a different neighborhood 30+ km away — producing
+  //    wildly inflated routes (e.g. 45 km for a real 23 km trip).
+  //    Our landmark coords are exact (~30m precision), sourced from
+  //    Wikipedia / STM / STL official documentation.
+  const landmark = findLandmarkCoords(address);
+  if (landmark) {
+    const [lng, lat] = landmark;
+    return { lat, lng };
+  }
+
+  // 2. Fall back to Mapbox geocoding for unknown addresses (street names,
+  //    civic numbers, neighborhoods not in our landmark DB)
+  return geocodeAddress(address);
 }
 
 async function geocodeAddress(address: string): Promise<GeoPoint | null> {
@@ -63,15 +84,27 @@ export async function routeBetween(
   destination: string
 ): Promise<RouteResult | null> {
   const [o, d] = await Promise.all([
-    geocodeAddress(origin),
-    geocodeAddress(destination),
+    resolvePoint(origin),
+    resolvePoint(destination),
   ]);
   if (!o || !d) return null;
 
   const token = getToken();
-  // Mapbox directions with driving-traffic profile (live traffic-aware durations)
-  // URL format: /{lng},{lat};{lng},{lat}  (lng comes first!)
-  const url = `https://api.mapbox.com/directions/v5/mapbox/driving-traffic/${o.lng},${o.lat};${d.lng},${d.lat}?access_token=${token}&overview=false&annotations=distance,duration&language=fr`;
+  // Mapbox Directions API with the `driving` profile (NOT `driving-traffic`).
+  //
+  // Why `driving` over `driving-traffic`:
+  //   - `driving-traffic` returns the route that's fastest WITH current live
+  //     traffic. At peak hours it picks longer detours to avoid congestion —
+  //     e.g. a 23 km trip shows as 45 km because it routes around traffic.
+  //   - `driving` returns the typical shortest-time route based on the road
+  //     network's normal speeds. Distance is stable and predictable, which
+  //     is what a taxi fare calculator needs — customers expect the Google
+  //     Maps distance, not a traffic-aware detour.
+  //
+  // We also request `alternatives=true` (up to 3 routes) and pick the
+  // SHORTEST by distance — Mapbox's primary route is optimized for time,
+  // not distance, so sometimes a slightly shorter route exists.
+  const url = `https://api.mapbox.com/directions/v5/mapbox/driving/${o.lng},${o.lat};${d.lng},${d.lat}?access_token=${token}&alternatives=true&annotations=distance,duration&language=fr&overview=false`;
 
   try {
     const res = await fetch(url);
@@ -87,10 +120,14 @@ export async function routeBetween(
       }>;
     };
     if (data.code !== "Ok" || !data.routes?.length) return null;
-    const route = data.routes[0];
+    // Pick the SHORTEST route by distance (not duration) — for taxi fares
+    // the customer expects the actual driving distance, not the fastest path.
+    const shortest = data.routes.reduce((best, r) =>
+      r.distance < best.distance ? r : best
+    );
     return {
-      distanceKm: route.distance / 1000,
-      durationMin: route.duration / 60,
+      distanceKm: shortest.distance / 1000,
+      durationMin: shortest.duration / 60,
     };
   } catch (err) {
     console.error("Mapbox routing error:", err);
