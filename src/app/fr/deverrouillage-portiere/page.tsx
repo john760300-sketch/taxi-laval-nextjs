@@ -84,7 +84,8 @@ export default function DeverrouillagePortierePage() {
         priceLabel="Tarif Déverrouillage (Débarrage)"
         faqs={faqs}
         showAgent={true}
-        welcomeMessage="Bonjour ! Je suis l'agent virtuel de Taxi Chomedey. Clés oubliées dans votre auto ? Notre service de déverrouillage (débarrage) est disponible 24/7. Où êtes-vous situé ?"
+        welcomeMessage="Bonjour ! Je suis l'agent virtuel de Taxi Chomedey. Clés oubliées dans votre auto ? Notre service de déverrouillage (débarrage) est disponible 24/7."
+        serviceContext="deverrouillage"
       />
     </>
   );

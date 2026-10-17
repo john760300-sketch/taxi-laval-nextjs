@@ -84,7 +84,8 @@ export default function DoorUnlockingPage() {
         priceLabel="Door Unlocking Rate"
         faqs={faqs}
         showAgent={true}
-        welcomeMessage="Hello! I'm the virtual agent of Taxi Chomedey. Locked your keys in the car? Our unlocking service is available 24/7. Where are you?"
+        welcomeMessage="Hello! I'm the virtual agent of Taxi Chomedey. Locked your keys in the car? Our unlocking service is available 24/7."
+        serviceContext="deverrouillage"
       />
     </>
   );
