@@ -84,7 +84,8 @@ export default function SurvoltageBatteriePage() {
         priceLabel="Tarif Survoltage (Boost)"
         faqs={faqs}
         showAgent={true}
-        welcomeMessage="Bonjour ! Je suis l'agent virtuel de Taxi Chomedey. Batterie à plat ? Notre service de survoltage (boost) est disponible 24/7. Où êtes-vous situé ?"
+        welcomeMessage="Bonjour ! Je suis l'agent virtuel de Taxi Chomedey. Est-ce que votre véhicule a besoin d'un survoltage (boost) ?"
+        serviceContext="survoltage"
       />
     </>
   );

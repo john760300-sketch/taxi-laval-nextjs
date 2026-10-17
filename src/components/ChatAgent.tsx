@@ -86,7 +86,12 @@ export function ChatAgent({
 
       let fareData: FareData | undefined;
       const fareMatch = assistantText.match(FARE_REQUEST_RE);
-      if (fareMatch) {
+      // SURVOLTAGE GUARD: the survoltage agent should never emit a
+      // FARE_REQUEST block (its system prompt forbids it). But if the LLM
+      // hallucinates one anyway, ignore it — the survoltage service doesn't
+      // use the fare calculator. Same defensive approach as raccompagnement
+      // (which DOES use the calculator but forces service=raccompagnement).
+      if (fareMatch && serviceContext !== "survoltage") {
         try {
           const payload = JSON.parse(fareMatch[1].trim()) as {
             origin: string;

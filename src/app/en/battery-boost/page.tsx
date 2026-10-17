@@ -84,7 +84,8 @@ export default function BatteryBoostPage() {
         priceLabel="Battery Boost Rate"
         faqs={faqs}
         showAgent={true}
-        welcomeMessage="Hello! I'm the virtual agent of Taxi Chomedey. Dead battery? Our boost service is available 24/7. Where are you located?"
+        welcomeMessage="Hello! I'm the virtual agent of Taxi Chomedey. Does your vehicle need a battery boost?"
+        serviceContext="survoltage"
       />
     </>
   );
