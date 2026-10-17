@@ -84,7 +84,7 @@ export default function DeverrouillagePortierePage() {
         priceLabel="Tarif Déverrouillage (Débarrage)"
         faqs={faqs}
         showAgent={true}
-        welcomeMessage="Clés oubliées dans votre auto ? Notre service de déverrouillage (débarrage) coûte entre 35 $ et 120 $ selon la difficulté et le véhicule. Quelle est la marque de votre voiture et où êtes-vous ?"
+        welcomeMessage="Bonjour ! Je suis l'agent virtuel de Taxi Chomedey. Clés oubliées dans votre auto ? Notre service de déverrouillage (débarrage) coûte entre 35 $ et 120 $ selon la difficulté et le véhicule. Quelle est la marque de votre voiture et où êtes-vous ?"
       />
     </>
   );

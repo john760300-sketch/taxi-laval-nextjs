@@ -84,7 +84,7 @@ export default function BatteryBoostPage() {
         priceLabel="Battery Boost Rate"
         faqs={faqs}
         showAgent={true}
-        welcomeMessage="Dead battery? Our boost service costs $35 to $80 depending on your vehicle and time. What type of vehicle do you have and where are you located?"
+        welcomeMessage="Hello! I'm the virtual agent of Taxi Chomedey. Dead battery? Our boost service costs $35 to $80 depending on your vehicle and time. What type of vehicle do you have and where are you located?"
       />
     </>
   );

@@ -81,7 +81,7 @@ export default function DriveHomeServicePage() {
         priceLabel="Drive-Home Rate"
         faqs={faqs}
         showAgent={true}
-        welcomeMessage="Good evening! Our drive-home service gets you home safely in your own vehicle. The price is calculated at double the CTQ day rate. Where are you starting from and what is your destination?"
+        welcomeMessage="Hello! I'm the virtual agent of Taxi Chomedey. Our drive-home service gets you home safely in your own vehicle. The price is calculated at double the CTQ day rate. Where are you starting from and what is your destination?"
       />
     </>
   );
