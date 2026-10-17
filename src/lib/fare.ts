@@ -136,19 +136,21 @@ export function calculateFare(
 
   // Prix fixe = max(UberX pointe, compteur CTQ arrondi)
   //
-  // NIGHT SURCHARGE FIX (2026-10-17):
-  // For short/medium trips, UberX peak dominates both day and night CTQ
-  // meters, so cardPrice came out identical for day vs night — the night
-  // tariff became meaningless. To preserve the day-vs-night distinction
-  // that customers expect, we add the CTQ night-vs-day surcharge
-  // (ceil(meterNight) - ceil(meterDay)) to the Uber peak baseline for night
-  // trips. Effect: night = max(uber.high + surcharge, ceil(meterNight)),
-  // day = max(uber.high, ceil(meterDay)). Night is always >= day + surcharge.
-  const meterDayCeil = Math.ceil(meterDay);
-  const meterNightCeil = Math.ceil(meterNight);
-  const nightSurcharge = Math.max(0, meterNightCeil - meterDayCeil);
-  const uberBaseline = isNight ? uber.high + nightSurcharge : uber.high;
-  const cardPrice = Math.max(uberBaseline, Math.ceil(meter));
+  // Marketing rule (confirmed 2026-10-17): the prix fixe MUST equal the high
+  // end of the UberX estimate interval (uber.high) whenever Uber peak
+  // dominates the CTQ meter — i.e. for short/medium trips. Customers expect
+  // to see exactly the UberX peak number from the "À comparer" section.
+  //
+  // Note: this means day and night prix fixe are identical for short/medium
+  // trips (Uber peak doesn't differentiate time of day in our model). The
+  // day-vs-night distinction is preserved via:
+  //   - The gold "Prix fixe · Nuit" badge in the header
+  //   - The "Taxi CTQ nuit (23h–5h)" row in the comparison section showing
+  //     the higher night meter separately
+  // For long trips where the CTQ night meter exceeds Uber peak, prix fixe
+  // automatically switches to ceil(meterNight) — e.g. 45 km night trip
+  // gives $112 (CTQ night) instead of $102 (Uber peak).
+  const cardPrice = Math.max(uber.high, Math.ceil(meter));
   const cashPrice =
     Math.round((cardPrice / (1 + TERMINAL_FEE_RATE)) * 100) / 100;
   const terminalFee = Math.round((cardPrice - cashPrice) * 100) / 100;
