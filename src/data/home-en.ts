@@ -11,7 +11,7 @@ export const enHome = {
     { text: "✅ Founded in 2020" },
     { text: "🚖 50+ Vehicles" },
     { text: "🤝 SAAQ Partner", href: "https://saaq.gouv.qc.ca/" },
-    { text: "🏆 CTQ Member", href: "https://saaq.gouv.qc.ca/taxis/" },
+    { text: "🏆 CTQ Member", href: "https://www.ctq.gouv.qc.ca/permis-et-autorisations-de-transport/transport-remunere-de-personnes-par-automobile/tarifs-de-transport-remunere-de-personnes-par-automobile/" },
   ],
   servicesH2: "Our Taxi & Emergency Services in Laval, North Shore & Laurentians",
   services: [

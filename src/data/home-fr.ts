@@ -13,7 +13,7 @@ export const frHome = {
     { text: "⏱️ Intervention Express" },
     { text: "🔒 Chauffeurs d'expérience" },
     { text: "🤝 Partenaire SAAQ", href: "https://saaq.gouv.qc.ca/" },
-    { text: "🏆 Membre CTQ", href: "https://saaq.gouv.qc.ca/taxis/" },
+    { text: "🏆 Membre CTQ", href: "https://www.ctq.gouv.qc.ca/permis-et-autorisations-de-transport/transport-remunere-de-personnes-par-automobile/tarifs-de-transport-remunere-de-personnes-par-automobile/" },
   ],
   servicesH2: "Nos Services de Taxi et d'Urgence Routière à Laval, Rive-Nord & Laurentides",
   services: [
