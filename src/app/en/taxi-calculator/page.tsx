@@ -16,9 +16,9 @@ import Link from "next/link";
 
 export const metadata: Metadata = {
   title:
-    "Taxi Calculator — Calculate Your Taxi Fare Anywhere in Quebec | Taxi Chomedey",
+    "Taxi Calculator — Calculate your ride price with Taxi, Uber and Lyft",
   description:
-    "Taxi calculator Laval: calculate your taxi fare in real time. Official CTQ rate, fixed price aligned with UberX, no surge. 24/7 service in Laval, North Shore & Laurentians.",
+    "Laval taxi calculator: compare your ride price with Taxi (CTQ rate), Uber and Lyft. Fixed price aligned with UberX, no surge. 24/7 service in Laval, North Shore & Laurentians.",
   alternates: {
     canonical: "https://besttaxilaval.ca/en/taxi-calculator",
     languages: {
@@ -100,12 +100,12 @@ export default function CalculateFarePage() {
           <div className="mx-auto max-w-4xl px-5">
             <div className="mb-8 text-center">
               <h1 className="mb-3 text-2xl font-bold leading-tight md:text-4xl">
-                Taxi Calculator — Calculate Your Taxi Fare Anywhere in Quebec
+                Taxi Calculator — Calculate your ride price with Taxi, Uber and Lyft
               </h1>
               <p className="mx-auto max-w-2xl text-sm text-white/80 md:text-base">
-                Real-time taxi fare calculator. Official CTQ rate, fixed price
-                aligned with UberX, no surge. 24/7 service in Laval, North
-                Shore &amp; Laurentians.
+                Compare your ride price in real time: official Taxi CTQ rate,
+                UberX and Lyft. Fixed price guaranteed, no surge. 24/7 service
+                in Laval, North Shore &amp; Laurentians.
               </p>
             </div>
             <TaxiFareForm lang="en" />
