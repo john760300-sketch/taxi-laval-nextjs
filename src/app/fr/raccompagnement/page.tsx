@@ -84,7 +84,7 @@ export default function RaccompagnementPage() {
         priceLabel="Tarif Raccompagnement"
         faqs={faqs}
         showAgent={true}
-        welcomeMessage="Bonjour ! Je suis l'agent virtuel de Taxi Chomedey. Notre service de raccompagnement vous ramène chez vous en toute sécurité avec votre propre véhicule. D'où partez-vous"
+        welcomeMessage="Bonjour ! Je suis l'agent virtuel de Taxi Chomedey. Notre service de raccompagnement vous ramène chez vous en toute sécurité avec votre propre véhicule. D'où partez-vous ?"
       />
     </>
   );
