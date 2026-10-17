@@ -82,6 +82,7 @@ const SYSTEM_PROMPT = [
 
 export async function POST(req: Request) {
   try {
+    const body = await req.json();
     const { messages, serviceContext } = body || {};
 
     if (!Array.isArray(messages)) {
