@@ -135,7 +135,20 @@ export function calculateFare(
   const lyft = rideshare(distanceKm, durationMin, 5.05, 1.05, 0.25, 7, 1.4);
 
   // Prix fixe = max(UberX pointe, compteur CTQ arrondi)
-  const cardPrice = Math.max(uber.high, Math.ceil(meter));
+  //
+  // NIGHT SURCHARGE FIX (2026-10-17):
+  // For short/medium trips, UberX peak dominates both day and night CTQ
+  // meters, so cardPrice came out identical for day vs night — the night
+  // tariff became meaningless. To preserve the day-vs-night distinction
+  // that customers expect, we add the CTQ night-vs-day surcharge
+  // (ceil(meterNight) - ceil(meterDay)) to the Uber peak baseline for night
+  // trips. Effect: night = max(uber.high + surcharge, ceil(meterNight)),
+  // day = max(uber.high, ceil(meterDay)). Night is always >= day + surcharge.
+  const meterDayCeil = Math.ceil(meterDay);
+  const meterNightCeil = Math.ceil(meterNight);
+  const nightSurcharge = Math.max(0, meterNightCeil - meterDayCeil);
+  const uberBaseline = isNight ? uber.high + nightSurcharge : uber.high;
+  const cardPrice = Math.max(uberBaseline, Math.ceil(meter));
   const cashPrice =
     Math.round((cardPrice / (1 + TERMINAL_FEE_RATE)) * 100) / 100;
   const terminalFee = Math.round((cardPrice - cashPrice) * 100) / 100;
