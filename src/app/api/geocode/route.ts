@@ -30,6 +30,90 @@ const LANDMARKS: Array<{
     keywords: ["montmorency", "metro montmorency", "station montmorency"],
   },
   {
+    name: "Station Cartier",
+    place_name: "Station Cartier, Laval, QC",
+    center: [-73.7117, 45.5697],
+    keywords: ["cartier", "station cartier", "metro cartier", "cartier laval"],
+  },
+  {
+    name: "Station De La Concorde",
+    place_name: "Station De La Concorde, Laval, QC",
+    center: [-73.6612, 45.5708],
+    keywords: ["concorde", "de la concorde", "station concorde", "metro concorde"],
+  },
+  {
+    name: "Station Longueuil–Université-de-Sherbrooke",
+    place_name: "Station Longueuil–Université-de-Sherbrooke, Longueuil, QC",
+    center: [-73.5261, 45.5404],
+    keywords: ["longueuil", "longueuil-universite-de-sherbrooke", "longueuil universite", "station longueuil"],
+  },
+  {
+    name: "Station Jean-Talon",
+    place_name: "Station Jean-Talon, Montréal, QC",
+    center: [-73.6129, 45.5386],
+    keywords: ["jean-talon", "jean talon", "station jean-talon"],
+  },
+  {
+    name: "Station Berri-UQAM",
+    place_name: "Station Berri-UQAM, Montréal, QC",
+    center: [-73.5618, 45.5087],
+    keywords: ["berri", "berri-uqam", "berri uqam", "uqam", "station berri"],
+  },
+  {
+    name: "Station Mont-Royal",
+    place_name: "Station Mont-Royal, Montréal, QC",
+    center: [-73.5782, 45.5117],
+    keywords: ["mont-royal", "mount royal", "station mont-royal"],
+  },
+  {
+    name: "Station Lionel-Groulx",
+    place_name: "Station Lionel-Groulx, Montréal, QC",
+    center: [-73.5842, 45.4911],
+    keywords: ["lionel-groulx", "lionel groulx", "station lionel"],
+  },
+  {
+    name: "Station Place-des-Arts",
+    place_name: "Station Place-des-Arts, Montréal, QC",
+    center: [-73.5672, 45.5089],
+    keywords: ["place-des-arts", "place des arts", "station place-des-arts"],
+  },
+  {
+    name: "Station McGill",
+    place_name: "Station McGill, Montréal, QC",
+    center: [-73.5703, 45.5073],
+    keywords: ["mcgil", "mcgill", "station mcgill"],
+  },
+  {
+    name: "Station Atwater",
+    place_name: "Station Atwater, Montréal, QC",
+    center: [-73.5833, 45.4872],
+    keywords: ["atwater", "station atwater"],
+  },
+  {
+    name: "Station Guy-Concordia",
+    place_name: "Station Guy-Concordia, Montréal, QC",
+    center: [-73.5760, 45.4965],
+    keywords: ["guy-concordia", "guy concordia", "station guy", "concordia"],
+  },
+  {
+    name: "Station Snowdon",
+    place_name: "Station Snowdon, Montréal, QC",
+    center: [-73.6179, 45.4706],
+    keywords: ["snowdon", "station snowdon"],
+  },
+  {
+    name: "Station Côte-Vertu",
+    place_name: "Station Côte-Vertu, Montréal, QC",
+    center: [-73.6839, 45.4924],
+    keywords: ["cote-vertu", "côte-vertu", "station cote-vertu"],
+  },
+  {
+    name: "Station Henri-Bourassa",
+    place_name: "Station Henri-Bourassa, Montréal, QC",
+    center: [-73.6670, 45.5564],
+    keywords: ["henri-bourassa", "henri bourassa", "station henri-bourassa"],
+  },
+  {
     name: "Place Bell",
     place_name: "Place Bell, Laval, QC",
     center: [-73.7495, 45.5689],
@@ -186,7 +270,10 @@ export async function GET(req: Request) {
   // 1. Check custom landmarks first
   const landmarkResults = matchLandmarks(q);
 
-  // 2. Query Mapbox for streets, addresses, neighborhoods
+  // 2. Query Mapbox for streets, addresses, neighborhoods, POIs (metro stations, malls, etc.)
+  // Note: types MUST include "poi" so that metro stations, hospitals, malls,
+  // schools etc. show up in autocomplete — without it, searching for
+  // "station cartier" returns only streets named Cartier, never the metro.
   const token = process.env.MAPBOX_ACCESS_TOKEN;
   let mapboxResults: Array<{ place_name: string; center: [number, number] }> = [];
 
@@ -194,7 +281,7 @@ export async function GET(req: Request) {
     try {
       const mapboxUrl = `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(
         q
-      )}.json?access_token=${token}&country=ca&autocomplete=true&types=place,locality,neighborhood,address&language=fr&limit=${limit}&bbox=-74.5,45.0,-73.0,47.0`;
+      )}.json?access_token=${token}&country=ca&autocomplete=true&types=place,locality,neighborhood,address,poi&language=fr&limit=${limit}&bbox=-74.5,45.0,-73.0,47.0`;
 
       const res = await fetch(mapboxUrl);
       if (res.ok) {
@@ -206,10 +293,24 @@ export async function GET(req: Request) {
           place_name: f.place_name,
           center: f.center,
         }));
+      } else {
+        // Mapbox returned an error — log it so it's visible in Vercel logs
+        console.error(
+          `[geocode] Mapbox API error: HTTP ${res.status} for query "${q}"`
+        );
       }
-    } catch {
-      // silently fail — landmarks still work
+    } catch (err) {
+      // Network / parsing error — log it (was previously silent, which made
+      // debugging impossible)
+      console.error(`[geocode] Mapbox fetch failed for query "${q}":`, err);
     }
+  } else {
+    // Missing token is the #1 cause of "autocomplete doesn't find addresses"
+    // complaints. Log it loudly so the issue surfaces in Vercel logs instead
+    // of silently degrading to landmarks-only mode.
+    console.warn(
+      "[geocode] MAPBOX_ACCESS_TOKEN env var is not set — geocode will only return custom landmarks. Set it in Vercel Project Settings → Environment Variables."
+    );
   }
 
   // 3. Merge: landmarks first, then Mapbox results (deduplicated by place_name)
