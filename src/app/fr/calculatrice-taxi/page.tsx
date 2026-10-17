@@ -31,7 +31,7 @@ export const metadata: Metadata = {
 const SEO_FAQS = [
   {
     q: "Combien coûte un taxi de Laval à l'aéroport YUL ?",
-    a: "Entre 47 $ et 65 $ le jour (5h–23h), 49 $ à 65 $ la nuit (23h–5h), selon le quartier de Laval et la circulation. Le prix fixe = max(UberX pointe, compteur CTQ). Paiement comptant = 3,4 % de remise.",
+    a: "Entre 43 $ et 57 $ le jour (5h–23h), 49 $ à 65 $ la nuit (23h–5h), selon le quartier de Laval et la circulation. Le tarif = ceil(compteur CTQ jour ou nuit selon l'heure). Paiement comptant = 3,4 % de remise.",
   },
   {
     q: "Comment est calculé le tarif taxi ?",
@@ -56,11 +56,11 @@ const SEO_FAQS = [
 ];
 
 const PRICING_ROUTES = [
-  { from: "Laval (Chomedey)", to: "Aéroport YUL (Dorval)", distance: "22 km", duration: "27 min", priceDay: "~$47-65", priceNight: "~$49-65" },
-  { from: "Laval (Sainte-Rose)", to: "Aéroport YUL", distance: "27 km", duration: "32 min", priceDay: "~$55-75", priceNight: "~$58-77" },
-  { from: "Laval", to: "Centre-ville Montréal", distance: "18 km", duration: "25 min", priceDay: "~$36-65", priceNight: "~$36-65" },
-  { from: "Boisbriand", to: "Aéroport YUL", distance: "42 km", duration: "45 min", priceDay: "~$81-114", priceNight: "~$88-124" },
-  { from: "Saint-Jérôme", to: "Aéroport YUL", distance: "60 km", duration: "55 min", priceDay: "~$110-162", priceNight: "~$124-182" },
+  { from: "Laval (Chomedey)", to: "Aéroport YUL (Dorval)", distance: "22 km", duration: "27 min", priceDay: "~$43-57", priceNight: "~$49-65" },
+  { from: "Laval (Sainte-Rose)", to: "Aéroport YUL", distance: "27 km", duration: "32 min", priceDay: "~$51-67", priceNight: "~$58-77" },
+  { from: "Laval", to: "Centre-ville Montréal", distance: "18 km", duration: "25 min", priceDay: "~$30-57", priceNight: "~$34-65" },
+  { from: "Boisbriand", to: "Aéroport YUL", distance: "42 km", duration: "45 min", priceDay: "~$77-108", priceNight: "~$88-124" },
+  { from: "Saint-Jérôme", to: "Aéroport YUL", distance: "60 km", duration: "55 min", priceDay: "~$108-159", priceNight: "~$124-182" },
   { from: "Mont-Tremblant", to: "Aéroport YUL", distance: "135 km", duration: "95 min", priceDay: "~$252-313", priceNight: "~$288-359" },
 ];
 
