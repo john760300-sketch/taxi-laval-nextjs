@@ -111,6 +111,57 @@ export function ChatAgent({
           // so calculateRaccompagnementFare can detect day vs night.
           if (serviceContext === "raccompagnement") {
             payload.service = "raccompagnement";
+
+            // NIGHT-TIME FALLBACK: the LLM often acknowledges "vers minuit" or
+            // "la nuit" in its text response but still emits empty datetime
+            // (because it doesn't know how to convert "vers minuit" to ISO
+            // 8601). Empty datetime → /api/fare defaults to current time →
+            // if it's daytime now, the fare gets incorrectly calculated as
+            // day rate even though the user explicitly mentioned night.
+            //
+            // Fix: scan the user's last message for night keywords. If found
+            // AND datetime is empty, force datetime to today at 23:30 so
+            // /api/fare's isNightTime() returns true → night rate applied.
+            if (!payload.datetime) {
+              const lastUserMsg = nextMessages
+                .filter((m) => m.role === "user")
+                .pop();
+              const userText = lastUserMsg?.content?.toLowerCase() ?? "";
+              const nightKeywords = [
+                "minuit",
+                "nuit",
+                "nocturne",
+                "23h",
+                "00h",
+                "0h",
+                "1h du matin",
+                "2h du matin",
+                "3h du matin",
+                "4h du matin",
+                "11pm",
+                "12am",
+                "midnight",
+                "night",
+                "late",
+                "ce soir tard",
+                "tard",
+              ];
+              const mentionsNight = nightKeywords.some((kw) =>
+                userText.includes(kw)
+              );
+              if (mentionsNight) {
+                // Build ISO 8601 for today at 23:30 local time
+                const now = new Date();
+                const tonight = new Date(now);
+                tonight.setHours(23, 30, 0, 0);
+                // If it's already past midnight, use tomorrow's 00:30
+                if (now.getHours() >= 0 && now.getHours() < 5) {
+                  tonight.setDate(tonight.getDate() + 1);
+                  tonight.setHours(0, 30, 0, 0);
+                }
+                payload.datetime = tonight.toISOString();
+              }
+            }
           }
           const fareRes = await fetch("/api/fare", {
             method: "POST",
