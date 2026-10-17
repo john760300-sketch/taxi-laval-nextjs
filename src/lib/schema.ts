@@ -221,11 +221,14 @@ export function faqSchema(faqs: Array<string | { q: string; a: string }>) {
     "@type": "FAQPage",
     mainEntity: faqs.map((faq) => {
       // Normalize to { q, a } — string FAQs get the generic placeholder,
-      // {q, a} objects use their actual answer text.
+      // {q, a} objects use their actual answer text in the structured data.
+      // For schema.org rich snippets, strip markdown-style internal links
+      // like [text →](/fr/calculatrice-taxi) → keep only the visible text.
       const q = typeof faq === "string" ? faq : faq.q;
-      const a = typeof faq === "string"
+      const rawA = typeof faq === "string"
         ? `Contactez Taxi Chomedey au ${PHONE} pour plus d'informations sur : ${faq}.`
         : faq.a;
+      const a = rawA.replace(/\[([^\]]+)\]\(([^)]+)\)/g, "$1");
       return {
         "@type": "Question",
         name: q.endsWith("?") ? q : `${q}?`,

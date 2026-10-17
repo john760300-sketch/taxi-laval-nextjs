@@ -3,6 +3,45 @@ import Footer from "@/components/Footer";
 import Link from "next/link";
 import { ChatAgent } from "@/components/ChatAgent";
 
+/**
+ * Parse markdown-style internal links in a FAQ answer string and render
+ * them as Next.js <Link> components.
+ *
+ * Syntax: [link text](/internal/path)
+ *
+ * Example: "Réservez via [notre calculatrice](/fr/calculatrice-taxi) ou
+ * appelez le 514-239-6512." → renders the link text as a clickable Link
+ * to /fr/calculatrice-taxi.
+ *
+ * External URLs (http/https) are not parsed — only absolute-path internal
+ * links starting with "/" are converted to <Link>. This keeps the SEO
+ * benefit of internal linking without risking broken external links.
+ */
+function renderFaqAnswer(text: string): React.ReactNode {
+  // Split on markdown link pattern, keeping the delimiters
+  const parts = text.split(/(\[[^\]]+\]\([^)]+\))/g);
+  return parts.map((part, i) => {
+    const m = part.match(/^\[([^\]]+)\]\(([^)]+)\)$/);
+    if (!m) return part;
+    const [, linkText, href] = m;
+    // Only render as <Link> for internal absolute paths (start with "/")
+    // External links (http/https) fall back to plain text (no <a> tag) for
+    // safety — we don't want to risk leaking referrer to external sites.
+    if (href.startsWith("/")) {
+      return (
+        <Link
+          key={i}
+          href={href}
+          className="font-semibold text-[#1e3a5f] hover:underline hover:text-[#e6b422] transition-colors"
+        >
+          {linkText}
+        </Link>
+      );
+    }
+    return linkText;
+  });
+}
+
 type ServicePageProps = {
   title: string;
   subtitle?: string;
@@ -166,7 +205,7 @@ export default function ServicePage({
                                 </span>
                               </summary>
                               <div className="border-t border-gray-100 bg-slate-50 px-4 py-3 text-sm leading-relaxed text-[#4a627a]">
-                                {item.a}
+                                {renderFaqAnswer(item.a)}
                               </div>
                             </details>
                           );
