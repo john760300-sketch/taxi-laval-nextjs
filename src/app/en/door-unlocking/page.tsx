@@ -23,10 +23,22 @@ export const metadata: Metadata = {
 };
 
 const faqs = [
-  "keys locked in car Laval price",
-  "door unlocking without breaking glass",
-  "open car without key Saint-Jérôme",
-  "frozen lock winter Mont-Tremblant",
+  {
+    q: "Keys locked in car in Laval — what's the price?",
+    a: "Door unlocking in Laval costs between $40 and $120 depending on the vehicle model and year, location, time, and weather. No broken glass — our drivers use specialized tools. 24/7 service. For an exact price, call 514-239-6512. [See also our emergency road service →](/en/emergency)",
+  },
+  {
+    q: "Door unlocking without breaking glass — is it possible?",
+    a: "Yes, we open your car without breaking the glass or damaging the door. Our drivers use specialized tools (plastic wedge, polypropylene sleeve) that unlock the door in a few minutes. Price is $40 to $120 depending on the vehicle. Call 514-239-6512 — we almost always have someone available in Laval.",
+  },
+  {
+    q: "Open car without key in Saint-Jérôme — available?",
+    a: "Yes, we serve Saint-Jérôme, Mirabel, and the entire Laurentians region for door unlocking. 24/7 service. Price $40-120 depending on vehicle. Call 514-239-6512.",
+  },
+  {
+    q: "Frozen lock in winter in Mont-Tremblant — how to unblock it?",
+    a: "In winter in Mont-Tremblant, locks can freeze. We can thaw them without damage using a heated probe or de-icing spray. The price may be slightly higher in winter or for remote areas (possible $10-20 surcharge). 24/7 service. Call 514-239-6512.",
+  },
 ];
 
 export default function DoorUnlockingPage() {

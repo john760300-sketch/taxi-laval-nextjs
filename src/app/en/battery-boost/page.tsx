@@ -23,10 +23,22 @@ export const metadata: Metadata = {
 };
 
 const faqs = [
-  "how much does a battery boost cost in Laval",
-  "hybrid car battery boost",
-  "dead battery service 24h Saint-Jérôme",
-  "battery assistance Mont-Tremblant winter",
+  {
+    q: "How much does a battery boost cost in Laval?",
+    a: "Our battery boost service in Laval costs between $35 and $80 depending on vehicle type: sedan ~$35-50, SUV ~$45-60, hybrid ~$50-65, EV ~$60-80. The exact price also depends on time and location (possible surcharge of $10-20 for remote areas or peak hours). 24/7 service. For an exact quote, call 514-239-6512. [Learn more about battery boost →](/en/blog/survoltage-batterie-laval-prix-delai-hiver)",
+  },
+  {
+    q: "Hybrid car battery boost — is it possible?",
+    a: "Yes, we can boost a hybrid car, but it requires special precautions due to the high-voltage circuit. Our drivers are trained for Toyota, Honda, Ford, Hyundai hybrids. Cost is usually $50-65 for a hybrid. For a fully electric vehicle (Tesla, etc.), a boost isn't always enough — call us at 514-239-6512 to assess the situation. [Learn more →](/en/blog/survoltage-batterie-laval-prix-delai-hiver)",
+  },
+  {
+    q: "Dead battery service 24h in Saint-Jérôme — available?",
+    a: "Yes, our battery boost service is available 24/7 in Saint-Jérôme, Mirabel, and throughout the Laurentians. Price $35-80 depending on vehicle. We almost always have a driver available in the Laurentians, even in the middle of the night or in winter. Call 514-239-6512.",
+  },
+  {
+    q: "Battery assistance in Mont-Tremblant during winter?",
+    a: "Yes, we serve Mont-Tremblant and the entire Laurentians region year-round, including winter (dead batteries are common at -20°C). 24/7 service. The price may be slightly higher in winter or for remote areas (possible $10-20 surcharge). For an exact quote, call 514-239-6512. [Learn more about winter battery boost →](/en/blog/survoltage-batterie-laval-prix-delai-hiver)",
+  },
 ];
 
 export default function BatteryBoostPage() {

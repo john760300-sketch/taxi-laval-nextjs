@@ -38,10 +38,22 @@ export default function LocalTransportPage() {
       partnerships="Agreements with Carrefour Laval, Centropolis, Cité-de-la-Santé Hospital, Place Bell"
       priceLabel="Competitive rates – Free estimate by phone"
       faqs={[
-        "taxi from Laval to Saint-Jérôme price",
-        "transport from Chomedey to Centropolis",
-        "taxi to Cité-de-la-Santé hospital",
-        "shuttle to Place Bell",
+        {
+          q: "Taxi from Laval to Saint-Jérôme — what's the price?",
+          a: "The taxi fare from Laval to Saint-Jérôme = max(UberX peak, ceil(CTQ day or night meter depending on time)). As an indication: ~$110-159 daytime, $124-182 nighttime (depending on the Laval pickup point and traffic). [Calculate your exact fare →](/en/taxi-calculator) or call 514-239-6512.",
+        },
+        {
+          q: "Transport from Chomedey to Centropolis — how much?",
+          a: "Short intra-Laval trip. Fare = ceil(CTQ meter) — generally $20-35 depending on exact distance. [Calculate your fare →](/en/taxi-calculator) or call 514-239-6512.",
+        },
+        {
+          q: "Taxi to Cité-de-la-Santé hospital — available?",
+          a: "We regularly transport to Cité-de-la-Santé Hospital in Laval. Fare depends on distance from your pickup point. [Calculate your fare →](/en/taxi-calculator) or call 514-239-6512. For adapted medical transport (reduced mobility, medical appointment), [see our medical transport service →](/en/medical-transport).",
+        },
+        {
+          q: "Shuttle to Place Bell (Laval Rocket games) — how to book?",
+          a: "We transport to Place Bell (Laval Rocket arena) for events and games. Fare depends on distance from your pickup point. [Calculate your fare →](/en/taxi-calculator) or call 514-239-6512.",
+        },
       ]}
     />
   );

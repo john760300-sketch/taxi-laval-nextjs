@@ -36,10 +36,22 @@ export default function ExpressDeliveryPage() {
       partnerships="Partnership with Walmart Laval, Maxi, Super C, Jean-Coutu and Familiprix pharmacies"
       priceLabel="Price by distance – Free estimate"
       faqs={[
-        "deliver my Walmart groceries Laval",
-        "urgent medication delivery Saint-Eustache",
-        "courier for packages Terrebonne",
-        "urgent document transport",
+        {
+          q: "Deliver my Walmart groceries in Laval — is it possible?",
+          a: "Yes, we deliver your Walmart, Maxi, Super C, IGA groceries in Laval. The fare is based on the distance between the store and your home. [Calculate your delivery fare →](/en/taxi-calculator) or call 514-239-6512.",
+        },
+        {
+          q: "Urgent medication delivery in Saint-Eustache — available?",
+          a: "Yes, we deliver medications urgently from the pharmacy to your home in Saint-Eustache and throughout the North Shore. 24/7 service. Fare depends on distance. [Calculate your fare →](/en/taxi-calculator) or call 514-239-6512.",
+        },
+        {
+          q: "Courier for packages in Terrebonne — what's the delay?",
+          a: "Yes, we act as a courier for urgent packages in Terrebonne, Mascouche, and throughout the North Shore. 24/7 express delivery service. Fare depends on distance. [Calculate your fare →](/en/taxi-calculator) or call 514-239-6512.",
+        },
+        {
+          q: "Urgent document transport — how does it work?",
+          a: "We transport urgent documents (contracts, slips, sealed envelopes) in Laval, North Shore, and Laurentians. Direct express delivery — no stops. Fare depends on distance. [Calculate your fare →](/en/taxi-calculator) or call 514-239-6512.",
+        },
       ]}
     />
   );

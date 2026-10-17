@@ -38,10 +38,22 @@ export default function EmergencyPage() {
       priceLabel="Emergency rate – Call now"
       priceNote="Our dispatcher gives you an immediate estimate"
       faqs={[
-        "emergency taxi Laval night",
-        "24h battery assistance",
-        "keys locked in car",
-        "roadside assistance North Shore",
+        {
+          q: "Emergency taxi in Laval at night — available?",
+          a: "Yes, our emergency taxi service is available 24/7 in Laval, North Shore, and Laurentians. For emergency transport at night, call 514-239-6512 — we almost always have a driver available within 30 minutes. The night rate (11pm-5am) is ~15% more than day. [Calculate your fare →](/en/taxi-calculator).",
+        },
+        {
+          q: "24h battery assistance — is it possible?",
+          a: "Yes, 24/7 battery boost service. Price $35-80 depending on vehicle. [See our battery boost service →](/en/battery-boost) or call 514-239-6512.",
+        },
+        {
+          q: "Keys locked in car — what to do?",
+          a: "Yes, we unlock doors without breaking glass. Price $40-120 depending on vehicle. [See our door unlocking service →](/en/door-unlocking) or call 514-239-6512.",
+        },
+        {
+          q: "Roadside assistance on the North Shore — which area?",
+          a: "We serve the entire North Shore: Boisbriand, Saint-Eustache, Blainville, Terrebonne, Mascouche, Sainte-Thérèse. 24/7 roadside services: battery boost, door unlocking, and more. Call 514-239-6512.",
+        },
       ]}
     />
   );

@@ -23,10 +23,22 @@ export const metadata: Metadata = {
 };
 
 const faqs = [
-  "drive home after night out Laval",
-  "driver to bring my car home",
-  "designated driver North Shore",
-  "24h drive-home taxi",
+  {
+    q: "Drive home after a night out in Laval — how does it work?",
+    a: "Our designated driver takes you home safely in your own vehicle after your night out in Laval. A chase car follows to pick up the driver once you've arrived. Available 24/7. Price = 2 × ceil(CTQ day or night meter depending on departure time). [Calculate your fare →](/en/taxi-calculator) or call 514-239-6512. [Learn more about drive-home service →](/en/blog/taxi-raccompagnement-apres-soiree-ce-quil-faut-savoir)",
+  },
+  {
+    q: "Driver to bring my car home — is that possible?",
+    a: "Yes, that's exactly our drive-home service. Had a few drinks and can't drive? Our driver takes the wheel of your vehicle and brings you home safely. Price = 2 × ceil(CTQ meter) — double a regular taxi because the driver has to come back with the chase car. [See price examples →](/en/taxi-calculator) or call 514-239-6512.",
+  },
+  {
+    q: "Designated driver on the North Shore — available?",
+    a: "Yes, we serve the entire North Shore: Boisbriand, Saint-Eustache, Blainville, Terrebonne, Mascouche, Sainte-Thérèse — as well as Laval and the Laurentians. 24/7 drive-home service. Price = 2 × CTQ fare based on distance and time (day or night). [Calculate your fare →](/en/taxi-calculator) or call 514-239-6512.",
+  },
+  {
+    q: "24h drive-home taxi — even at night?",
+    a: "Yes, our drive-home service is available 24/7 — including weekday and weekend nights. Trips between 11pm and 5am use the CTQ night rate (~15% more than day). Price = 2 × ceil(CTQ day or night meter depending on departure time). [Calculate your drive-home fare →](/en/taxi-calculator) or call 514-239-6512. [Learn more →](/en/blog/taxi-raccompagnement-apres-soiree-ce-quil-faut-savoir)",
+  },
 ];
 
 export default function DriveHomeServicePage() {

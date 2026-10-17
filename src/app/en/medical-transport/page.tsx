@@ -37,10 +37,22 @@ export default function MedicalTransportPage() {
       partnerships="Agreements with Cité-de-la-Santé Hospital, CISSS des Laurentides, CLSC Laval"
       priceLabel="Preferential rate – Packages available"
       faqs={[
-        "transport for reduced mobility Laval",
-        "taxi for medical appointment Saint-Jérôme",
-        "adapted hospital transport",
-        "senior accompaniment Laval",
+        {
+          q: "Transport for reduced mobility in Laval — available?",
+          a: "Yes, we transport people with reduced mobility in adapted vehicles. Preferential rate with packages available for regular medical appointments (dialysis, chemo, etc.). Call 514-239-6512 for a custom quote. [Calculate the base fare →](/en/taxi-calculator).",
+        },
+        {
+          q: "Taxi for medical appointment in Saint-Jérôme — how to book?",
+          a: "We serve hospitals and clinics in Saint-Jérôme, Mirabel, and the entire North Shore. Punctual 24/7 service. Preferential rate for medical appointments — packages available for regular appointments. Call 514-239-6512. [Calculate your fare →](/en/taxi-calculator).",
+        },
+        {
+          q: "Adapted hospital transport — which area?",
+          a: "We transport to all hospitals in the region: Cité-de-la-Santé (Laval), Saint-Jérôme Hospital, etc. Vehicles adapted for wheelchairs and people with reduced mobility. Preferential rate with packages. Call 514-239-6512.",
+        },
+        {
+          q: "Senior accompaniment in Laval — is it possible?",
+          a: "We accompany seniors to their medical appointments, errands, or personal outings. Our drivers are patient, discreet, and can help getting in/out of the vehicle. Packages available for regular appointments. Call 514-239-6512. [Calculate the base fare →](/en/taxi-calculator).",
+        },
       ]}
     />
   );

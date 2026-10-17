@@ -23,10 +23,22 @@ export const metadata: Metadata = {
 };
 
 const faqs = [
-  "How much does a taxi from Laval to YUL airport cost?",
-  "Airport transfer Montréal-Trudeau from the North Shore",
-  "Taxi for an early morning flight",
-  "Fixed-price YUL airport shuttle",
+  {
+    q: "How much does a taxi from Laval to YUL airport cost?",
+    a: "The official CTQ fare for a Laval (Chomedey) → Montréal-Trudeau Airport (YUL) trip is between $43 and $57 daytime (5am-11pm), $49 to $65 nighttime (11pm-5am), depending on the Laval neighborhood and traffic. Fare = ceil(CTQ day or night meter depending on time). [Calculate your exact fare →](/en/taxi-calculator) or call 514-239-6512. [See our detailed Laval → YUL article →](/en/blog/combien-coute-taxi-laval-aeroport-yul-2026)",
+  },
+  {
+    q: "Airport transfer Montréal-Trudeau from the North Shore — which area?",
+    a: "We serve the entire North Shore: Boisbriand, Saint-Eustache, Blainville, Terrebonne, Mascouche, Sainte-Thérèse — as well as Laval and the Laurentians (Saint-Jérôme, Mirabel, Mont-Tremblant). 24/7 YUL airport transfer service with live flight tracking (no fees for delays). [Calculate your fare from your city →](/en/taxi-calculator) or call 514-239-6512.",
+  },
+  {
+    q: "Taxi for an early morning flight — how to book?",
+    a: "For an early morning flight (5am-7am), book the night before. We have 50+ vehicles but peak slots fill fast. For an afternoon flight, you can call 30 minutes ahead — we almost always have a driver available in Laval. The fare is the same 24/7 (day rate 5am-11pm, night rate 11pm-5am with ~15% surcharge). [Calculate your fare →](/en/taxi-calculator) or call 514-239-6512.",
+  },
+  {
+    q: "Fixed-price YUL airport shuttle — how does it work?",
+    a: "Our fixed price for YUL airport transfer = max(UberX peak, ceil(CTQ day or night meter)). The customer never pays more than UberX peak, and we guarantee a minimum income for the driver. Cash payment = 3.4% discount (card terminal fee removed). Live flight tracking included — no fees for delays. [Calculate your fixed price →](/en/taxi-calculator) or call 514-239-6512.",
+  },
 ];
 
 export default function AirportTransportPage() {

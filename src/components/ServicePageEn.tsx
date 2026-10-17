@@ -3,6 +3,41 @@ import FooterEn from "@/components/FooterEn";
 import Link from "next/link";
 import { ChatAgent } from "@/components/ChatAgent";
 
+/**
+ * Parse markdown-style internal links in a FAQ answer string and render
+ * them as Next.js <Link> components.
+ *
+ * Syntax: [link text](/internal/path)
+ *
+ * Example: "Book via [our calculator](/en/taxi-calculator) or call
+ * 514-239-6512." → renders the link text as a clickable Link to
+ * /en/taxi-calculator.
+ *
+ * External URLs (http/https) are not parsed — only absolute-path internal
+ * links starting with "/" are converted to <Link>. This keeps the SEO
+ * benefit of internal linking without risking broken external links.
+ */
+function renderFaqAnswer(text: string): React.ReactNode {
+  const parts = text.split(/(\[[^\]]+\]\([^)]+\))/g);
+  return parts.map((part, i) => {
+    const m = part.match(/^\[([^\]]+)\]\(([^)]+)\)$/);
+    if (!m) return part;
+    const [, linkText, href] = m;
+    if (href.startsWith("/")) {
+      return (
+        <Link
+          key={i}
+          href={href}
+          className="font-semibold text-[#1e3a5f] hover:underline hover:text-[#e6b422] transition-colors"
+        >
+          {linkText}
+        </Link>
+      );
+    }
+    return linkText;
+  });
+}
+
 type ServicePageEnProps = {
   title: string;
   subtitle?: string;
@@ -12,7 +47,10 @@ type ServicePageEnProps = {
   partnerships?: string;
   priceLabel?: string;
   priceNote?: string;
-  faqs?: string[];
+  // FAQs can be either plain strings (rendered as static chips, backwards
+  // compat for service pages that don't have answers yet) or {q, a} objects
+  // (rendered as interactive expandable cards).
+  faqs?: Array<string | { q: string; a: string }>;
   /** When true, replaces the price card + trust bullets with the AI agent. */
   showAgent?: boolean;
   welcomeMessage?: string;
@@ -120,16 +158,53 @@ export default function ServicePageEn({
                     <h3 className="mb-3 text-lg font-semibold text-[#1e3a5f]">
                       Frequently asked
                     </h3>
-                    <div className="flex flex-wrap gap-2">
-                      {faqs.map((faq) => (
-                        <span
-                          key={faq}
-                          className="rounded-full bg-white px-3 py-1.5 text-xs text-[#4a627a] shadow-sm"
-                        >
-                          🔍 {faq}
-                        </span>
-                      ))}
-                    </div>
+                    {faqs.every((f) => typeof f === "string") ? (
+                      // Backwards compat: all-string FAQs render as horizontal
+                      // chips (unchanged for service pages without answers).
+                      <div className="flex flex-wrap gap-2">
+                        {faqs.map((faq) => (
+                          <span
+                            key={faq as string}
+                            className="rounded-full bg-white px-3 py-1.5 text-xs text-[#4a627a] shadow-sm"
+                          >
+                            🔍 {faq as string}
+                          </span>
+                        ))}
+                      </div>
+                    ) : (
+                      // Interactive FAQs with answers render as expandable cards.
+                      // Click a question to reveal its answer.
+                      <div className="space-y-2">
+                        {faqs.map((faq) => {
+                          const item =
+                            typeof faq === "string"
+                              ? {
+                                  q: faq,
+                                  a: "Call us at 514-239-6512 for more information.",
+                                }
+                              : faq;
+                          return (
+                            <details
+                              key={item.q}
+                              className="group rounded-lg border border-gray-200 bg-white shadow-sm overflow-hidden [&::-webkit-details-marker]:hidden"
+                            >
+                              <summary className="flex cursor-pointer list-none items-center justify-between gap-3 px-4 py-3 text-sm font-medium text-[#1e3a5f] hover:bg-slate-50">
+                                <span className="flex items-center gap-2">
+                                  <span className="text-[#e6b422]">🔍</span>
+                                  {item.q}
+                                </span>
+                                <span className="text-lg leading-none text-[#e6b422] transition-transform duration-200 group-open:rotate-45">
+                                  +
+                                </span>
+                              </summary>
+                              <div className="border-t border-gray-100 bg-slate-50 px-4 py-3 text-sm leading-relaxed text-[#4a627a]">
+                                {renderFaqAnswer(item.a)}
+                              </div>
+                            </details>
+                          );
+                        })}
+                      </div>
+                    )}
                   </>
                 )}
               </div>
