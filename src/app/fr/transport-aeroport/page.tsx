@@ -76,6 +76,7 @@ export default function TransportAeroportPage() {
         priceNote="Contactez notre répartiteur dès maintenant pour obtenir un prix fixe et garanti pour votre trajet."
         faqs={faqs}
         showAgent={true}
+        welcomeMessage="Bonjour ! Vous cherchez un prix fixe et garanti pour votre trajet vers l'aéroport Montréal-Trudeau (YUL) ? Dites-moi votre adresse de départ à Laval et je calcule votre tarif avec suivi de vol inclus."
       />
     </>
   );

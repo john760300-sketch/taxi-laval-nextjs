@@ -81,6 +81,7 @@ export default function DriveHomeServicePage() {
         priceLabel="Drive-Home Rate"
         faqs={faqs}
         showAgent={true}
+        welcomeMessage="Good evening! Our drive-home service gets you home safely in your own vehicle. The price is calculated at double the CTQ day rate. Where are you starting from and what is your destination?"
       />
     </>
   );

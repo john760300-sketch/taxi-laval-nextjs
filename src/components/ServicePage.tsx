@@ -15,6 +15,8 @@ type ServicePageProps = {
   faqs?: string[];
   /** When true, replaces the price card + trust bullets with the AI agent. */
   showAgent?: boolean;
+  /** Custom welcome message for the chat agent (service-specific). */
+  welcomeMessage?: string;
 };
 
 export default function ServicePage({
@@ -28,6 +30,7 @@ export default function ServicePage({
   priceNote = "Appelez-nous pour un estimé gratuit",
   faqs = [],
   showAgent = false,
+  welcomeMessage,
 }: ServicePageProps) {
   return (
     <>
@@ -154,7 +157,7 @@ export default function ServicePage({
                           514-239-6512
                         </a>
                       </div>
-                      <ChatAgent compact />
+                      <ChatAgent compact welcomeMessage={welcomeMessage} />
                     </div>
                   </>
                 ) : (

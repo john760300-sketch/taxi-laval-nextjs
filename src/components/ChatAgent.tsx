@@ -9,7 +9,7 @@ type Message =
 
 const FARE_REQUEST_RE = /===FARE_REQUEST===([\s\S]*?)===END_FARE_REQUEST===/;
 
-const INITIAL_MESSAGE: Message = {
+const DEFAULT_INITIAL_MESSAGE: Message = {
   role: "assistant",
   content:
     "Bonjour ! Je suis l'agent virtuel de Taxi Chomedey. Je peux vous donner un prix fixe et garanti pour votre trajet. D'où partez-vous ?",
@@ -22,8 +22,19 @@ const INITIAL_MESSAGE: Message = {
  *   - /en/taxi-calculator (standalone page)
  *   - ServicePage template when showAgent={true}
  */
-export function ChatAgent({ compact = false }: { compact?: boolean }) {
-  const [messages, setMessages] = useState<Message[]>([INITIAL_MESSAGE]);
+export function ChatAgent({
+  compact = false,
+  welcomeMessage,
+}: {
+  compact?: boolean;
+  welcomeMessage?: string;
+}) {
+  const [messages, setMessages] = useState<Message[]>([
+    {
+      role: "assistant",
+      content: welcomeMessage || DEFAULT_INITIAL_MESSAGE.content,
+    },
+  ]);
   const [input, setInput] = useState("");
   const [isThinking, setIsThinking] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -137,7 +148,12 @@ export function ChatAgent({ compact = false }: { compact?: boolean }) {
   }
 
   function handleReset() {
-    setMessages([INITIAL_MESSAGE]);
+    setMessages([
+      {
+        role: "assistant",
+        content: welcomeMessage || DEFAULT_INITIAL_MESSAGE.content,
+      },
+    ]);
     setInput("");
     setIsThinking(false);
   }

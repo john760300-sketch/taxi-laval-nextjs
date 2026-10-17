@@ -76,6 +76,7 @@ export default function AirportTransportPage() {
         priceNote="Contact our dispatcher now for a fixed, guaranteed price for your trip."
         faqs={faqs}
         showAgent={true}
+        welcomeMessage="Hello! Looking for a fixed, guaranteed fare to Montréal-Trudeau Airport (YUL)? Tell me your pickup address in Laval and I'll calculate your fare with free flight tracking."
       />
     </>
   );

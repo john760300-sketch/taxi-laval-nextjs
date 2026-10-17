@@ -84,6 +84,7 @@ export default function DoorUnlockingPage() {
         priceLabel="Door Unlocking Rate"
         faqs={faqs}
         showAgent={true}
+        welcomeMessage="Locked your keys in the car? Our unlocking service costs $35 to $120 depending on difficulty and vehicle. What is your vehicle make and where are you?"
       />
     </>
   );

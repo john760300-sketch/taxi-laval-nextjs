@@ -84,6 +84,7 @@ export default function RaccompagnementPage() {
         priceLabel="Tarif Raccompagnement"
         faqs={faqs}
         showAgent={true}
+        welcomeMessage="Bonsoir ! Notre service de raccompagnement vous ramène chez vous en toute sécurité avec votre propre véhicule. Le prix est calculé au double du tarif CTQ jour. D'où partez-vous et quelle est votre destination ?"
       />
     </>
   );

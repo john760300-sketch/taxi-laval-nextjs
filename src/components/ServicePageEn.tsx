@@ -15,6 +15,7 @@ type ServicePageEnProps = {
   faqs?: string[];
   /** When true, replaces the price card + trust bullets with the AI agent. */
   showAgent?: boolean;
+  welcomeMessage?: string;
 };
 
 export default function ServicePageEn({
@@ -28,6 +29,7 @@ export default function ServicePageEn({
   priceNote = "Call us for a free estimate",
   faqs = [],
   showAgent = false,
+  welcomeMessage,
 }: ServicePageEnProps) {
   return (
     <>
@@ -152,7 +154,7 @@ export default function ServicePageEn({
                           514-239-6512
                         </a>
                       </div>
-                      <ChatAgent compact />
+                      <ChatAgent compact welcomeMessage={welcomeMessage} />
                     </div>
                   </>
                 ) : (
