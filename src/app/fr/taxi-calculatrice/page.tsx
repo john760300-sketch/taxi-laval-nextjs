@@ -16,9 +16,9 @@ import Link from "next/link";
 
 export const metadata: Metadata = {
   title:
-    "Calculatrice Taxi — Calculez votre Tarif Taxi partout au Québec | Taxi Chomedey",
+    "Calculatrice Taxi — Calculez le prix de votre course avec Taxi, Uber et Lyft",
   description:
-    "Calculatrice taxi Laval : calculez votre tarif taxi en temps réel. Tarif officiel CTQ, prix fixe aligné sur UberX, sans surge. Service 24/7 à Laval, Rive-Nord & Laurentides.",
+    "Calculatrice taxi Laval : comparez le prix de votre course avec Taxi (tarif CTQ), Uber et Lyft. Prix fixe aligné sur UberX, sans surge. Service 24/7 à Laval, Rive-Nord & Laurentides.",
   alternates: {
     canonical: "https://besttaxilaval.ca/fr/taxi-calculatrice",
     languages: {
@@ -100,12 +100,12 @@ export default function CalculerPrixPage() {
           <div className="mx-auto max-w-4xl px-5">
             <div className="mb-8 text-center">
               <h1 className="mb-3 text-2xl font-bold leading-tight md:text-4xl">
-                Calculatrice Taxi — Calculez votre Tarif Taxi partout au Québec
+                Calculatrice Taxi — Calculez le prix de votre course avec Taxi, Uber et Lyft
               </h1>
               <p className="mx-auto max-w-2xl text-sm text-white/80 md:text-base">
-                Calculateur de tarif taxi en temps réel. Tarif officiel CTQ,
-                prix fixe aligné sur UberX, sans surge. Service 24/7 à Laval,
-                Rive-Nord &amp; Laurentides.
+                Comparez le prix de votre course en temps réel : tarif Taxi
+                officiel CTQ, UberX et Lyft. Prix fixe garanti, sans surge.
+                Service 24/7 à Laval, Rive-Nord &amp; Laurentides.
               </p>
             </div>
 
