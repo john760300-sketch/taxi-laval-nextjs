@@ -18,7 +18,7 @@ const DEFAULT_INITIAL_MESSAGE: Message = {
 /**
  * Self-contained chat agent — plain Tailwind, no UI library dependency.
  * Used on:
- *   - /fr/taxi-calculatrice (standalone page)
+ *   - /fr/calculatrice-taxi (standalone page)
  *   - /en/taxi-calculator (standalone page)
  *   - ServicePage template when showAgent={true}
  */

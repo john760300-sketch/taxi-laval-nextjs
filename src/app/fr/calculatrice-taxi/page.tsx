@@ -20,9 +20,9 @@ export const metadata: Metadata = {
   description:
     "Calculatrice taxi Laval : comparez le prix de votre course avec Taxi (tarif CTQ), Uber et Lyft. Prix fixe aligné sur UberX, sans surge. Service 24/7 à Laval, Rive-Nord & Laurentides.",
   alternates: {
-    canonical: "https://besttaxilaval.ca/fr/taxi-calculatrice",
+    canonical: "https://besttaxilaval.ca/fr/calculatrice-taxi",
     languages: {
-      fr: "https://besttaxilaval.ca/fr/taxi-calculatrice",
+      fr: "https://besttaxilaval.ca/fr/calculatrice-taxi",
       en: "https://besttaxilaval.ca/en/taxi-calculator",
     },
   },
@@ -75,7 +75,7 @@ export default function CalculerPrixPage() {
             name: "Calculatrice de tarif taxi — Taxi Chomedey",
             description:
               "Calculateur de tarif taxi en temps réel. Tarif officiel CTQ, prix fixe aligné sur UberX, sans surge. Service 24/7 à Laval, Rive-Nord & Laurentides.",
-            url: "https://besttaxilaval.ca/fr/taxi-calculatrice",
+            url: "https://besttaxilaval.ca/fr/calculatrice-taxi",
             serviceType: "Taxi fare calculator",
             offers: [
               {
@@ -89,7 +89,7 @@ export default function CalculerPrixPage() {
           faqSchema(SEO_FAQS.map((f) => f.q)),
           breadcrumbSchema([
             { name: "Accueil", url: "https://besttaxilaval.ca/fr" },
-            { name: "Calculatrice taxi", url: "https://besttaxilaval.ca/fr/taxi-calculatrice" },
+            { name: "Calculatrice taxi", url: "https://besttaxilaval.ca/fr/calculatrice-taxi" },
           ]),
         ]}
       />

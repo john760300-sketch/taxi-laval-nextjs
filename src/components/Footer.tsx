@@ -79,7 +79,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="/fr/taxi-calculatrice"
+                  href="/fr/calculatrice-taxi"
                   className="text-sm font-medium text-[#1e3a5f] hover:text-[#e6b422]"
                 >
                   Tarif taxi

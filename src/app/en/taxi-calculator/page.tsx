@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://besttaxilaval.ca/en/taxi-calculator",
     languages: {
-      fr: "https://besttaxilaval.ca/fr/taxi-calculatrice",
+      fr: "https://besttaxilaval.ca/fr/calculatrice-taxi",
       en: "https://besttaxilaval.ca/en/taxi-calculator",
     },
   },

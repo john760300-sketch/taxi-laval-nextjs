@@ -28,8 +28,11 @@ const nextConfig: NextConfig = {
     return [
       { source: "/", destination: "/fr", permanent: true },
       // Old calculator URLs → new SEO-friendly URLs
-      { source: "/fr/calculer-prix", destination: "/fr/taxi-calculatrice", permanent: true },
-      { source: "/fr/calculer-prix/:path*", destination: "/fr/taxi-calculatrice/:path*", permanent: true },
+      { source: "/fr/calculer-prix", destination: "/fr/calculatrice-taxi", permanent: true },
+      { source: "/fr/calculer-prix/:path*", destination: "/fr/calculatrice-taxi/:path*", permanent: true },
+      // Legacy URL rename: /fr/taxi-calculatrice → /fr/calculatrice-taxi (2026-10)
+      { source: "/fr/taxi-calculatrice", destination: "/fr/calculatrice-taxi", permanent: true },
+      { source: "/fr/taxi-calculatrice/:path*", destination: "/fr/calculatrice-taxi/:path*", permanent: true },
       { source: "/en/calculate-fare", destination: "/en/taxi-calculator", permanent: true },
       { source: "/en/calculate-fare/:path*", destination: "/en/taxi-calculator/:path*", permanent: true },
       { source: "/taxi", destination: "/fr", permanent: true },

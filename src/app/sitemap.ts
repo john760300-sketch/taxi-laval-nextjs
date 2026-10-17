@@ -128,7 +128,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   // AI fare agent standalone pages
   entries.push({
-    url: `${BASE}/fr/taxi-calculatrice`,
+    url: `${BASE}/fr/calculatrice-taxi`,
     lastModified: new Date(),
     changeFrequency: "monthly",
     priority: 0.9,

@@ -141,7 +141,7 @@ const article1Fr: BlogPost = {
     {
       type: "cta",
       text: "Vous voulez un prix exact pour votre trajet Laval → YUL maintenant ?",
-      href: "/fr/taxi-calculatrice",
+      href: "/fr/calculatrice-taxi",
       label: "Calculer mon tarif fixe →",
     },
   ],
@@ -169,7 +169,7 @@ const article1Fr: BlogPost = {
   ],
   relatedServices: [
     { title: "Transport aéroport YUL", href: "/fr/transport-aeroport" },
-    { title: "Calculer mon prix fixe", href: "/fr/taxi-calculatrice" },
+    { title: "Calculer mon prix fixe", href: "/fr/calculatrice-taxi" },
   ],
 };
 
@@ -615,7 +615,7 @@ const article3Fr: BlogPost = {
     {
       type: "cta",
       text: "Besoin d'un raccompagnement maintenant ou ce soir ?",
-      href: "/fr/taxi-calculatrice",
+      href: "/fr/calculatrice-taxi",
       label: "Calculer mon tarif raccompagnement →",
     },
   ],
@@ -643,7 +643,7 @@ const article3Fr: BlogPost = {
   ],
   relatedServices: [
     { title: "Service de raccompagnement", href: "/fr/raccompagnement" },
-    { title: "Calculer mon tarif", href: "/fr/taxi-calculatrice" },
+    { title: "Calculer mon tarif", href: "/fr/calculatrice-taxi" },
   ],
 };
 
