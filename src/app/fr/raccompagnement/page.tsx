@@ -23,10 +23,22 @@ export const metadata: Metadata = {
 };
 
 const faqs = [
-  "raccompagnement après soirée Laval",
-  "chauffeur pour ramener ma voiture",
-  "service designated driver Rive-Nord",
-  "taxi raccompagnement 24h",
+  {
+    q: "Raccompagnement après soirée à Laval — comment ça marche ?",
+    a: "Notre chauffeur désigné vous ramène chez vous en toute sécurité dans votre propre véhicule après votre soirée à Laval. Une voiture de poursuite suit pour récupérer le chauffeur une fois que vous êtes arrivé. Disponible 24h/24, 7j/7. Le tarif = 2 × ceil(compteur CTQ jour ou nuit selon l'heure de départ). Réservez au 514-239-6512.",
+  },
+  {
+    q: "J'ai besoin d'un chauffeur pour ramener ma voiture — c'est possible ?",
+    a: "Oui, c'est exactement notre service de raccompagnement. Vous avez consommé et ne pouvez pas conduire ? Notre chauffeur prend le volant de votre véhicule et vous ramène chez vous en sécurité. Le tarif = 2 × ceil(compteur CTQ) — le double d'un taxi classique car le chauffeur doit revenir avec la voiture de poursuite. Pour réserver : 514-239-6512.",
+  },
+  {
+    q: "Service de designated driver (chauffeur désigné) sur la Rive-Nord ?",
+    a: "Oui, nous desservons toute la Rive-Nord : Boisbriand, Saint-Eustache, Blainville, Terrebonne, Mascouche, Sainte-Thérèse — ainsi que Laval et les Laurentides. Service de raccompagnement 24h/24, 7j/7. Le tarif = 2 × tarif CTQ selon la distance et l'heure (jour ou nuit). Réservez au 514-239-6512.",
+  },
+  {
+    q: "Taxi raccompagnement disponible 24h — même la nuit ?",
+    a: "Oui, notre service de raccompagnement est disponible 24h/24, 7j/7 — y compris les nuits de semaine et de fin de semaine. Les trajets entre 23h et 5h utilisent le tarif CTQ nuit (environ 15 % plus cher que le jour). Le tarif = 2 × ceil(compteur CTQ jour ou nuit selon l'heure de départ). Réservez au 514-239-6512.",
+  },
 ];
 
 export default function RaccompagnementPage() {

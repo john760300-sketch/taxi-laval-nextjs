@@ -215,18 +215,26 @@ export function serviceSchema(opts: {
  * Build FAQPage schema from a list of FAQ strings.
  * Generates plausible questions + answer stubs based on the FAQ labels.
  */
-export function faqSchema(faqs: string[]) {
+export function faqSchema(faqs: Array<string | { q: string; a: string }>) {
   return {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: faqs.map((q) => ({
-      "@type": "Question",
-      name: q.endsWith("?") ? q : `${q}?`,
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: `Contactez Taxi Chomedey au ${PHONE} pour plus d'informations sur : ${q}.`,
-      },
-    })),
+    mainEntity: faqs.map((faq) => {
+      // Normalize to { q, a } — string FAQs get the generic placeholder,
+      // {q, a} objects use their actual answer text.
+      const q = typeof faq === "string" ? faq : faq.q;
+      const a = typeof faq === "string"
+        ? `Contactez Taxi Chomedey au ${PHONE} pour plus d'informations sur : ${faq}.`
+        : faq.a;
+      return {
+        "@type": "Question",
+        name: q.endsWith("?") ? q : `${q}?`,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: a,
+        },
+      };
+    }),
   };
 }
 
