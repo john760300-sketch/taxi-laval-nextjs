@@ -96,7 +96,7 @@ const article1Fr: BlogPost = {
     },
     {
       type: "p",
-      text: "Le paiement comptant vous donne 3,4 % de remise (qu'on enlève des frais de terminal carte). Donc un prix fixe de 65 $ carte devient 62,79 $ comptant.",
+      text: "Le paiement comptant vous donne 3,4 % de remise (qu'on enlève des frais de terminal carte). Donc un prix fixe de 65 $ carte devient 62,86 $ comptant.",
     },
     { type: "h2", text: "Exemple réel : Chomedey (Laval) → Aéroport YUL" },
     {
@@ -110,10 +110,10 @@ const article1Fr: BlogPost = {
         { label: "Distance", value: "25 km" },
         { label: "Durée estimée", value: "28 min" },
         { label: "Compteur CTQ jour", value: "4,10 $ + 1,05 $ + (25 × 2,05 $) = 56,40 $" },
-        { label: "UberX habituel", value: "5,75 $ + (25 × 1,15 $) + (28 × 0,28 $) = 43,49 $ (arrondi 43 $)" },
-        { label: "UberX pointe (×1,45)", value: "43 $ × 1,45 = 62,35 $ (arrondi 62 $)" },
-        { label: "Prix fixe (carte)", value: "max(62 $, 57 $) = 62 $" },
-        { label: "Prix comptant (−3,4 %)", value: "62 $ / 1,034 = 59,96 $" },
+        { label: "UberX habituel", value: "5,75 $ + (25 × 1,15 $) + (28 × 0,28 $) = 42,34 $ (arrondi 42 $)" },
+        { label: "UberX pointe (×1,45)", value: "42,34 $ × 1,45 = 61,39 $ (arrondi 61 $)" },
+        { label: "Prix fixe (carte)", value: "max(61 $, 57 $) = 61 $" },
+        { label: "Prix comptant (−3,4 %)", value: "61 $ / 1,034 = 58,99 $" },
       ],
     },
     {
@@ -148,7 +148,7 @@ const article1Fr: BlogPost = {
   faqs: [
     {
       q: "Combien coûte un taxi de Laval à l'aéroport YUL ?",
-      a: "Entre 55 $ et 75 $ le jour (5h–23h), 65 $ à 85 $ la nuit (23h–5h), selon le quartier de Laval. Le prix fixe = max(UberX pointe, compteur CTQ). Paiement comptant = 3,4 % de remise.",
+      a: "Entre 47 $ et 75 $ le jour (5h–23h), 49 $ à 77 $ la nuit (23h–5h), selon le quartier de Laval. Le prix fixe = max(UberX pointe, compteur CTQ). Paiement comptant = 3,4 % de remise.",
     },
     {
       q: "Est-ce qu'il y a un supplément de nuit ?",
@@ -215,7 +215,7 @@ const article1En: BlogPost = {
     },
     {
       type: "p",
-      text: "Cash payment gives you 3.4% discount (we remove the card terminal fee). So a $65 card price becomes $62.79 in cash.",
+      text: "Cash payment gives you 3.4% discount (we remove the card terminal fee). So a $65 card price becomes $62.86 in cash.",
     },
     { type: "h2", text: "Real example: Chomedey (Laval) → YUL Airport" },
     {
@@ -229,10 +229,10 @@ const article1En: BlogPost = {
         { label: "Distance", value: "25 km" },
         { label: "Estimated duration", value: "28 min" },
         { label: "CTQ day meter", value: "$4.10 + $1.05 + (25 × $2.05) = $56.40" },
-        { label: "UberX typical", value: "$5.75 + (25 × $1.15) + (28 × $0.28) = $43.49 (rounded $43)" },
-        { label: "UberX peak (×1.45)", value: "$43 × 1.45 = $62.35 (rounded $62)" },
-        { label: "Fixed price (card)", value: "max($62, $57) = $62" },
-        { label: "Cash price (−3.4%)", value: "$62 / 1.034 = $59.96" },
+        { label: "UberX typical", value: "$5.75 + (25 × $1.15) + (28 × $0.28) = $42.34 (rounded $42)" },
+        { label: "UberX peak (×1.45)", value: "$42.34 × 1.45 = $61.39 (rounded $61)" },
+        { label: "Fixed price (card)", value: "max($61, $57) = $61" },
+        { label: "Cash price (−3.4%)", value: "$61 / 1.034 = $58.99" },
       ],
     },
     {
@@ -267,7 +267,7 @@ const article1En: BlogPost = {
   faqs: [
     {
       q: "How much does a taxi from Laval to YUL airport cost?",
-      a: "$55 to $75 daytime (5am–11pm), $65 to $85 nighttime (11pm–5am), depending on the Laval neighborhood. Fixed price = max(UberX peak, CTQ meter). Cash payment = 3.4% discount.",
+      a: "$47 to $75 daytime (5am–11pm), $49 to $77 nighttime (11pm–5am), depending on the Laval neighborhood. Fixed price = max(UberX peak, CTQ meter). Cash payment = 3.4% discount.",
     },
     {
       q: "Is there a nighttime surcharge?",
