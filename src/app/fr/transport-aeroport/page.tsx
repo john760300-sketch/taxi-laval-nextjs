@@ -23,10 +23,22 @@ export const metadata: Metadata = {
 };
 
 const faqs = [
-  "Combien coûte un taxi de Laval à l'aéroport YUL ?",
-  "Transfert aéroport Montréal-Trudeau depuis la Rive-Nord",
-  "Taxi pour un vol tôt le matin",
-  "Prix fixe navette aéroport YUL",
+  {
+    q: "Combien coûte un taxi de Laval à l'aéroport YUL ?",
+    a: "Le tarif officiel CTQ pour un trajet Laval (Chomedey) → Aéroport Montréal-Trudeau (YUL) est entre 43 $ et 57 $ le jour (5h–23h), 49 $ à 65 $ la nuit (23h–5h), selon le quartier de Laval et la circulation. Le tarif = ceil(compteur CTQ jour ou nuit selon l'heure). [Calculez votre tarif exact →](/fr/calculatrice-taxi) ou réservez au 514-239-6512. [Voir notre article détaillé Laval → YUL →](/fr/blog/combien-coute-taxi-laval-aeroport-yul-2026)",
+  },
+  {
+    q: "Transfert aéroport Montréal-Trudeau depuis la Rive-Nord — quelle zone ?",
+    a: "Nous desservons toute la Rive-Nord : Boisbriand, Saint-Eustache, Blainville, Terrebonne, Mascouche, Sainte-Thérèse — ainsi que Laval et les Laurentides (Saint-Jérôme, Mirabel, Mont-Tremblant). Service de transfert aéroport YUL 24h/24, 7j/7 avec suivi de vol en direct (sans frais en cas de retard). [Calculez votre tarif depuis votre ville →](/fr/calculatrice-taxi) ou appelez le 514-239-6512.",
+  },
+  {
+    q: "Taxi pour un vol tôt le matin — comment réserver ?",
+    a: "Pour un vol tôt le matin (5h–7h), réservez la veille. On a 50+ véhicules mais les créneaux de pointe partent vite. Pour un vol en après-midi, vous pouvez appeler 30 minutes avant — on a presque toujours un chauffeur disponible dans Laval. Le tarif est le même 24h/24 (tarif jour 5h–23h, tarif nuit 23h–5h avec ~15 % de supplément). [Calculez votre tarif →](/fr/calculatrice-taxi) ou réservez au 514-239-6512.",
+  },
+  {
+    q: "Prix fixe navette aéroport YUL — comment ça marche ?",
+    a: "Notre prix fixe pour le transfert aéroport YUL = max(UberX pointe, ceil(compteur CTQ jour ou nuit)). Le client paie jamais plus cher que UberX en pointe, et on garantit un revenu minimum au chauffeur. Paiement comptant = 3,4 % de remise (frais de terminal carte enlevés). Suivi de vol en direct inclus — sans frais en cas de retard. [Calculez votre prix fixe →](/fr/calculatrice-taxi) ou appelez le 514-239-6512.",
+  },
 ];
 
 export default function TransportAeroportPage() {
