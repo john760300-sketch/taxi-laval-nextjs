@@ -96,7 +96,7 @@ export async function POST(req: Request) {
     // so the LLM knows which service page the user is on
     let fullPrompt = SYSTEM_PROMPT;
     if (serviceContext === "raccompagnement") {
-      fullPrompt = SYSTEM_PROMPT + "\n\nIMPORTANT: L'utilisateur est actuellement sur la page RACCOMPAGNEMENT (chauffeur désigné). Vous DEVEZ utiliser le flux C (raccompagnement) — pas le flux A (taxi). Quand vous émettez le bloc ===FARE_REQUEST===, incluez TOUJOURS \"service\":\"raccompagnement\" dans le JSON. Ne demandez PAS la date/heure (toujours tarif jour). Collectez seulement origine + destination.";
+      fullPrompt = SYSTEM_PROMPT + "\n\nIMPORTANT: L'utilisateur est actuellement sur la page RACCOMPAGNEMENT (chauffeur désigné). Vous DEVEZ utiliser le flux C (raccompagnement) — pas le flux A (taxi). Quand vous émettez le bloc ===FARE_REQUEST===, incluez TOUJOURS \"service\":\"raccompagnement\" dans le JSON. Ne demandez PAS la date/heure — le système utilise automatiquement l'heure actuelle pour détecter le tarif jour (5h–23h) ou nuit (23h–5h) et calcule le prix raccompagnement = 2 × ceil(compteur CTQ jour ou nuit selon l'heure). Collectez seulement origine + destination.";
     } else if (serviceContext === "survoltage") {
       // SURVOLTAGE (BATTERY BOOST) — completely different flow.
       // No origin/destination collection, no fare calculation, no FARE_REQUEST.

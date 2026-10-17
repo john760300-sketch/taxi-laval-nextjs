@@ -56,12 +56,16 @@ export function FareTable({ data }: { data: FareData }) {
         </div>
         <div className="mt-1 text-xs text-slate-300">
           {isRaccompagnement
-            ? "= 2 × tarif CTQ jour · Comptant −3,4 %"  // CTQ in data — not rendered as JSX
+            ? data.isNight
+              ? "= 2 × tarif CTQ nuit · Comptant −3,4 %"
+              : "= 2 × tarif CTQ jour · Comptant −3,4 %"
             : "= Prix aligné sur UberX (pointe)"}
         </div>
         <div className="mt-2 inline-block rounded-full bg-[#e6b422] px-3 py-1 text-[11px] font-semibold text-[#1e3a5f]">
           {isRaccompagnement
-            ? "Raccompagnement · Tarif jour"
+            ? data.isNight
+              ? "Raccompagnement · Tarif nuit"
+              : "Raccompagnement · Tarif jour"
             : data.isNight
               ? "Prix fixe · Nuit"
               : "Prix fixe · Jour"}
@@ -91,8 +95,8 @@ export function FareTable({ data }: { data: FareData }) {
         {isRaccompagnement ? (
           <>
             <Row
-              label={<span>Tarif jour <CtqLink /> (un trajet)</span>}
-              value={`$${data.taxiDay.toFixed(2)}`}
+              label={<span>Tarif {data.isNight ? "nuit" : "jour"} <CtqLink /> (un trajet)</span>}
+              value={`$${(data.isNight ? data.taxiNight : data.taxiDay).toFixed(2)}`}
             />
             <Row
               label="× 2 (aller + retour chauffeur)"

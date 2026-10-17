@@ -25,11 +25,13 @@ export async function POST(req: Request) {
       );
     }
 
-    // Raccompagnement = 2× CTQ day meter (no night detection, no UberX/Lyft comparison)
+    // Raccompagnement = 2× ceil(CTQ meter) where meter uses day OR night rate
+    // based on the trip datetime (default = now). Night trips (23h–5h) use
+    // the higher CTQ night rate, day trips use the day rate.
     // Regular taxi = max(UberX peak, ceil(CTQ meter jour/nuit))
     const fare =
       service === "raccompagnement"
-        ? calculateRaccompagnementFare(route.distanceKm, route.durationMin)
+        ? calculateRaccompagnementFare(route.distanceKm, route.durationMin, datetime || null)
         : calculateFare(route.distanceKm, route.durationMin, datetime || null);
 
     return NextResponse.json({

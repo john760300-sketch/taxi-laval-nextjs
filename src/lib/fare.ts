@@ -179,21 +179,29 @@ export function calculateFare(
 /**
  * Raccompagnement (designated driver in client's own car).
  *
- * Pricing rule (per user, 2026-10-12):
- *   - Always uses the CTQ DAY rate (no night detection)
- *   - Prix fixe = 2 × ceil(CTQ day meter)
+ * Pricing rule (updated 2026-10-17 per user):
+ *   - Detect day/night from trip datetime (default = now)
+ *   - Day (5h–23h):   prix fixe = 2 × ceil(CTQ day meter)
+ *   - Night (23h–5h): prix fixe = 2 × ceil(CTQ night meter)
  *   - Cash price = prix fixe / 1.034 (same 3.4 % terminal fee discount as taxi)
  *   - No UberX/Lyft comparison (those services don't apply here)
+ *
+ * Previously: always used day rate (per spec 2026-10-12). User changed the
+ * rule on 2026-10-17 so night trips get the proper night surcharge.
  *
  * The driver drives the client's car home, with a chase car following
  * to bring the driver back. The 2× multiplier covers the round trip.
  */
 export function calculateRaccompagnementFare(
   distanceKm: number,
-  durationMin: number
+  durationMin: number,
+  datetimeStr?: string | null
 ): FareResult {
-  const rate = RATES.day; // Force day rate always
+  const isNight = isNightTime(datetimeStr);
+  const rate = isNight ? RATES.night : RATES.day;
   const meter = ctqMeter(distanceKm, durationMin, rate);
+  const meterDay = ctqMeter(distanceKm, durationMin, RATES.day);
+  const meterNight = ctqMeter(distanceKm, durationMin, RATES.night);
 
   const cardPrice = Math.ceil(meter) * 2;
   const cashPrice =
@@ -203,16 +211,16 @@ export function calculateRaccompagnementFare(
   return {
     distanceKm: Number(distanceKm.toFixed(1)),
     durationMin: Math.round(durationMin),
-    rateType: "Raccompagnement (tarif jour)",
+    rateType: isNight ? "Raccompagnement (tarif nuit)" : "Raccompagnement (tarif jour)",
     baseFare: cashPrice,
     terminalFee,
     lockedPrice: cardPrice,
     creditPrice: cardPrice,
     cashPrice,
-    estPointe: false, // Not relevant — fixed day rate
-    isNight: false, // Always day rate
-    taxiDay: Math.round(meter * 100) / 100,
-    taxiNight: 0, // Not applicable
+    estPointe: false, // Not relevant for raccompagnement pricing
+    isNight,
+    taxiDay: Math.round(meterDay * 100) / 100,
+    taxiNight: Math.round(meterNight * 100) / 100,
     uberEstimate: "",
     lyftEstimate: "",
     meterEstimate: Math.round(meter),
