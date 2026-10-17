@@ -200,23 +200,26 @@ export function calculateFare(
   const uber = rideshare(distanceKm, durationMin, 5.75, 1.15, 0.28, 8, 1.45);
   const lyft = rideshare(distanceKm, durationMin, 5.05, 1.05, 0.25, 7, 1.4);
 
-  // Prix fixe = max(UberX pointe, compteur CTQ arrondi)
+  // Prix fixe = ceil(compteur CTQ jour ou nuit selon l'heure).
   //
-  // Marketing rule (confirmed 2026-10-17): the prix fixe MUST equal the high
-  // end of the UberX estimate interval (uber.high) whenever Uber peak
-  // dominates the CTQ meter — i.e. for short/medium trips. Customers expect
-  // to see exactly the UberX peak number from the "À comparer" section.
+  // Updated 2026-10-17 per user request to align with the PRICING_ROUTES
+  // table on /fr/calculatrice-taxi and /en/taxi-calculator which also use
+  // ceil(CTQ meter) only (no max with UberX peak).
   //
-  // Note: this means day and night prix fixe are identical for short/medium
-  // trips (Uber peak doesn't differentiate time of day in our model). The
-  // day-vs-night distinction is preserved via:
-  //   - The gold "Prix fixe · Nuit" badge in the header
-  //   - The "Taxi CTQ nuit (23h–5h)" row in the comparison section showing
-  //     the higher night meter separately
-  // For long trips where the CTQ night meter exceeds Uber peak, prix fixe
-  // automatically switches to ceil(meterNight) — e.g. 45 km night trip
-  // gives $112 (CTQ night) instead of $102 (Uber peak).
-  const cardPrice = Math.max(uber.high, Math.ceil(meter));
+  // Before: cardPrice = max(uber.high, Math.ceil(meter))
+  //   For short/medium day trips where Uber peak > CTQ day meter, the prix
+  //   fixe was Uber peak (e.g. $56 for a 22km day trip where CTQ was $51).
+  //   This caused a mismatch: the calculator showed $56 but the table showed
+  //   $43-57. Customer couldn't tell if the prix fixe was the CTQ rate or
+  //   the Uber peak.
+  //
+  // After: cardPrice = Math.ceil(meter)
+  //   Prix fixe = ceil(CTQ day meter) for day trips, ceil(CTQ night meter)
+  //   for night trips. Aligned with the table. Customer pays the official
+  //   regulated CTQ rate. The UberX/Lyft comparison is still shown in the
+  //   "À comparer" section of FareTable so customers can see they're paying
+  //   less than UberX peak on day trips.
+  const cardPrice = Math.ceil(meter);
   const cashPrice =
     Math.round((cardPrice / (1 + TERMINAL_FEE_RATE)) * 100) / 100;
   const terminalFee = Math.round((cardPrice - cashPrice) * 100) / 100;

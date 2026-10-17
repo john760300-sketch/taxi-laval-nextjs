@@ -59,7 +59,7 @@ export function FareTable({ data }: { data: FareData }) {
             ? data.isNight
               ? "= 2 × tarif CTQ nuit · Comptant −3,4 %"
               : "= 2 × tarif CTQ jour · Comptant −3,4 %"
-            : "= Prix aligné sur UberX (pointe)"}
+            : "= Tarif CTQ officiel · Comptant −3,4 %"}
         </div>
         <div className="mt-2 inline-block rounded-full bg-[#e6b422] px-3 py-1 text-[11px] font-semibold text-[#1e3a5f]">
           {isRaccompagnement
@@ -105,7 +105,7 @@ export function FareTable({ data }: { data: FareData }) {
           </>
         ) : (
           <Row
-            label="Prix fixe (UberX pointe)"
+            label="Tarif CTQ officiel"
             value={`$${data.creditPrice}`}
           />
         )}

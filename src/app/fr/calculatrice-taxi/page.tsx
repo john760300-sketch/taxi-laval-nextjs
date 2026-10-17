@@ -35,7 +35,7 @@ const SEO_FAQS = [
   },
   {
     q: "Comment est calculé le tarif taxi ?",
-    a: "Le tarif suit le barème officiel CTQ : prise en charge (4,10 $ jour / 4,70 $ nuit) + redevance (1,05 $) + 2,05 $/km jour (2,35 $ nuit) ou 0,77 $/min (0,89 $ nuit). Sous 22,5 km/h, le compteur charge le temps ; au-dessus, la distance. Notre prix fixe = max(UberX pointe, compteur CTQ).",
+    a: "Le tarif suit le barème officiel CTQ : prise en charge (4,10 $ jour / 4,70 $ nuit) + redevance (1,05 $) + 2,05 $/km jour (2,35 $ nuit) ou 0,77 $/min (0,89 $ nuit). Sous 22,5 km/h, le compteur charge le temps ; au-dessus, la distance. Le prix fixe = ceil(compteur CTQ jour ou nuit selon l'heure).",
   },
   {
     q: "Puis-je payer comptant ?",
@@ -74,7 +74,7 @@ export default function CalculerPrixPage() {
           serviceSchema({
             name: "Calculatrice de tarif taxi — Taxi Chomedey",
             description:
-              "Calculateur de tarif taxi en temps réel. Tarif officiel CTQ, prix fixe aligné sur UberX, sans surge. Service 24/7 à Laval, Rive-Nord & Laurentides.",
+              "Calculateur de tarif taxi en temps réel. Tarif officiel CTQ réglementé, sans surge. Service 24/7 à Laval, Rive-Nord & Laurentides.",
             url: "https://besttaxilaval.ca/fr/calculatrice-taxi",
             serviceType: "Taxi fare calculator",
             offers: [
@@ -128,12 +128,11 @@ export default function CalculerPrixPage() {
               départ pour déterminer le tarif jour (5h–23h) ou nuit (23h–5h).
             </p>
             <p className="mb-4 leading-relaxed text-[#4a627a]">
-              Notre prix fixe est aligné sur UberX (tarif de pointe). La
-              formule : <strong>prix fixe = max(UberX pointe, compteur <CtqLink />)</strong>.
-              Vous ne payez jamais plus cher qu&apos;UberX en heure de pointe, et
-              nous garantissons un revenu minimum au chauffeur. Le paiement
-              comptant vous donne <strong>3,4 % de remise</strong> (frais de
-              terminal carte enlevés).
+              Notre prix fixe suit le tarif <CtqLink /> officiel réglementé. La
+              formule : <strong>prix fixe = ceil(compteur CTQ jour ou nuit selon l&apos;heure)</strong>.
+              Vous payez le tarif réglementé par la Commission des transports du
+              Québec, jamais de surge. Le paiement comptant vous donne
+              <strong>3,4 % de remise</strong> (frais de terminal carte enlevés).
             </p>
 
             {/* Pricing table */}

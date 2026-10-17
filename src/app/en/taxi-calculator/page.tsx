@@ -35,7 +35,7 @@ const SEO_FAQS = [
   },
   {
     q: "How is the taxi fare calculated?",
-    a: "The fare follows the official CTQ rate: pickup ($4.10 day / $4.70 night) + levy ($1.05) + $2.05/km day ($2.35 night) or $0.77/min day ($0.89 night). Below 22.5 km/h, the meter charges time; above, distance. Our fixed price = max(UberX peak, CTQ meter).",
+    a: "The fare follows the official CTQ rate: pickup ($4.10 day / $4.70 night) + levy ($1.05) + $2.05/km day ($2.35 night) or $0.77/min day ($0.89 night). Below 22.5 km/h, the meter charges time; above, distance. The fixed price = ceil(CTQ day or night meter depending on time).",
   },
   {
     q: "Can I pay cash?",
@@ -74,7 +74,7 @@ export default function CalculateFarePage() {
           serviceSchema({
             name: "Taxi Fare Calculator — Taxi Chomedey",
             description:
-              "Real-time taxi fare calculator. Official CTQ rate, fixed price aligned with UberX, no surge. 24/7 service in Laval, North Shore & Laurentians.",
+              "Real-time taxi fare calculator. Official regulated CTQ rate, no surge. 24/7 service in Laval, North Shore & Laurentians.",
             url: "https://besttaxilaval.ca/en/taxi-calculator",
             serviceType: "Taxi fare calculator",
             offers: [
@@ -126,10 +126,10 @@ export default function CalculateFarePage() {
               determine the day rate (5am–11pm) or night rate (11pm–5am).
             </p>
             <p className="mb-4 leading-relaxed text-[#4a627a]">
-              Our fixed price is aligned with UberX (peak pricing). The formula:
-              <strong> fixed price = max(UberX peak, <CtqLink /> meter)</strong>. You
-              never pay more than UberX peak, and we guarantee a minimum income
-              for the driver. Cash payment gives you a{" "}
+              Our fixed price follows the official regulated <CtqLink /> rate. The
+              formula: <strong>fixed price = ceil(CTQ day or night meter depending on time)</strong>.
+              You pay the rate regulated by the Commission des transports du
+              Québec, never any surge. Cash payment gives you a{" "}
               <strong>3.4% discount</strong> (card terminal fee removed).
             </p>
 
