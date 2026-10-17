@@ -16,6 +16,7 @@ type ServicePageEnProps = {
   /** When true, replaces the price card + trust bullets with the AI agent. */
   showAgent?: boolean;
   welcomeMessage?: string;
+  serviceContext?: string;
 };
 
 export default function ServicePageEn({
@@ -30,6 +31,7 @@ export default function ServicePageEn({
   faqs = [],
   showAgent = false,
   welcomeMessage,
+  serviceContext,
 }: ServicePageEnProps) {
   return (
     <>
@@ -154,7 +156,7 @@ export default function ServicePageEn({
                           514-239-6512
                         </a>
                       </div>
-                      <ChatAgent compact welcomeMessage={welcomeMessage} />
+                      <ChatAgent compact welcomeMessage={welcomeMessage} serviceContext={serviceContext} />
                     </div>
                   </>
                 ) : (

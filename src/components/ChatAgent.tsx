@@ -25,9 +25,11 @@ const DEFAULT_INITIAL_MESSAGE: Message = {
 export function ChatAgent({
   compact = false,
   welcomeMessage,
+  serviceContext,
 }: {
   compact?: boolean;
   welcomeMessage?: string;
+  serviceContext?: string;
 }) {
   const [messages, setMessages] = useState<Message[]>([
     {
@@ -71,6 +73,7 @@ export function ChatAgent({
             role: msg.role,
             content: msg.content,
           })),
+          serviceContext,
         }),
       });
 

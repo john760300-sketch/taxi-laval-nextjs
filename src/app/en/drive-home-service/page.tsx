@@ -82,6 +82,7 @@ export default function DriveHomeServicePage() {
         faqs={faqs}
         showAgent={true}
         welcomeMessage="Hello! I'm the virtual agent of Taxi Chomedey. Our drive-home service gets you home safely in your own vehicle. Where are you starting from?"
+        serviceContext="raccompagnement"
       />
     </>
   );

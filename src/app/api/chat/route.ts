@@ -82,14 +82,20 @@ const SYSTEM_PROMPT = [
 
 export async function POST(req: Request) {
   try {
-    const body = await req.json();
-    const messages = body?.messages;
+    const { messages, serviceContext } = body || {};
 
     if (!Array.isArray(messages)) {
       return NextResponse.json(
         { error: "messages array required" },
         { status: 400 }
       );
+    }
+
+    // If serviceContext is provided, prepend it to the system prompt
+    // so the LLM knows which service page the user is on
+    let fullPrompt = SYSTEM_PROMPT;
+    if (serviceContext === "raccompagnement") {
+      fullPrompt = SYSTEM_PROMPT + "\n\nIMPORTANT: L'utilisateur est actuellement sur la page RACCOMPAGNEMENT (chauffeur désigné). Vous DEVEZ utiliser le flux C (raccompagnement) — pas le flux A (taxi). Quand vous émettez le bloc ===FARE_REQUEST===, incluez TOUJOURS \"service\":\"raccompagnement\" dans le JSON. Ne demandez PAS la date/heure (toujours tarif jour). Collectez seulement origine + destination.";
     }
 
     const apiToken = process.env.CLOUDFLARE_API_TOKEN;
@@ -115,7 +121,7 @@ export async function POST(req: Request) {
       },
       body: JSON.stringify({
         messages: [
-          { role: "system", content: SYSTEM_PROMPT },
+          { role: "system", content: fullPrompt },
           ...messages,
         ],
       }),

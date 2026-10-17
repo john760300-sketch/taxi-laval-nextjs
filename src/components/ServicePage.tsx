@@ -17,6 +17,7 @@ type ServicePageProps = {
   showAgent?: boolean;
   /** Custom welcome message for the chat agent (service-specific). */
   welcomeMessage?: string;
+  serviceContext?: string;
 };
 
 export default function ServicePage({
@@ -31,6 +32,7 @@ export default function ServicePage({
   faqs = [],
   showAgent = false,
   welcomeMessage,
+  serviceContext,
 }: ServicePageProps) {
   return (
     <>
@@ -157,7 +159,7 @@ export default function ServicePage({
                           514-239-6512
                         </a>
                       </div>
-                      <ChatAgent compact welcomeMessage={welcomeMessage} />
+                      <ChatAgent compact welcomeMessage={welcomeMessage} serviceContext={serviceContext} />
                     </div>
                   </>
                 ) : (

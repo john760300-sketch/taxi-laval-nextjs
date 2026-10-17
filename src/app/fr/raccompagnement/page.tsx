@@ -85,6 +85,7 @@ export default function RaccompagnementPage() {
         faqs={faqs}
         showAgent={true}
         welcomeMessage="Bonjour ! Je suis l'agent virtuel de Taxi Chomedey. Notre service de raccompagnement vous ramène chez vous en toute sécurité avec votre propre véhicule. D'où partez-vous ?"
+      serviceContext="raccompagnement"
       />
     </>
   );
