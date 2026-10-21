@@ -11,7 +11,8 @@ export const metadata: Metadata = {
     languages: {
       fr: "https://besttaxilaval.ca/fr/transport-local",
       en: "https://besttaxilaval.ca/en/local-transport",
-    },
+        "x-default": "https://besttaxilaval.ca/en/local-transport",
+      },
   },
 };
 

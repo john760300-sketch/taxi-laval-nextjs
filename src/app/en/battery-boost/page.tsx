@@ -18,7 +18,8 @@ export const metadata: Metadata = {
     languages: {
       fr: "https://besttaxilaval.ca/fr/survoltage-batterie",
       en: "https://besttaxilaval.ca/en/battery-boost",
-    },
+        "x-default": "https://besttaxilaval.ca/en/battery-boost",
+      },
   },
 };
 

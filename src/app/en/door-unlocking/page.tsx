@@ -18,7 +18,8 @@ export const metadata: Metadata = {
     languages: {
       fr: "https://besttaxilaval.ca/fr/deverrouillage-portiere",
       en: "https://besttaxilaval.ca/en/door-unlocking",
-    },
+        "x-default": "https://besttaxilaval.ca/en/door-unlocking",
+      },
   },
 };
 

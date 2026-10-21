@@ -11,7 +11,8 @@ export const metadata: Metadata = {
     languages: {
       fr: "https://besttaxilaval.ca/fr/urgence",
       en: "https://besttaxilaval.ca/en/emergency",
-    },
+        "x-default": "https://besttaxilaval.ca/fr/urgence",
+      },
   },
 };
 

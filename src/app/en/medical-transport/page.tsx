@@ -11,7 +11,8 @@ export const metadata: Metadata = {
     languages: {
       fr: "https://besttaxilaval.ca/fr/transport-medical",
       en: "https://besttaxilaval.ca/en/medical-transport",
-    },
+        "x-default": "https://besttaxilaval.ca/en/medical-transport",
+      },
   },
 };
 

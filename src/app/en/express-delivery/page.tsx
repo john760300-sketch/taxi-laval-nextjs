@@ -11,7 +11,8 @@ export const metadata: Metadata = {
     languages: {
       fr: "https://besttaxilaval.ca/fr/livraison-express",
       en: "https://besttaxilaval.ca/en/express-delivery",
-    },
+        "x-default": "https://besttaxilaval.ca/en/express-delivery",
+      },
   },
 };
 

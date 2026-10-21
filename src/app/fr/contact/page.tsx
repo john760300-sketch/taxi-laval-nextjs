@@ -11,7 +11,8 @@ export const metadata: Metadata = {
     languages: {
       fr: "https://besttaxilaval.ca/fr/contact",
       en: "https://besttaxilaval.ca/en/contact",
-    },
+        "x-default": "https://besttaxilaval.ca/fr/contact",
+      },
   },
 };
 

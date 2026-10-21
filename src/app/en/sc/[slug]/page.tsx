@@ -34,6 +34,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       languages: {
         fr: `https://besttaxilaval.ca/fr/${frSlug}-${city.slug}`,
         en: `https://besttaxilaval.ca/en/${slug}`,
+        "x-default": `https://besttaxilaval.ca/fr/sc/${slug}`,
       },
     },
   };

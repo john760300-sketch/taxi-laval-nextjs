@@ -25,6 +25,7 @@ export async function generateMetadata({
       languages: {
         fr: `https://besttaxilaval.ca/fr/blog/${post.slug}`,
         en: `https://besttaxilaval.ca/en/blog/${post.slug}`,
+        "x-default": `https://besttaxilaval.ca/fr/blog/${post.slug}`,
       },
     },
   };

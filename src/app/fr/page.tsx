@@ -12,7 +12,9 @@ export const metadata: Metadata = {
   description: h.description,
   alternates: {
     canonical: "https://besttaxilaval.ca/fr",
-    languages: { fr: "https://besttaxilaval.ca/fr", en: "https://besttaxilaval.ca/en" },
+    languages: { fr: "https://besttaxilaval.ca/fr", en: "https://besttaxilaval.ca/en",
+        "x-default": "https://besttaxilaval.ca/fr",
+      },
   },
 };
 

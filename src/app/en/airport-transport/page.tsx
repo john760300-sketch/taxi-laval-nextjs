@@ -18,7 +18,8 @@ export const metadata: Metadata = {
     languages: {
       fr: "https://besttaxilaval.ca/fr/transport-aeroport",
       en: "https://besttaxilaval.ca/en/airport-transport",
-    },
+        "x-default": "https://besttaxilaval.ca/en/airport-transport",
+      },
   },
 };
 

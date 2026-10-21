@@ -24,7 +24,8 @@ export const metadata: Metadata = {
     languages: {
       fr: "https://besttaxilaval.ca/fr/calculatrice-taxi",
       en: "https://besttaxilaval.ca/en/taxi-calculator",
-    },
+        "x-default": "https://besttaxilaval.ca/en/taxi-calculator",
+      },
   },
 };
 

@@ -18,7 +18,8 @@ export const metadata: Metadata = {
     languages: {
       fr: "https://besttaxilaval.ca/fr/raccompagnement",
       en: "https://besttaxilaval.ca/en/drive-home-service",
-    },
+        "x-default": "https://besttaxilaval.ca/en/drive-home-service",
+      },
   },
 };
 
