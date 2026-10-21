@@ -121,17 +121,35 @@ async function fetchSitemapUrls() {
 }
 
 /**
- * Read all previous indexing-run log files and extract URLs that succeeded (✓).
+ * Read all previous indexing-run log files AND the git-tracked
+ * scripts/submitted-urls.json to find URLs that already succeeded (✓).
  * Returns a Set of URL strings that have already been successfully submitted.
+ *
+ * The JSON file is the PRIMARY source (git-tracked, survives sandbox resets).
+ * Log files are a SECONDARY source (may be wiped by session resets).
  */
 async function getAlreadySubmittedUrls() {
   const submitted = new Set();
+
+  // 1. Read from the git-tracked JSON state file (persists across session resets)
+  try {
+    const json = JSON.parse(await readFile(`${LOG_DIR}/submitted-urls.json`, "utf8"));
+    if (json.submittedUrls && Array.isArray(json.submittedUrls)) {
+      for (const url of json.submittedUrls) {
+        submitted.add(url);
+      }
+      console.log(`  (from submitted-urls.json: ${json.submittedUrls.length} URLs)`);
+    }
+  } catch (e) {
+    // File doesn't exist yet — that's OK for first run
+  }
+
+  // 2. Also read from log files (may have additional URLs from this session)
   try {
     const files = await readdir(LOG_DIR);
     const logFiles = files.filter((f) => LOG_PATTERN.test(f));
     for (const file of logFiles) {
       const content = await readFile(`${LOG_DIR}/${file}`, "utf8");
-      // Match lines like: [1/510] https://besttaxilaval.ca/fr ... ✓
       const lines = content.split("\n");
       for (const line of lines) {
         const match = line.match(/^\[\d+\/\d+\]\s+(\S+)\s+\.\.\.\s+✓$/);
@@ -141,8 +159,9 @@ async function getAlreadySubmittedUrls() {
       }
     }
   } catch (e) {
-    console.log(`(No previous logs found, starting fresh)`);
+    // No log files found — that's OK
   }
+
   return submitted;
 }
 
@@ -218,6 +237,7 @@ async function main() {
       );
       if (res.status === 200) {
         ok++;
+        alreadySubmitted.add(url); // Track for state file
         console.log("✓");
       } else {
         fail++;
@@ -248,8 +268,24 @@ async function main() {
 
   if (fail > 0 && failures.some((f) => f.error.includes("429"))) {
     console.log(`\n💡 Quota hit — wait 24h and re-run this script.`);
-    console.log(`   It'll skip the ${alreadySubmitted.size + ok} already-submitted URLs`);
-    console.log(`   and only attempt the remaining ${allUrls.length - alreadySubmitted.size - ok}.`);
+    console.log(`   It'll skip the ${alreadySubmitted.size} already-submitted URLs`);
+    console.log(`   and only attempt the remaining ${allUrls.length - alreadySubmitted.size}.`);
+  }
+
+  // 8. Save updated state to git-tracked JSON file (survives session resets)
+  if (ok > 0) {
+    const stateJson = JSON.stringify({
+      submittedUrls: [...alreadySubmitted].sort(),
+      lastUpdated: new Date().toISOString(),
+      totalSubmitted: alreadySubmitted.size,
+    }, null, 2);
+    try {
+      await writeFile(`${LOG_DIR}/submitted-urls.json`, stateJson);
+      console.log(`\n💾 Saved ${alreadySubmitted.size} submitted URLs to scripts/submitted-urls.json`);
+      console.log(`   (git-tracked — survives sandbox session resets)`);
+    } catch (e) {
+      console.log(`\n⚠️  Could not save state file: ${e.message}`);
+    }
   }
 }
 
