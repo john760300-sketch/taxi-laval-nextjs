@@ -50,7 +50,7 @@ export default function FrenchHomePage() {
             <div className="max-w-2xl text-white">
               <h1 className="mb-5 text-3xl font-bold leading-tight md:text-4xl lg:text-5xl">{h.h1}</h1>
               <p className="mb-6 text-base leading-relaxed text-white/95">{h.hero}</p>
-              <h3 className="mb-4 text-xl font-semibold text-[#e6b422]">{h.contactTitle}</h3>
+              <h2 className="mb-4 text-xl font-semibold text-[#e6b422]">{h.contactTitle}</h2>
               <div className="mb-6 flex flex-wrap gap-3 text-sm">
                 {h.badges.map((b) => {
                   if (typeof b === "string") {
