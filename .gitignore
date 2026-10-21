@@ -66,3 +66,4 @@ standalone-*.png
 airport-*.png
 nav-with-*.png
 worklog.md
+scripts/*.log

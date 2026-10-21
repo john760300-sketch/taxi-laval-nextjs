@@ -26,7 +26,7 @@ import { existsSync } from "node:fs";
 const SITEMAP_URL = "https://besttaxilaval.ca/sitemap.xml";
 const KEY_PATH =
   process.env.GOOGLE_SERVICE_ACCOUNT_PATH || "/home/z/.service-account.json";
-const LOG_DIR = "/tmp";
+const LOG_DIR = "/home/z/my-project/scripts";
 const LOG_PATTERN = /indexing-run.*\.log/;
 const STATE_FILE = "/tmp/indexing-submitted-state.json";
 const FORCE_ALL = process.env.FORCE_ALL === "1";
