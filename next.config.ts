@@ -92,6 +92,10 @@ const nextConfig: NextConfig = {
       { source: "/taxi/urgence/", destination: "/fr/urgence", permanent: true },
       { source: "/taxi/contact", destination: "/fr/contact", permanent: true },
       { source: "/taxi/contact/", destination: "/fr/contact", permanent: true },
+      { source: "/taxi/sitemap", destination: "/sitemap.xml", permanent: true },
+      { source: "/taxi/sitemap/", destination: "/sitemap.xml", permanent: true },
+      { source: "/taxi/en/sitemap", destination: "/sitemap.xml", permanent: true },
+      { source: "/taxi/en/sitemap/", destination: "/sitemap.xml", permanent: true },
 
       { source: "/transport-local", destination: "/fr/transport-local", permanent: true },
       { source: "/transport-local/", destination: "/fr/transport-local", permanent: true },
