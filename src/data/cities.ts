@@ -57,6 +57,11 @@ export const cities: City[] = [
   { slug: "sainte-agathe-des-monts", nameFr: "Sainte-Agathe-des-Monts", nameEn: "Sainte-Agathe-des-Monts", region: "laurentides", officialUrl: "https://ville.sainte-agathe-des-monts.qc.ca/" },
   { slug: "prevost", nameFr: "Prévost", nameEn: "Prévost", region: "laurentides", officialUrl: "https://www.ville.prevost.qc.ca/" },
   { slug: "saint-sauveur", nameFr: "Saint-Sauveur", nameEn: "Saint-Sauveur", region: "laurentides", officialUrl: "https://ville.saint-sauveur.qc.ca/" },
+  { slug: "sainte-anne-des-plaines", nameFr: "Sainte-Anne-des-Plaines", nameEn: "Sainte-Anne-des-Plaines", region: "laurentides", officialUrl: "https://ville.sainte-anne-des-plaines.qc.ca/" },
+  { slug: "saint-hippolyte", nameFr: "Saint-Hippolyte", nameEn: "Saint-Hippolyte", region: "laurentides", officialUrl: "https://www.saint-hippolyte.ca/" },
+  { slug: "val-david", nameFr: "Val-David", nameEn: "Val-David", region: "laurentides", officialUrl: "https://www.val-david.com/" },
+  { slug: "val-morin", nameFr: "Val-Morin", nameEn: "Val-Morin", region: "laurentides", officialUrl: "https://www.valmorin.ca/" },
+  { slug: "sainte-marguerite-du-lac-masson", nameFr: "Sainte-Marguerite-du-Lac-Masson", nameEn: "Sainte-Marguerite-du-Lac-Masson", region: "laurentides", officialUrl: "https://www.sainte-marguerite.ca/" },
 ];
 
 export const servicesFr = [
