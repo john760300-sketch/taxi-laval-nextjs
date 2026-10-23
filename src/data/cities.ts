@@ -31,7 +31,7 @@ export const cities: City[] = [
   // Rive-Nord
   { slug: "boisbriand", nameFr: "Boisbriand", nameEn: "Boisbriand", region: "rive-nord", officialUrl: "https://ville.boisbriand.qc.ca/" },
   { slug: "saint-eustache", nameFr: "Saint-Eustache", nameEn: "Saint-Eustache", region: "rive-nord", officialUrl: "https://ville.saint-eustache.qc.ca/" },
-  { slug: "blainville", nameFr: "Blainville", nameEn: "Blainville", region: "rive-nord", officialUrl: "https://blainville.ca/" },
+  { slug: "blainville", nameFr: "Blainville", nameEn: "Blainville", region: "rive-nord", officialUrl: "https://mrc-tdb.org/ville-de-blainville" },
   { slug: "sainte-therese", nameFr: "Sainte-Thérèse", nameEn: "Sainte-Thérèse", region: "rive-nord", officialUrl: "https://www.sainte-therese.ca/" },
   { slug: "terrebonne", nameFr: "Terrebonne", nameEn: "Terrebonne", region: "rive-nord", officialUrl: "https://ville.terrebonne.qc.ca/" },
   { slug: "mascouche", nameFr: "Mascouche", nameEn: "Mascouche", region: "rive-nord", officialUrl: "https://ville.mascouche.qc.ca/" },
@@ -52,7 +52,7 @@ export const cities: City[] = [
   // Laurentides
   { slug: "saint-jerome", nameFr: "Saint-Jérôme", nameEn: "Saint-Jérôme", region: "laurentides", officialUrl: "https://ville.saint-jerome.qc.ca/" },
   { slug: "mirabel", nameFr: "Mirabel", nameEn: "Mirabel", region: "laurentides", officialUrl: "https://www.mirabel.ca/" },
-  { slug: "mont-tremblant", nameFr: "Mont-Tremblant", nameEn: "Mont-Tremblant", region: "laurentides", officialUrl: "https://vdmt.ca/" },
+  { slug: "mont-tremblant", nameFr: "Mont-Tremblant", nameEn: "Mont-Tremblant", region: "laurentides", officialUrl: "https://www.tremblant.ca/" },
   { slug: "sainte-adele", nameFr: "Sainte-Adèle", nameEn: "Sainte-Adèle", region: "laurentides", officialUrl: "https://ville.sainte-adele.qc.ca/" },
   { slug: "sainte-agathe-des-monts", nameFr: "Sainte-Agathe-des-Monts", nameEn: "Sainte-Agathe-des-Monts", region: "laurentides", officialUrl: "https://ville.sainte-agathe-des-monts.qc.ca/" },
   { slug: "prevost", nameFr: "Prévost", nameEn: "Prévost", region: "laurentides", officialUrl: "https://www.ville.prevost.qc.ca/" },
