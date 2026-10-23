@@ -62,6 +62,9 @@ export const cities: City[] = [
   { slug: "val-david", nameFr: "Val-David", nameEn: "Val-David", region: "laurentides", officialUrl: "https://www.val-david.com/" },
   { slug: "val-morin", nameFr: "Val-Morin", nameEn: "Val-Morin", region: "laurentides", officialUrl: "https://www.valmorin.ca/" },
   { slug: "sainte-marguerite-du-lac-masson", nameFr: "Sainte-Marguerite-du-Lac-Masson", nameEn: "Sainte-Marguerite-du-Lac-Masson", region: "laurentides", officialUrl: "https://www.sainte-marguerite.ca/" },
+  { slug: "saint-canut", nameFr: "Saint-Canut", nameEn: "Saint-Canut", region: "laurentides", officialUrl: "https://www.saint-canut.ca/" },
+  { slug: "repentigny", nameFr: "Repentigny", nameEn: "Repentigny", region: "rive-nord", officialUrl: "https://www.ville.repentigny.qc.ca/" },
+  { slug: "sainte-sophie", nameFr: "Sainte-Sophie", nameEn: "Sainte-Sophie", region: "laurentides", officialUrl: "https://www.sainte-sophie.ca/" },
 ];
 
 export const servicesFr = [

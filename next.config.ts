@@ -136,6 +136,24 @@ const nextConfig: NextConfig = {
       { source: "/taxi/ville/:slug/", destination: "/fr/taxi-:slug", permanent: true },
       { source: "/taxi-:ville", destination: "/fr/taxi-:ville", permanent: true },
 
+      // Old static site .html extensions → strip .html (301)
+      { source: "/fr/taxi-:slug.html", destination: "/fr/taxi-:slug", permanent: true },
+      { source: "/en/taxi-:slug.html", destination: "/en/taxi-:slug", permanent: true },
+      // Old .html on service pages too
+      { source: "/fr/:slug.html", destination: "/fr/:slug", permanent: true },
+      { source: "/en/:slug.html", destination: "/en/:slug", permanent: true },
+
+      // "st-" abbreviation → "saint-" (e.g. /fr/taxi-st-vincent-de-paul → /fr/taxi-saint-vincent-de-paul)
+      { source: "/fr/taxi-st-:slug", destination: "/fr/taxi-saint-:slug", permanent: true },
+      { source: "/en/taxi-st-:slug", destination: "/en/taxi-saint-:slug", permanent: true },
+
+      // Typo fix: "saint-sophie" (masculine) → "sainte-sophie" (feminine, correct name)
+      { source: "/fr/taxi-saint-sophie", destination: "/fr/taxi-sainte-sophie", permanent: true },
+      { source: "/en/taxi-saint-sophie", destination: "/en/taxi-sainte-sophie", permanent: true },
+
+      // Old sitemap URL with .xml extension
+      { source: "/taxi/sitemap.xml", destination: "/sitemap.xml", permanent: true },
+
       { source: "/taxi/en/door-unlocking", destination: "/en/door-unlocking", permanent: true },
       { source: "/taxi/en/door-unlocking/", destination: "/en/door-unlocking", permanent: true },
       { source: "/taxi/en/battery-boost", destination: "/en/battery-boost", permanent: true },
