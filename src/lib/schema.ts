@@ -101,7 +101,8 @@ export const localBusinessSchema = {
   numberOfEmployees: "50+",
   availableLanguage: ["French", "English"],
   sameAs: [
-    "https://www.facebook.com/people/Taxi-Laval-Chomedey/100075684710012/",
+    "https://www.facebook.com/p/Taxi-Chomedey-100075684710012/",
+    "https://www.yelp.ca/biz/taxi-chomedey-laval-2",
     // Official regulatory + industry authority pages — passes link equity
     // (no rel="nofollow") so Google associates Taxi Chomedey with these
     // authoritative Quebec government sources
